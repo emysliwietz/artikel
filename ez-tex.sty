@@ -82,6 +82,7 @@
 \newcommand{\whi}[4]{\ensuremath{\langle \mbox{while~} #1 \m{do} #2, #3\rangle\to #4}}
 \newcommand{\nwhi}[3]{\ensuremath{\mbox{while~} #1 \m{do} #2, #3}}
 
+% State abbreviations
 \newcommand{\sI}[0]{\ensuremath{s^{\prime}}}
 \newcommand{\sII}[0]{\ensuremath{s^{\prime\prime}}}
 \newcommand{\sIII}[0]{\ensuremath{s^{\prime\prime\prime}}}
@@ -92,7 +93,13 @@
 \newcommand{\sVIII}[0]{\ensuremath{s^{\prime\prime\prime\prime\prime\prime\prime\prime}}}
 \newcommand{\sIX}[0]{\ensuremath{s^{\prime\prime\prime\prime\prime\prime\prime\prime\prime}}}
 \newcommand{\sX}[0]{\ensuremath{s^{\prime\prime\prime\prime\prime\prime\prime\prime\prime\prime}}}
+
+% Curly functions
 \newcommand{\A}[2]{\ensuremath{\mathcal{A}\llbracket#1\rrbracket#2}}
+\newcommand{\B}[2]{\ensuremath{\mathcal{B}\llbracket#1\rrbracket#2}}
+\newcommand{\N}[2]{\ensuremath{\mathcal{N}\llbracket#1\rrbracket#2}}
+
+% Trapezii
 \newcommand{\sctrap}[2][1cm]{
   \begin{tikzpicture}%
  \node[xshift=2cm,yshift=-3cm,draw,trapezium,text width=#1,align=center,shape border rotate=180]{\ensuremath{#2}};%
@@ -103,17 +110,40 @@
 \resizebox{!}{0.7\baselineskip}{\sctrap[#1]{#2}}
 }
 
-\newcommand{\comp}[0]{\ensuremath{\left[\mbox{comp}_{\mbox{ns}}\right]}}
-\newcommand{\forleq}[0]{\ensuremath{\left[\mbox{for-to-do}_{\mbox{ns}}^{\mbox{leq}}\right]}}
-\newcommand{\forgt}[0]{\ensuremath{\left[\mbox{for-to-do}_{\mbox{ns}}^{\mbox{gt}}\right]}}
-\newcommand{\whileff}[0]{\ensuremath{\left[\mbox{while}_{\mbox{ns}}^{\mathbf{ff}}\right]}}
-\newcommand{\whilett}[0]{\ensuremath{\left[\mbox{while}_{\mbox{ns}}^{\mathbf{tt}}\right]}}
-\newcommand{\repeattt}[0]{\ensuremath{\left[\mbox{repeat-until}_{\mbox{ns}}^{\mathbf{tt}}\right]}}
-\newcommand{\repeatff}[0]{\ensuremath{\left[\mbox{repeat-until}_{\mbox{ns}}^{\mathbf{ff}}\right]}}
+% NS rules
+\newcommand{\compns}[0]{\ensuremath{\left[\mbox{comp}_{\mbox{ns}}\right]}}
+\newcommand{\forleqns}[0]{\ensuremath{\left[\mbox{for-to-do}_{\mbox{ns}}^{\mbox{leq}}\right]}}
+\newcommand{\forgtns}[0]{\ensuremath{\left[\mbox{for-to-do}_{\mbox{ns}}^{\mbox{gt}}\right]}}
+\newcommand{\whileffns}[0]{\ensuremath{\left[\mbox{while}_{\mbox{ns}}^{\mathbf{ff}}\right]}}
+\newcommand{\whilettns}[0]{\ensuremath{\left[\mbox{while}_{\mbox{ns}}^{\mathbf{tt}}\right]}}
+\newcommand{\repeatttns}[0]{\ensuremath{\left[\mbox{repeat-until}_{\mbox{ns}}^{\mathbf{tt}}\right]}}
+\newcommand{\repeatffns}[0]{\ensuremath{\left[\mbox{repeat-until}_{\mbox{ns}}^{\mathbf{ff}}\right]}}
+
+% The same but for Hoare semantics
+% p indicates hoare, r stands for rule
+% You can either use \pr{if} or \ifpr, etc
+\newcommand{\pr}[1]{\ensuremath{\left[\mbox{#1}_{\mbox{p}}\right]}}
+\newcommand{\skippr}[0]{\ensuremath{\left[\mbox{skip}_{\mbox{p}}\right]}}
+\newcommand{\asspr}[0]{\ensuremath{\left[\mbox{ass}_{\mbox{p}}\right]}}
+\newcommand{\comppr}[0]{\ensuremath{\left[\mbox{comp}_{\mbox{p}}\right]}}
+\newcommand{\ifpr}[0]{\ensuremath{\left[\mbox{if}_{\mbox{p}}\right]}}
+\newcommand{\whilepr}[0]{\ensuremath{\left[\mbox{while}_{\mbox{p}}\right]}}
+\newcommand{\conspr}[0]{\ensuremath{\left[\mbox{cons}_{\mbox{p}}\right]}}
+
+\newcommand{\ptrans}[3]{\ensuremath{\set{#1}~#2~\set{#3}}}
 
 \newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\green}[1]{\textcolor{green}{#1}}
 
-\newenvironment{semantic}
+% I want to use \@currenvir to make the rules dependant on the environment, so
+% \comp will mean \compns in semantic-ns, but \compp in semantic-p. However, I have no clue how to do this yet
+\newenvironment{semantic-ns}
+{~\\\\
+  \begin{prooftree}}
+  {
+  \end{prooftree}~\\\\}
+
+\newenvironment{semantic-p}
 {~\\\\
   \begin{prooftree}}
   {
@@ -126,3 +156,4 @@
   \maketitle
 }
 
+% abbreviations for drawing ORMs
