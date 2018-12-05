@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018/Arch Linux) (preloaded format=pdflatex 2018.9.5)  27 NOV 2018 21:38
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018/Arch Linux) (preloaded format=pdflatex 2018.9.6)  28 NOV 2018 14:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -744,7 +744,7 @@ LaTeX Info: Thecontrolsequence`\]'isalreadyrobust on input line 129.
 Package: enumerate 2015/07/23 v3.00 enumerate extensions (DPC)
 \@enLab=\toks33
 )
-(/home/user/texmf/tex/latex/tkz-orm/tkz-orm.sty
+(/usr/share/texmf-dist/tex/latex/tkz-orm/tkz-orm.sty
 Package: tkz-orm 2016/01/15 v0.1.4 Object-Role Modeling
 
 (/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrary
@@ -803,10 +803,10 @@ End of file on the terminal!
 
  
 Here is how much of TeX's memory you used:
- 25526 strings out of 492642
- 520642 string characters out of 6135567
- 567244 words of memory out of 5000000
- 29138 multiletter control sequences out of 15000+600000
+ 25506 strings out of 492642
+ 520260 string characters out of 6135567
+ 566692 words of memory out of 5000000
+ 29118 multiletter control sequences out of 15000+600000
  532338 words of font info for 24 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,1n,80p,831b,275s stack positions out of 5000i,500n,10000p,200000b,80000s

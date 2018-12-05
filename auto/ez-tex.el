@@ -22,6 +22,9 @@
    (TeX-add-symbols
     '("sctrapsmall" ["argument"] 1)
     '("sctrap" ["argument"] 1)
+    '("vBinary" 3)
+    '("Binary" 3)
+    '("Entity" 2)
     '("head" 0)
     '("red" 1)
     '("repeatff" 0)

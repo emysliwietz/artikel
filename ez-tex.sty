@@ -126,3 +126,7 @@
   \maketitle
 }
 
+% stuff thats relevant for drawing ORMs
+\newcommand{\Entity}[2]{\entity (#1) at (#2) {#1};}
+\newcommand{\Binary}[3]{\draw (#1) -- node[roles, label=#3] {} (#2);}
+\newcommand{\vBinary}[3]{\draw (#1) -- node[vroles, label=#3] {} (#2);}
