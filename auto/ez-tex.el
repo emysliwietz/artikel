@@ -9,23 +9,26 @@
     "xcolor"
     "etoolbox"
     "ebproof"
-    "tikz"
     "stmaryrd"
     "mathtools"
     "graphicx"
     "enumerate"
-    "tkz-orm"
     "array"
     "amssymb"
     "amsmath"
-    "verbatim")
+    "verbatim"
+    "tikz"
+    "tkz-orm")
    (TeX-add-symbols
     '("sctrapsmall" ["argument"] 1)
     '("sctrap" ["argument"] 1)
+    '("Value" 2)
     '("vBinary" 3)
     '("Binary" 3)
     '("Entity" 2)
     '("head" 0)
+    '("circled" 1)
+    '("blue" 1)
     '("green" 1)
     '("red" 1)
     '("ptrans" 3)

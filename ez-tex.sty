@@ -21,18 +21,21 @@
 \RequirePackage{xcolor}
 \RequirePackage{etoolbox}
 \RequirePackage{ebproof}
-\RequirePackage{tikz}
-\usetikzlibrary{shapes}
-\usetikzlibrary{positioning}
 \RequirePackage{stmaryrd}
 \RequirePackage{mathtools}
 \RequirePackage{graphicx}
 \RequirePackage{enumerate}
-\RequirePackage{tkz-orm}
 \RequirePackage{array}
 \RequirePackage{amssymb}
 \RequirePackage{amsmath}
 \RequirePackage{verbatim}
+
+\RequirePackage{tikz}
+\usetikzlibrary{shapes}
+\usetikzlibrary{positioning}
+\usetikzlibrary{arrows}
+
+\RequirePackage{tkz-orm}
 
 % Creating exercises for assignments
 \newcommand{\exercise}[2]{\subsection*{Exercise #1}{#2}}
@@ -132,8 +135,14 @@
 
 \newcommand{\ptrans}[3]{\ensuremath{\set{#1}~#2~\set{#3}}}
 
+% Highlighting of text
 \newcommand{\red}[1]{\textcolor{red}{#1}}
 \newcommand{\green}[1]{\textcolor{green}{#1}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+
+\DeclareRobustCommand\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};
+}}
 
 % I want to use \@currenvir to make the rules dependant on the environment, so
 % \comp will mean \compns in semantic-ns, but \compp in semantic-p. However, I have no clue how to do this yet
@@ -156,11 +165,8 @@
   \maketitle
 }
 
-<<<<<<< HEAD
 % stuff thats relevant for drawing ORMs
 \newcommand{\Entity}[2]{\entity (#1) at (#2) {#1};}
 \newcommand{\Binary}[3]{\draw (#1) -- node[roles, label=#3] {} (#2);}
 \newcommand{\vBinary}[3]{\draw (#1) -- node[vroles, label=#3] {} (#2);}
-=======
-% abbreviations for drawing ORMs
->>>>>>> 7e2e3758d22974dc2cb9e444ce27974067947d16
+\newcommand{\Value}[2]{\value (#1) at (#2) {#1};}
