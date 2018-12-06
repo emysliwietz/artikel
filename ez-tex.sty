@@ -30,6 +30,7 @@
 \RequirePackage{amsmath}
 \RequirePackage{verbatim}
 \RequirePackage{multicol}
+\RequirePackage{float}
 
 \RequirePackage{tikz}
 \usetikzlibrary{shapes}
@@ -169,5 +170,7 @@
 % stuff thats relevant for drawing ORMs
 \newcommand{\Entity}[2]{\entity (#1) at (#2) {#1};}
 \newcommand{\Binary}[3]{\draw (#1) -- node[roles, label=#3] {} (#2);}
+\newcommand{\oBinary}[4]{\draw (#1) -- node[roles, label=#3, #4] {} (#2);}
 \newcommand{\vBinary}[3]{\draw (#1) -- node[vroles, label=#3] {} (#2);}
+\newcommand{\voBinary}[4]{\draw (#1) -- node[vroles, label=#3, #4] {} (#2);}
 \newcommand{\Value}[2]{\value (#1) at (#2) {#1};}

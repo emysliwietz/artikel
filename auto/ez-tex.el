@@ -18,13 +18,16 @@
     "amsmath"
     "verbatim"
     "multicol"
+    "float"
     "tikz"
     "tkz-orm")
    (TeX-add-symbols
     '("sctrapsmall" ["argument"] 1)
     '("sctrap" ["argument"] 1)
     '("Value" 2)
+    '("voBinary" 4)
     '("vBinary" 3)
+    '("oBinary" 4)
     '("Binary" 3)
     '("Entity" 2)
     '("head" 0)
