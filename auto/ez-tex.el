@@ -17,6 +17,7 @@
     "amssymb"
     "amsmath"
     "verbatim"
+    "multicol"
     "tikz"
     "tkz-orm")
    (TeX-add-symbols
