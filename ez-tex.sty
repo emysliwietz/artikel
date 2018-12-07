@@ -170,7 +170,18 @@
 % stuff thats relevant for drawing ORMs
 \newcommand{\Entity}[2]{\entity (#1) at (#2) {#1};}
 \newcommand{\Binary}[3]{\draw (#1) -- node[roles, label=#3] {} (#2);}
-\newcommand{\oBinary}[4]{\draw (#1) -- node[roles, label=#3, #4] {} (#2);}
+\newcommand{\nBinary}[4]{\node[roles, label=#3] (#3) at (#4) {};\plays
+  (#1) to (#3); \plays (#2) to (#3);}
+\newcommand{\vnBinary}[4]{\node[vroles, label=#3] (#3) at (#4)
+  {};\plays (#1) to (#3); \plays (#2) to (#3);}
+\newcommand{\Objectify}[1]{\entity [fill opacity=0, text width=1cm,
+  text height=0cm] (O#1) at (#1) {};}
+\newcommand{\vObjectify}[1]{\entity [fill opacity=0, text width=0cm, text height=1cm] (O#1) at (#1) {};}
+\newcommand{\cObjectify}[3]{\entity [fill opacity=0, text width=#1cm, text height=#2cm] (O#3) at (#3) {};}
+\newcommand{\oBinary}[4]{\draw (#1) -- node[roles, label=#3, #4] {}
+  (#2);}
+\newcommand{\onBinary}[5]{\node[roles, label=#3, #4] (#3) at (#5) {}; \plays
+  (#1) to (#3); \plays (#2) to (#3);}
 \newcommand{\vBinary}[3]{\draw (#1) -- node[vroles, label=#3] {} (#2);}
 \newcommand{\voBinary}[4]{\draw (#1) -- node[vroles, label=#3, #4] {} (#2);}
 \newcommand{\Value}[2]{\value (#1) at (#2) {#1};}
