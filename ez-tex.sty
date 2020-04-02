@@ -25,8 +25,12 @@
 \RequirePackage{mathtools}
 \RequirePackage{graphicx}
 \RequirePackage{enumerate}
+\RequirePackage{enumitem}
+\RequirePackage{todonotes}
+\RequirePackage{hyperref}
 \RequirePackage{array}
 \RequirePackage{amssymb}
+\RequirePackage{amsthm}
 \RequirePackage{amsmath}
 \RequirePackage{verbatim}
 \RequirePackage{multicol}
@@ -200,3 +204,6 @@
 \newcommand{\vBinary}[3]{\draw (#1) -- node[vroles, label=#3] {} (#2);}
 \newcommand{\voBinary}[4]{\draw (#1) -- node[vroles, label=#3, #4] {} (#2);}
 \newcommand{\Value}[2]{\value (#1) at (#2) {#1};}
+
+\newcommand{\note}[1]{\footnote{#1}}
+\newcommand{\Section}[1]{\newpage\section{#1}}

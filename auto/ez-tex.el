@@ -13,8 +13,12 @@
     "mathtools"
     "graphicx"
     "enumerate"
+    "enumitem"
+    "todonotes"
+    "hyperref"
     "array"
     "amssymb"
+    "amsthm"
     "amsmath"
     "verbatim"
     "multicol"
@@ -24,6 +28,8 @@
    (TeX-add-symbols
     '("sctrapsmall" ["argument"] 1)
     '("sctrap" ["argument"] 1)
+    '("Section" 1)
+    '("note" 1)
     '("Value" 2)
     '("voBinary" 4)
     '("vBinary" 3)
