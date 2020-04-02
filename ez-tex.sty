@@ -128,6 +128,26 @@
 \resizebox{!}{0.7\baselineskip}{\sctrap[#1]{#2}}
 }
 
+%% TODO PACKAGE
+\newcommand{\towrite}[1]{\todo[inline,color=yellow!10]{TO WRITE: #1}}
+
+%% THEOREM STYLES
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+
+%% MATH OPERATORS
+\DeclareMathOperator{\supersine}{supersin}
+\DeclareMathOperator{\supercosine}{supercos}
+
 % NS rules
 \newcommand{\compns}[0]{\ensuremath{\left[\mbox{comp}_{\mbox{ns}}\right]}}
 \newcommand{\forleqns}[0]{\ensuremath{\left[\mbox{for-to-do}_{\mbox{ns}}^{\mbox{leq}}\right]}}
@@ -185,6 +205,8 @@
   \date{\the\year-\ifnum\month<10\relax0\fi\the\month-\ifnum\day<10\relax0\fi\the\day}
   \maketitle
 }
+
+\newcommand{\isodate}{\the\year-\ifnum\month<10\relax0\fi\the\month-\ifnum\day<10\relax0\fi\the\day}
 
 % stuff thats relevant for drawing ORMs
 \newcommand{\Entity}[2]{\entity (#1) at (#2) {#1};}
