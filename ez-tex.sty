@@ -31,10 +31,33 @@
 \RequirePackage{array}
 \RequirePackage{amssymb}
 \RequirePackage{amsthm}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[T1]{fontenc}
 \RequirePackage{amsmath}
 \RequirePackage{verbatim}
 \RequirePackage{multicol}
 \RequirePackage{float}
+\RequirePackage{subfiles}
+\RequirePackage{subfigure}
+\RequirePackage{grffile}
+\RequirePackage{longtable}
+\RequirePackage{textcomp}
+\RequirePackage{marginnote}
+\RequirePackage{wrapfig}
+\RequirePackage{rotating}
+\RequirePackage[normalem]{ulem}
+\RequirePackage{capt-of}
+\RequirePackage{a4wide}
+\RequirePackage{chemfig}
+\RequirePackage{svg}
+\RequirePackage{eurosym}
+\RequirePackage{csquotes}
+\RequirePackage[american]{babel}
+\RequirePackage[a4paper, left=1.5in, right=1.5in, top=1.5in, bottom=1.5in]{geometry}
+\RequirePackage[backend=biber, style=ieee, giveninits=true, uniquename=init]{biblatex}
+\RequirePackage{titlesec}
+\RequirePackage{xparse}
+
 
 \RequirePackage{tikz}
 \usetikzlibrary{shapes}
@@ -44,10 +67,10 @@
 \RequirePackage{tkz-orm}
 
 % Creating exercises for assignments
+
 \newcommand{\exercise}[2]{\subsection*{Exercise #1}{#2}}
-\newcommand{\exerciseenum}[2]{\subsection*{Exercise #1}{\begin{enumerate}[a)]#2\end{enumerate}}}
-\newcommand{\exerciseeenum}[2]{\subsection*{Exercise #1}{\begin{enumerate}[(a)]#2\end{enumerate}}}
-\newcommand{\exerciseinum}[2]{\subsection*{Exercise #1}{\begin{enumerate}[i)]#2\end{enumerate}}}
+\newcommand{\exerciseenum}[2]{\subsection*{Exercise #1}{\begin{enumerate}[(a)]#2\end{enumerate}}}
+\newcommand{\exerciseinum}[2]{\subsection*{Exercise #1}{\begin{enumerate}[(i)]#2\end{enumerate}}}
 
 % Math stuff
 \newcommand{\abs}[1]{\ensuremath{\left|\, #1 \,\right|}}
@@ -227,5 +250,99 @@
 \newcommand{\voBinary}[4]{\draw (#1) -- node[vroles, label=#3, #4] {} (#2);}
 \newcommand{\Value}[2]{\value (#1) at (#2) {#1};}
 
+% other stuff
 \newcommand{\note}[1]{\footnote{#1}}
+\newcommand{\unote}[1]{\footnote{~\url{#1}}}
 \newcommand{\Section}[1]{\newpage\section{#1}}
+
+\makeatletter
+\renewcommand\@makefntext[1]{\leftskip=2em\hskip-2em\@makefnmark#1}
+\makeatother
+
+\newcommand{\thesistitlepage}{
+  \begin{titlepage}
+	\thispagestyle{empty}
+	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+	\center{}
+	\textsc{\Large \thesisuni}\\[.7cm]
+	\includegraphics[width=25mm]{img/in_dei_nomine_feliciter.eps}\\[.5cm]
+	\textsc{\thesisfaculty}\\[0.5cm]
+	
+	\HRule{} \\[0.4cm]
+	{ \huge \bfseries \thesistitle}\\[0.1cm]
+	\textsc{\thesissubtitle}\\
+	\HRule{} \\[.5cm]
+	\textsc{\large \thesistype}\\[.5cm]
+	
+	\begin{minipage}{0.4\textwidth}
+	\begin{flushleft} \large
+	\emph{Author:}\\
+	\thesisauthorfirst\space \textsc{\thesisauthorsecond}
+	\end{flushleft}
+	\end{minipage}
+	\
+	\begin{minipage}{0.4\textwidth}
+	\begin{flushright} \large
+	\emph{Supervisor:} \\
+	\thesissupervisorfirst\space \textsc{\thesissupervisorsecond} \\[1em]
+	\emph{Second reader:} \\
+	\thesissecondreaderfirst\space \textsc{\thesissecondreadersecond}
+	\end{flushright}
+	\end{minipage}\\[4cm]
+	\vfill
+	{\large \thesisdate}\\
+	\clearpage
+\end{titlepage}
+}
+
+\titleclass{\subsubsubsection}{straight}[\subsection]
+
+\newcounter{subsubsubsection}[subsubsection]
+
+\renewcommand\thesubsubsubsection{\thesubsubsection.\arabic{subsubsubsection}}
+\renewcommand\theparagraph{\thesubsubsubsection.\arabic{paragraph}}
+\renewcommand\thesubparagraph{\theparagraph.\arabic{subparagraph}}
+
+\titleformat{\subsubsubsection}
+  {\normalfont\normalsize\bfseries}{\thesubsubsubsection}{1em}{}
+\titlespacing*{\subsubsubsection}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+
+
+
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{5}{\z@}%
+  {3.25ex \@plus1ex \@minus.2ex}%
+  {-1em}%
+  {\normalfont\normalsize\bfseries}}
+\renewcommand\subparagraph{\@startsection{subparagraph}{6}{\parindent}
+  {3.25ex \@plus1ex \@minus .2ex}%
+  {-1em}%
+  {\normalfont\normalsize\bfseries}}
+\def\toclevel@subsubsubsection{4}
+\def\toclevel@paragraph{5}
+\def\toclevel@paragraph{6}
+\def\l@subsubsubsection{\@dottedtocline{4}{7em}{4em}}
+\def\l@paragraph{\@dottedtocline{5}{10em}{5em}}
+\def\l@subparagraph{\@dottedtocline{6}{14em}{6em}}
+\@addtoreset{subsubsubsection}{section}
+\@addtoreset{subsubsubsection}{subsection}
+\@addtoreset{paragraph}{subsubsubsection}
+\makeatother
+
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+\makeatletter
+\renewcommand\@makefntext[1]{\leftskip=2em\hskip-2em\@makefnmark#1}
+\makeatother
+
+
+\DeclareDocumentCommand\subf{ m g }{%
+  {%
+    \IfNoValueT{#2} {\label{#1}}%
+    \IfNoValueF{#2} {\label{#2}}%
+    \subfile{sections/#1}
+  }%
+}
+

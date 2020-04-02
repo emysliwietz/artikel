@@ -1,6 +1,8 @@
 (TeX-add-style-hook
  "ez-tex"
  (lambda ()
+   (TeX-add-to-alist 'LaTeX-provided-package-options
+                     '(("inputenc" "utf8") ("fontenc" "T1") ("ulem" "normalem") ("babel" "american") ("geometry" "a4paper" "left=1.5in" "right=1.5in" "top=1.5in" "bottom=1.5in") ("biblatex" "backend=biber" "style=ieee" "giveninits=true" "uniquename=init")))
    (add-to-list 'LaTeX-verbatim-environments-local "lstlisting")
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperref")
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperimage")
@@ -26,16 +28,39 @@
     "array"
     "amssymb"
     "amsthm"
+    "inputenc"
+    "fontenc"
     "amsmath"
     "verbatim"
     "multicol"
     "float"
+    "subfiles"
+    "subfigure"
+    "grffile"
+    "longtable"
+    "textcomp"
+    "marginnote"
+    "wrapfig"
+    "rotating"
+    "ulem"
+    "capt-of"
+    "a4wide"
+    "chemfig"
+    "svg"
+    "eurosym"
+    "csquotes"
+    "babel"
+    "geometry"
+    "biblatex"
+    "titlesec"
+    "xparse"
     "tikz"
     "tkz-orm")
    (TeX-add-symbols
     '("sctrapsmall" ["argument"] 1)
     '("sctrap" ["argument"] 1)
     '("Section" 1)
+    '("unote" 1)
     '("note" 1)
     '("Value" 2)
     '("voBinary" 4)
@@ -115,7 +140,6 @@
     '("floor" 1)
     '("abs" 1)
     '("exerciseinum" 2)
-    '("exerciseeenum" 2)
     '("exerciseenum" 2)
     '("exercise" 2)
     "TT"
@@ -131,9 +155,16 @@
     "CC"
     "supersine"
     "supercosine"
-    "isodate")
+    "isodate"
+    "thesistitlepage"
+    "HRule")
+   (LaTeX-add-labels
+    "#1"
+    "#2")
    (LaTeX-add-environments
     "semantic")
+   (LaTeX-add-counters
+    "subsubsubsection")
    (LaTeX-add-amsthm-newtheorems
     "theorem"
     "corollary"
