@@ -62,7 +62,7 @@
 
 \RequirePackage{tikz}
 \usetikzlibrary{shapes}
-\usetikzlibrary{positioning}
+\usetikzlibrary{positioning,fit,calc}
 \usetikzlibrary{arrows}
 
 \RequirePackage{tkz-orm}
@@ -154,6 +154,7 @@
 
 %% TODO PACKAGE
 \newcommand{\towrite}[1]{\todo[inline,color=yellow!10]{TO WRITE: #1}}
+\newcommand{\inlinetodo}[1]{\todo[inline]{#1}}
 
 %% THEOREM STYLES
 \newtheorem{theorem}{Theorem}[section]

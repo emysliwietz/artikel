@@ -54,6 +54,7 @@
     "biblatex"
     "titlesec"
     "xparse"
+    "blindtext"
     "tikz"
     "tkz-orm")
    (TeX-add-symbols
@@ -100,6 +101,7 @@
     '("forgtns" 0)
     '("forleqns" 0)
     '("compns" 0)
+    '("inlinetodo" 1)
     '("towrite" 1)
     '("N" 2)
     '("B" 2)
@@ -157,7 +159,8 @@
     "supercosine"
     "isodate"
     "thesistitlepage"
-    "HRule")
+    "HRule"
+    "subf")
    (LaTeX-add-labels
     "#1"
     "#2")
