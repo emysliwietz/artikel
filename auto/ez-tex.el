@@ -101,6 +101,7 @@
     '("forgtns" 0)
     '("forleqns" 0)
     '("compns" 0)
+    '("due" 1)
     '("inlinetodo" 1)
     '("towrite" 1)
     '("N" 2)
@@ -155,8 +156,6 @@
     "RR"
     "RRp"
     "CC"
-    "supersine"
-    "supercosine"
     "isodate"
     "thesistitlepage"
     "HRule"

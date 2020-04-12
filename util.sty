@@ -1,7 +1,7 @@
 %\RequirePackage{listingsutf8} % gives problems with subimport*...
 %<–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––>
 %
-% ez-tex.sty - Collection for all kinds of latex commands I reuse
+% util.sty - Collection for all kinds of latex commands I reuse
 %
 % <–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––>
 % This is file is free software and may be distributed and/or modified
@@ -13,7 +13,7 @@
 % large parts of this document are stolen from Dr. Engelbert Hubbers
 % <–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––>
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{ez-tex}[2018/11/30 v1.0.0 personal shortcuts]
+\ProvidesPackage{util}[2018/11/30 v1.0.0 personal shortcuts]
 % <–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––>
 
 %Requirements
@@ -97,6 +97,7 @@
 \newcommand{\m}[1]{\ensuremath{\mbox{~#1~}}}
 \newcommand{\n}[1]{\ensuremath{\mbox{\textit{#1}}}}
 
+
 % abbreviations for prooftrees
 
 \newcommand{\hyp}[2]{\infer[no rule]0[#2]{#1}}
@@ -155,6 +156,7 @@
 %% TODO PACKAGE
 \newcommand{\towrite}[1]{\todo[inline,color=yellow!10]{TO WRITE: #1}}
 \newcommand{\inlinetodo}[1]{\todo[inline]{#1}}
+\newcommand{\due}[1]{\todo[inline,color=blue!10]{Due: #1}}
 
 %% THEOREM STYLES
 \newtheorem{theorem}{Theorem}[section]
