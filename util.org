@@ -1,3 +1,9 @@
+#+title: Util.sty
+#+sub_title: Collection for all kinds of latex commands I reuse
+#+property: header-args :tangle util.sty
+
+* Disclaimer
+#+begin_src latex
 % util.sty - Collection for all kinds of latex commands I reuse
 %
 % <–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––>
@@ -13,7 +19,9 @@
 \ProvidesPackage{util}[2018/11/30 v2.0.0 personal shortcuts]
 \NeedsTeXFormat{LaTeX2e}
 % <–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––>
-
+#+end_src
+* Package Requirements
+#+begin_src latex
 % List of Requirements
 
 \RequirePackage{amsmath}         % Provides extended mathematical environments and commands
@@ -82,7 +90,9 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \RequirePackage{subfigure}        % Provides the subfigure environment for typesetting figures side-by-side
 \RequirePackage{xcolor}           % Interface for defining and using color in LaTeX
 \RequirePackage{xparse}           % Provides an enhanced version of LaTeX's kernel commands for defining new commands
-
+#+end_src
+* Style for Minted
+#+begin_src latex
 % ensure tables have correct text colour
 \AtBeginEnvironment{tabular}{\color{text}}
 
@@ -138,12 +148,16 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 	outer arc=0pt,
 	leftrule=0pt,rightrule=0pt,toprule=0pt,bottomrule=0pt
   }{\mintinlineold{#1}{#2}}
-
+#+end_src
+* Exercise
+#+begin_src latex
 % Creating exercises for assignments
 \newcommand{\exercise}[2]{\subsection*{Exercise #1}{#2}}
 \newcommand{\exerciseenum}[2]{\subsection*{Exercise #1}{\begin{enumerate}[(a)]#2\end{enumerate}}}
 \newcommand{\exerciseinum}[2]{\subsection*{Exercise #1}{\begin{enumerate}[(i)]#2\end{enumerate}}}
-
+#+end_src
+* Math definitions
+#+begin_src latex
 % Math stuff
 \newcommand{\abs}[1]{\ensuremath{\left|\, #1 \,\right|}}
 \newcommand{\floor}[1]{\ensuremath{\left\lfloor\, #1 \,\right\rfloor}}
@@ -173,6 +187,10 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \newcommand{\B}[2]{\ensuremath{\mathcal{B}\llbracket#1\rrbracket#2}}
 \newcommand{\N}[2]{\ensuremath{\mathcal{N}\llbracket#1\rrbracket#2}}
 
+
+#+end_src
+* Prooftrees
+#+begin_src latex
 % abbreviations for prooftrees
 \newcommand{\hyp}[2]{\infer[no rule]0[#2]{#1}}
 \newcommand{\treecolor}[1]{\rewrite{\color{#1}\box\treebox}}
@@ -198,7 +216,9 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \newcommand{\nvar}[2]{\ensuremath{\mbox{~var~} #1 := #2;~}}
 \newcommand{\dv}[2]{\ensuremath{[\{#1\} \mapsto #2]}}
 \newcommand{\dtrans}[2]{\ensuremath{\langle#1\rangle\to_D#2}}
-
+#+end_src
+* Shortcuts for writing prooftree states
+#+begin_src latex
 % State abbreviations
 \newcommand{\sI}[0]{\ensuremath{s^{\prime}}}
 \newcommand{\sII}[0]{\ensuremath{s^{\prime\prime}}}
@@ -303,7 +323,9 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 }
 
 \newcommand{\isodate}{\the\year-\ifnum\month<10\relax0\fi\the\month-\ifnum\day<10\relax0\fi\the\day}
-
+#+end_src
+* Object Role Model Diagrams
+#+begin_src latex
 % stuff thats relevant for drawing ORMs
 \newcommand{\Entity}[2]{\entity (#1) at (#2) {#1};}
 \newcommand{\Binary}[3]{\draw (#1) -- node[roles, label=#3] {} (#2);}
@@ -322,7 +344,9 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \newcommand{\vBinary}[3]{\draw (#1) -- node[vroles, label=#3] {} (#2);}
 \newcommand{\voBinary}[4]{\draw (#1) -- node[vroles, label=#3, #4] {} (#2);}
 \newcommand{\Value}[2]{\value (#1) at (#2) {#1};}
-
+#+end_src
+* Structural commands
+#+begin_src latex
 % other stuff
 \newcommand{\note}[1]{\footnote{#1}}
 \newcommand{\pnote}[2][]{\marginpar[#1]{#2}}
@@ -371,6 +395,10 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \renewcommand\@makefntext[1]{\leftskip=2em\hskip-2em\@makefnmark#1}
 \makeatother
 
+
+#+end_src
+* Thesis Title Page
+#+begin_src latex
 \newcommand{\thesistitlepage}{
   \begin{titlepage}
 	\thispagestyle{empty}
@@ -406,7 +434,9 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 	\clearpage
 \end{titlepage}
 }
-
+#+end_src
+* Subfiles with automatic labeling
+#+begin_src latex
 \DeclareDocumentCommand\subf{ m g }{%
   {%
     \IfNoValueT{#2} {\label{#1}}%
@@ -414,3 +444,5 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
     \subfile{sections/#1}
   }%
 }
+#+end_src
+̀
