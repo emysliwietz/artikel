@@ -1,9 +1,13 @@
 (TeX-add-style-hook
- "ez-tex"
+ "util"
  (lambda ()
+   (setq TeX-command-extra-options
+         "--shell-escape")
    (TeX-add-to-alist 'LaTeX-provided-package-options
-                     '(("inputenc" "utf8") ("fontenc" "T1") ("ulem" "normalem") ("babel" "american") ("geometry" "a4paper" "left=1.5in" "right=1.5in" "top=1.5in" "bottom=1.5in") ("biblatex" "backend=biber" "style=ieee" "giveninits=true" "uniquename=init")))
+                     '(("babel" "american") ("biblatex" "backend=biber" "style=ieee" "giveninits=true" "uniquename=init") ("caption" "hypcap=true") ("geometry" "a4paper") ("hyperref" "pdfa" "unicode=true" "pdfencoding=unicode" "psdextra" "pdftex" "backref" "pagebackref=false" "bookmarks=true" "bookmarksopen=false" "pdfpagemode=UseNone" "pdftoolbar=false" "pdfmenubar=true" "pdffitwindow=false" "pdfdisplaydoctitle" "pdfborder={1 1 0}" "breaklinks" "colorlinks" "bookmarksopen" "hyperindex") ("fontenc" "T1") ("ulem" "normalem") ("scrlayer-scrpage" "automark" "draft=false" "headwidth=textwithmarginpar" "footwidth=head") ("tcolorbox" "many")))
    (add-to-list 'LaTeX-verbatim-environments-local "lstlisting")
+   (add-to-list 'LaTeX-verbatim-environments-local "minted")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "href")
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperref")
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperimage")
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperbaseurl")
@@ -14,49 +18,51 @@
    (add-to-list 'LaTeX-verbatim-macros-with-delims-local "path")
    (add-to-list 'LaTeX-verbatim-macros-with-delims-local "lstinline")
    (TeX-run-style-hooks
-    "listings"
-    "xcolor"
-    "etoolbox"
-    "ebproof"
-    "stmaryrd"
-    "mathtools"
-    "graphicx"
-    "enumerate"
-    "enumitem"
-    "todonotes"
-    "hyperref"
-    "array"
+    "amsmath"
     "amssymb"
     "amsthm"
+    "babel"
+    "blindtext"
+    "biblatex"
+    "booktabs"
+    "caption"
+    "capt-of"
+    "chemfig"
+    "csquotes"
+    "enumitem"
+    "eurosym"
+    "float"
+    "geometry"
+    "grffile"
+    "graphicx"
+    "hyperref"
     "inputenc"
     "fontenc"
-    "amsmath"
-    "verbatim"
-    "multicol"
-    "float"
-    "subfiles"
-    "subfigure"
-    "grffile"
+    "fontawesome5"
+    "ebproof"
+    "etoolbox"
+    "enumerate"
     "longtable"
-    "textcomp"
     "marginnote"
+    "morewrites"
+    "multicol"
+    "textcomp"
+    "tabularx"
+    "titlesec"
+    "tikz"
+    "tkz-orm"
+    "verbatim"
     "wrapfig"
     "rotating"
     "ulem"
-    "capt-of"
-    "a4wide"
-    "chemfig"
+    "scrlayer-scrpage"
     "svg"
-    "eurosym"
-    "csquotes"
-    "babel"
-    "geometry"
-    "biblatex"
-    "titlesec"
+    "subfiles"
+    "subfigure"
+    "xcolor"
     "xparse"
-    "blindtext"
-    "tikz"
-    "tkz-orm")
+    "minted"
+    "tcolorbox")
    (TeX-add-symbols
     '("sctrapsmall" ["argument"] 1)
     '("sctrap" ["argument"] 1)
@@ -156,10 +162,12 @@
     "RR"
     "RRp"
     "CC"
+    "supersine"
+    "supercosine"
     "isodate"
     "thesistitlepage"
     "HRule"
-    "subf")
+    "mintinlineold")
    (LaTeX-add-labels
     "#1"
     "#2")
@@ -173,6 +181,8 @@
     "lemma"
     "proposition"
     "definition"
-    "remark"))
+    "remark")
+   (LaTeX-add-xparse-macros
+    '("\\DeclareDocumentCommand\\subf{ m g }" "subf" " m g " "Declare")))
  :latex)
 

@@ -1,4 +1,3 @@
-%\RequirePackage{listingsutf8} % gives problems with subimport*...
 %<–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––>
 %
 % util.sty - Collection for all kinds of latex commands I reuse
@@ -10,65 +9,141 @@
 % 2. under the GNU Public License.
 %
 % Copyleft 2018 by Egidius Mysliwietz
-% large parts of this document are stolen from Dr. Engelbert Hubbers
+% large parts of this document are shamelessly stolen
+% from Dr. Engelbert Hubbers as well various other authors
 % <–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––>
+\ProvidesPackage{util}[2018/11/30 v2.0.0 personal shortcuts]
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{util}[2018/11/30 v1.0.0 personal shortcuts]
 % <–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––>
 
-%Requirements
-\RequirePackage{listings}
-\RequirePackage{xcolor}
-\RequirePackage{etoolbox}
-\RequirePackage{ebproof}
-\RequirePackage{stmaryrd}
-\RequirePackage{mathtools}
-\RequirePackage{graphicx}
-\RequirePackage{enumerate}
-\RequirePackage{enumitem}
-\RequirePackage{todonotes}
-\RequirePackage{hyperref}
-\RequirePackage{array}
-\RequirePackage{amssymb}
-\RequirePackage{amsthm}
-\RequirePackage[utf8]{inputenc}
-\RequirePackage[T1]{fontenc}
-\RequirePackage{amsmath}
-\RequirePackage{verbatim}
-\RequirePackage{multicol}
-\RequirePackage{float}
-\RequirePackage{subfiles}
-\RequirePackage{subfigure}
-\RequirePackage{grffile}
-\RequirePackage{longtable}
-\RequirePackage{textcomp}
-\RequirePackage{marginnote}
-\RequirePackage{wrapfig}
-\RequirePackage{rotating}
-\RequirePackage[normalem]{ulem}
-\RequirePackage{capt-of}
-\RequirePackage{a4wide}
-\RequirePackage{chemfig}
-\RequirePackage{svg}
-\RequirePackage{eurosym}
-\RequirePackage{csquotes}
-\RequirePackage[american]{babel}
-\RequirePackage[a4paper, left=1.5in, right=1.5in, top=1.5in, bottom=1.5in]{geometry}
-\RequirePackage[backend=biber, style=ieee, giveninits=true, uniquename=init]{biblatex}
-\RequirePackage{titlesec}
-\RequirePackage{xparse}
-\RequirePackage{blindtext}
-
-
-\RequirePackage{tikz}
+% Sorted list of LaTeX packages
+\RequirePackage{amsmath}         % Provides extended mathematical environments and commands
+\RequirePackage{amssymb}         % Provides additional mathematical symbols
+\RequirePackage{amsthm}          % Provides additional environments and commands for typesetting mathematical proofs
+\RequirePackage[american]{babel} % Provides support for multilingual typesetting
+\RequirePackage{blindtext}        % Provides the \blindtext command, which produces dummy text for testing
+\RequirePackage[backend=biber, style=ieee, giveninits=true, uniquename=init]{biblatex} % Bibliographic package
+\RequirePackage{booktabs}        % Provides commands for typesetting tables
+\RequirePackage[hypcap=true]{caption} % Customize the captions
+\RequirePackage{capt-of}         % Provides support for captions on figures or tables that have been "cut out" of their normal environments
+\RequirePackage{chemfig}         % Provides support for typesetting chemical structures
+\RequirePackage{csquotes}        % Provides commands for typesetting quotations
+\RequirePackage{enumitem}        % Provides an enhanced version of the enumerate environment
+\RequirePackage{eurosym}         % Provides the euro symbol
+\RequirePackage{float}           % Provides additional options and commands for floating objects
+\RequirePackage[a4paper]{geometry} % Provides commands for customizing page layout
+\RequirePackage{grffile}         % Fix allowed filenames
+\RequirePackage{graphicx}        % Support for including and manipulating graphics
+\RequirePackage[
+pdfa,
+unicode=true, % loads with unicode support
+pdfencoding=unicode,
+psdextra, % loads replacements for some maths
+% a4paper=true, %
+pdftex, %
+backref, %
+pagebackref=false, % creates backward references too
+bookmarks=true, % generate bookmarks in PDF files
+bookmarksopen=false, % when starting with AcrobatReader, the Bookmarkcolumn is opened
+pdfpagemode=UseNone,% UseNone, UseOutlines, UseThumbs, FullScreen
+pdftoolbar=false,
+pdfmenubar=true,
+pdffitwindow=false,
+pdfdisplaydoctitle,
+pdfborder={1 1 0},
+breaklinks, % (here, onwards) for pdfx
+colorlinks,
+bookmarksopen,
+hyperindex]{hyperref} % Provides support for hypertext links within LaTeX documents
+\RequirePackage{inputenc}        % Provides support for input encoding (e.g., for typing special characters)
+\RequirePackage[T1]{fontenc}     % Provides support for font encoding
+\RequirePackage{fontawesome5}    % Provides the FontAwesome 5 icon set
+\RequirePackage{ebproof}         % Natural deduction proof formatting
+\RequirePackage{etoolbox}        % Collection of programming tools for LaTeX
+\RequirePackage{enumerate}       % Enhanced version of the enumerate environment
+\RequirePackage{longtable}       % Provides the longtable environment for typesetting tables that may span multiple pages
+\RequirePackage{marginnote}      % Provides commands for typesetting marginal notes
+\RequirePackage{morewrites}      % Provides an extension to the LaTeX kernel's output routine
+\RequirePackage{multicol}        % Provides the multicolumn layout environment
+\RequirePackage{textcomp}        % Provides additional text symbols
+\RequirePackage{tabularx}        % Provides the tabularx environment for typesetting tables with fixed width columns
+\RequirePackage{titlesec}        % Provides abiltiy to change the style of the title
+\RequirePackage{tikz}             % Provides support for creating vector graphics using the TikZ drawing library
 \usetikzlibrary{shapes}
 \usetikzlibrary{positioning,fit,calc}
 \usetikzlibrary{arrows}
-
 \RequirePackage{tkz-orm}
+\RequirePackage{verbatim}        % Provides the verbatim environment for typesetting program code
+\RequirePackage{wrapfig}         % Provides support for wrapping text around figures
+\RequirePackage{rotating}        % Provides support for rotating objects
+\RequirePackage[normalem]{ulem}  % Provides additional commands for underlining text, such as strikethrough
+\RequirePackage[automark,draft=false,headwidth=textwithmarginpar,footwidth=head]{scrlayer-scrpage} % scrtcl fixes
+\RequirePackage{svg}              % Provides support for including SVG graphics
+\RequirePackage{subfiles}         % Provides support for compiling "subfiles" (i.e., individual LaTeX files that are part of a larger project)
+\RequirePackage{subfigure}        % Provides the subfigure environment for typesetting figures side-by-side
+\RequirePackage{xcolor}           % Interface for defining and using color in LaTeX
+\RequirePackage{xparse}           % Provides an enhanced version of LaTeX's kernel commands for defining new commands
+
+% ensure tables have correct text colour
+\AtBeginEnvironment{tabular}{\color{text}}
+
+% Code blocks
+  \RequirePackage{minted}
+  \RequirePackage[many]{tcolorbox}
+
+  \setminted{
+	frame=none,
+	% framesep=2mm,
+	baselinestretch=1.2,
+	fontsize=\footnotesize,
+	highlightcolor=page!95!text!80!primary,
+	linenos,
+	breakanywhere=true,
+	breakautoindent=true,
+	breaklines=true,
+	tabsize=4,
+	xleftmargin=3.5em,
+	autogobble=true,
+	obeytabs=true,
+	python3=true,
+	% texcomments=true,
+	framesep=2mm,
+	breakbefore=\\\.+,
+	breakafter=\,
+  }
+
+  \BeforeBeginEnvironment{minted}{
+	\begin{tcolorbox}[
+	  enhanced,
+	  overlay={\fill[page!90!text] (frame.south west) rectangle ([xshift=2.8em]frame.north west);},
+	  colback=page!95!text,
+	  colframe=page!95!text, % make frame colour same as background
+	  breakable,% Allow page breaks
+	  arc=0pt,outer arc=0pt,sharp corners, % sharp corners
+	  boxsep=0pt,left=0pt,right=0pt,top=0pt,bottom=0pt % no margin/paddding
+	  ]
+	}
+	\AfterEndEnvironment{minted}{\end{tcolorbox}}
+
+
+  \renewcommand\theFancyVerbLine{\color{text!60!page}\arabic{FancyVerbLine}} % minted line numbering
+
+  \let\mintinlineold\mintinline
+  \setmintedinline{breaklines,bgcolor={}}
+  % FIXME: issue with line breaking (it doesn't)
+  \DeclareTotalTCBox{\mintinline}{v v}{
+	nobeforeafter,tcbox raise base,
+	enhanced, frame hidden, arc=3pt,
+	boxsep=0pt,left=3pt,right=3pt,top=2pt,bottom=2pt, % minimal margin/paddding
+	colback=page!94!text,
+	outer arc=0pt,
+	leftrule=0pt,rightrule=0pt,toprule=0pt,bottomrule=0pt
+  }{\mintinlineold{#1}{#2}}
+
+
+
 
 % Creating exercises for assignments
-
 \newcommand{\exercise}[2]{\subsection*{Exercise #1}{#2}}
 \newcommand{\exerciseenum}[2]{\subsection*{Exercise #1}{\begin{enumerate}[(a)]#2\end{enumerate}}}
 \newcommand{\exerciseinum}[2]{\subsection*{Exercise #1}{\begin{enumerate}[(i)]#2\end{enumerate}}}
@@ -99,7 +174,6 @@
 
 
 % abbreviations for prooftrees
-
 \newcommand{\hyp}[2]{\infer[no rule]0[#2]{#1}}
 \newcommand{\treecolor}[1]{\rewrite{\color{#1}\box\treebox}}
 
@@ -349,4 +423,3 @@
     \subfile{sections/#1}
   }%
 }
-
