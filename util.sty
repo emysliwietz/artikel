@@ -18,14 +18,13 @@
 \RequirePackage{ifthen}
 \RequirePackage{lettrine}
 \RequirePackage{shapepar}
-\RequirePackage{flowfram}
+\RequirePackage[pages=absolute]{flowfram}
 \RequirePackage[all]{nowidow}
 \RequirePackage{amsmath}         % Provides extended mathematical environments and commands
 \RequirePackage[textsize=scriptsize]{todonotes}
 \RequirePackage{amssymb}         % Provides additional mathematical symbols
 \RequirePackage{amsthm}          % Provides additional environments and commands for typesetting mathematical proofs
-\RequirePackage[american]{babel} % Provides support for multilingual typesetting
-\RequirePackage{blindtext}        % Provides the \blindtext command, which produces dummy text for testing
+\RequirePackage{kantlipsum}      % Provides the \kant command to produce blindtext
 \RequirePackage{booktabs}        % Provides commands for typesetting tables
 \RequirePackage[hypcap=true]{caption} % Customize the captions
 \RequirePackage{environ}
@@ -71,7 +70,7 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \RequirePackage{iftex}           % Check for Latex compiler used (pdflatex, xelatex, lualatex)
 \RequirePackage{textcomp}        % Provides additional text symbols
 \RequirePackage{tabularx}        % Provides the tabularx environment for typesetting tables with fixed width columns
-\RequirePackage{titlesec}        % Provides abiltiy to change the style of the title
+%\RequirePackage{titlesec}        % Provides abiltiy to change the style of the title
 \RequirePackage{tikz}             % Provides support for creating vector graphics using the TikZ drawing library
 \usetikzlibrary{shapes}
 \usetikzlibrary{positioning,fit,calc}
@@ -104,6 +103,7 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 
 \ifpdftex
 
+\RequirePackage[american]{babel} % Provides support for multilingual typesetting
 \RequirePackage{inputenc}        % Provides support for input encoding (e.g., for typing special characters)
 \RequirePackage[T1]{fontenc}     % Provides support for font encoding
 
@@ -118,7 +118,7 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \setotherlanguage[variant=german, spelling=new, script=latin]{german} %or script=blackletter
 
 %\defaultfontfeatures{Scale=MatchLowercase} % Makes all fonts match the lowercase of the main font by default
-%\defaultfontfeatures[\rmfamily]{Scale=1} % Roman font keeps its size (as all other fonts are relative to it)
+\defaultfontfeatures[\rmfamily]{Scale=1} % Roman font keeps its size (as all other fonts are relative to it)
 
 \RequirePackage{microtype}
 \RequirePackage{realscripts}
@@ -184,11 +184,13 @@ ItalicFeatures = {
 }, % use default italic font for larger than 10pt size
 SmallCapsFeatures = {Letters = SmallCaps},
 Ligatures = {Common, TeX},
-Numbers = {OldStyle, Proportional},
-RawFeature = {+ss06,+clig,+frac,+dlig,+liga,+hlig,+calt,+cv04,+cv05,+cv06,+cv11,+c2sc,+scmp},
-Scale = 1,
+Numbers = {Proportional, OldStyle},
+%RawFeature = {+ss06,+clig,+frac,+dlig,+liga,+calt,+cv04,+cv05,+cv06,+cv11,+c2sc,+scmp},
 ]
 \setsansfont{EB Garamond}
+
+\RequirePackage{enumitem}
+\setlist[itemize]{label={\large $\bullet$}, labelsep=3mm}
 
 \providefontfamily{\EBGaramondInitials}{EBGaramond-Initials}[
 Path = /home/user/.fonts/EBGaramond/,
@@ -224,7 +226,7 @@ FontFace = {sb}{n}{*-Semibold},
 FontFace = {sb}{it}{*-SemiboldIt},
 FontFace = {k}{n}{*-Black},
 FontFace = {k}{it}{*-BlackIt},
-Scale = MatchLowercase,
+Scale=MatchLowercase,
 ]
 \setmonofont{SourceCodePro}
 
@@ -372,10 +374,22 @@ FontFace={l}{n}{*S-Light-Regular},
 \NewCommandCopy{\toc}{\tableofcontents}
 \renewcommand{\tableofcontents}{\pagenumbering{Roman}\toc\clearpage\pagenumbering{arabic}}
 
-\ohead{\title}
 \providecommand{\logo}{}
-\ihead{\logo}
-\cfoot{\thepage}
+\makeatletter
+\deftripstyle{pagestyle}
+[0.5pt]
+[0.5pt]
+{\pagemark}
+{}
+{\@title}
+{\pagemark}
+{\today}
+{\@author}
+
+\makeatother
+\pagestyle{pagestyle}
+% use "pagestyle" also on chapter starting pages
+%\renewcommand{\chapterpagestyle}{pagestyle} only for komascript classes
 
 % Link to other word \goto{there}{Text}
 % Or optionally define label for this word at the same time
@@ -530,48 +544,6 @@ FontFace={l}{n}{*S-Light-Regular},
 \newcommand{\unote}[1]{\footnote{~\url{#1}}}
 \newcommand{\nsection}[1]{\newpage\section{#1}}
 
-\titleclass{\subsubsubsection}{straight}[\subsection]
-
-\newcounter{subsubsubsection}[subsubsection]
-
-\renewcommand\thesubsubsubsection{\thesubsubsection.\arabic{subsubsubsection}}
-\renewcommand\theparagraph{\thesubsubsubsection.\arabic{paragraph}}
-\renewcommand\thesubparagraph{\theparagraph.\arabic{subparagraph}}
-
-\titleformat{\subsubsubsection}
-  {\normalfont\normalsize\bfseries}{\thesubsubsubsection}{1em}{}
-\titlespacing*{\subsubsubsection}
-{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
-
-
-
-
-\makeatletter
-\renewcommand\paragraph{\@startsection{paragraph}{5}{\z@}%
-  {3.25ex \@plus1ex \@minus.2ex}%
-  {-1em}%
-  {\normalfont\normalsize\bfseries}}
-\renewcommand\subparagraph{\@startsection{subparagraph}{6}{\parindent}
-  {3.25ex \@plus1ex \@minus .2ex}%
-  {-1em}%
-  {\normalfont\normalsize\bfseries}}
-\def\toclevel@subsubsubsection{4}
-\def\toclevel@paragraph{5}
-\def\toclevel@paragraph{6}
-\def\l@subsubsubsection{\@dottedtocline{4}{7em}{4em}}
-\def\l@paragraph{\@dottedtocline{5}{10em}{5em}}
-\def\l@subparagraph{\@dottedtocline{6}{14em}{6em}}
-\@addtoreset{subsubsubsection}{section}
-\@addtoreset{subsubsubsection}{subsection}
-\@addtoreset{paragraph}{subsubsubsection}
-\makeatother
-
-\setcounter{secnumdepth}{4}
-\setcounter{tocdepth}{4}
-\makeatletter
-\renewcommand\@makefntext[1]{\leftskip=2em\hskip-2em\@makefnmark#1}
-\makeatother
-
 \newcommand{\thesistitlepage}{
   \begin{titlepage}
 	\thispagestyle{empty}
@@ -620,3 +592,9 @@ FontFace={l}{n}{*S-Light-Regular},
       \BODY
 }
 \makeatother
+
+\RequirePackage{verbatim}
+\newcommand{\wordcount}[1]{%
+  \immediate\write18{texcount -1 -merge -template={1} main.tex > #1.wcdetail }%
+  \verbatiminput{#1.wcdetail}%
+}
