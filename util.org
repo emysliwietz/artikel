@@ -352,6 +352,8 @@ FontFace={l}{n}{*S-Light-Regular},
 \newcommand{\red}[1]{{\color{red}{#1}}}
 \newcommand{\blue}[1]{{\color{blue}{#1}}}
 \newcommand{\yellow}[1]{{\color{yellow}{#1}}}
+\newcommand{\grey}[1]{{\color{gray}{#1}}}
+\newcommand{\gray}[1]{{\color{gray}{#1}}}
 \newcommand{\green}[1]{{\color{green}{#1}}}
 \newcommand{\white}[1]{{\color{white}{#1}}}
 \newcommand{\orange}[1]{{\color{orange}{#1}}}
@@ -799,7 +801,7 @@ FontFace={l}{n}{*S-Light-Regular},
 #+begin_src latex
 \RequirePackage{verbatim}
 \newcommand{\wordcount}[1]{%
-  \immediate\write18{texcount -1 -merge -template={1} main.tex > #1.wcdetail }%
+  \immediate\write18{texcount -1 -merge -template={1} #1.tex > #1.wcdetail }%
   \verbatiminput{#1.wcdetail}%
 }
 #+end_src
