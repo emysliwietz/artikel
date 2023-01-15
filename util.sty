@@ -18,7 +18,7 @@
 \RequirePackage{ifthen}
 \RequirePackage{lettrine}
 \RequirePackage{shapepar}
-\RequirePackage[pages=absolute]{flowfram}
+%\RequirePackage[pages=absolute]{flowfram}
 \RequirePackage[all]{nowidow}
 \RequirePackage{amsmath}         % Provides extended mathematical environments and commands
 \RequirePackage[textsize=scriptsize]{todonotes}
@@ -316,7 +316,7 @@ FontFace={l}{n}{*S-Light-Regular},
 }}
 
 % ensure tables have correct text colour
-\AtBeginEnvironment{tabular}{\color{green}}
+%\AtBeginEnvironment{tabular}{\color{green}}
 
 % Code blocks
 \RequirePackage{minted}
@@ -377,19 +377,19 @@ FontFace={l}{n}{*S-Light-Regular},
 \renewcommand{\tableofcontents}{\pagenumbering{Roman}\toc\clearpage\pagenumbering{arabic}}
 
 \providecommand{\logo}{}
-\makeatletter
-\deftripstyle{pagestyle}
-[0.5pt]
-[0.5pt]
-{\pagemark}
-{}
-{\@title}
-{\pagemark}
-{\today}
-{\@author}
-
-\makeatother
-\pagestyle{pagestyle}
+%\makeatletter
+%\deftripstyle{pagestyle}
+%[0.5pt]
+%[0.5pt]
+%{\pagemark}
+%{}
+%{\@title}
+%{\pagemark}
+%{\today}
+%{\@author}
+%
+%\makeatother
+%\pagestyle{pagestyle}
 % use "pagestyle" also on chapter starting pages
 %\renewcommand{\chapterpagestyle}{pagestyle} only for komascript classes
 
