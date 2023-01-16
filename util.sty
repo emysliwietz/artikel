@@ -14,8 +14,21 @@
 \NeedsTeXFormat{LaTeX2e}
 % <–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––>
 
-% List of Requirements
 \RequirePackage{ifthen}
+\newcommand{\masterclass}{scrartcl}
+\newcommand{\setoption}[2]{%
+  \newif{#2}\DeclareOption{#1}{#3\PassOptionsToClass{\CurrentOption}{\masterclass}}}
+
+\setoption{fancy}{\iffancy\fancyfalse}{\fancytrue}
+\setoption{twocolumn}{\iftwocolumn\twocolumnfalse}{\twocolumntrue}
+\setoption{compact}{\ifcompact\compactfalse}{\compacttrue}
+\setoption{thesis}{\ifthesis\thesisfalse}{\thesistrue}
+
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{\masterclass}}
+\ProcessOptions\relax
+\RequirePackage{util}
+
+% List of Requirements
 \RequirePackage{lettrine}
 \RequirePackage{shapepar}
 %\RequirePackage[pages=absolute]{flowfram}
@@ -158,12 +171,13 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \fi
 
 \ifpdftex
+\iffancy
 \RequirePackage{ebgaramond}
 \RequirePackage{ebgaramond-maths}
-\fi
+\fi\fi
 \iftutex
 
-\setmainfont{EBGaramond}[
+\providefontfamily{\EBGaramond}{EBGaramond}[
 Path = /home/user/.fonts/EBGaramond/,
 Extension = .otf,
 UprightFont = *12-Regular, % set EB Garamond 12 as default upright font
@@ -187,7 +201,10 @@ Ligatures = {Common, TeX},
 Numbers = {Proportional, OldStyle},
 %RawFeature = {+ss06,+clig,+frac,+dlig,+liga,+calt,+cv04,+cv05,+cv06,+cv11,+c2sc,+scmp},
 ]
-\setsansfont{EB Garamond}
+\iffancy
+\setmainfont{EBGaramond}
+\setsansfont{EBGaramond}
+\fi
 
 \RequirePackage{enumitem}
 \setlist[itemize]{label={\large $\bullet$}, labelsep=3mm}
@@ -228,7 +245,9 @@ FontFace = {k}{n}{*-Black},
 FontFace = {k}{it}{*-BlackIt},
 Scale=MatchLowercase,
 ]
+\iffancy
 \setmonofont{SourceCodePro}
+\fi
 
 \providefontfamily{\Arial}{Arial}[
 Path = /home/user/.fonts/Arial/,
@@ -581,6 +600,23 @@ FontFace={l}{n}{*S-Light-Regular},
 	\clearpage
 \end{titlepage}
 }
+
+\NewCommandCopy{\simplemaketitle}{\maketitle}
+\renewcommand{\maketitle}{%
+  \ifthesis%
+  \include{thesis-titlepage}
+  \tableofcontents
+  \clearpage
+  \else
+  \simplemaketitle{}
+  \ifcompact\else
+  \thispagestyle{empty}
+  \clearpage
+  \pagenumbering{arabic}
+  \tableofcontents
+  \clearpage
+  \fi\fi
+  }
 
 \makeatletter
 \newsavebox{\measure@tikzpicture}

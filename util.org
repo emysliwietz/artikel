@@ -20,10 +20,25 @@
 \NeedsTeXFormat{LaTeX2e}
 % <–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––>
 #+end_src
+* Options
+#+begin_src latex
+\RequirePackage{ifthen}
+\newcommand{\masterclass}{scrartcl}
+\newcommand{\setoption}[2]{%
+  \newif{#2}\DeclareOption{#1}{#3\PassOptionsToClass{\CurrentOption}{\masterclass}}}
+
+\setoption{fancy}{\iffancy\fancyfalse}{\fancytrue}
+\setoption{twocolumn}{\iftwocolumn\twocolumnfalse}{\twocolumntrue}
+\setoption{compact}{\ifcompact\compactfalse}{\compacttrue}
+\setoption{thesis}{\ifthesis\thesisfalse}{\thesistrue}
+
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{\masterclass}}
+\ProcessOptions\relax
+\RequirePackage{util}
+#+end_src
 * Package Requirements
 #+begin_src latex
 % List of Requirements
-\RequirePackage{ifthen}
 \RequirePackage{lettrine}
 \RequirePackage{shapepar}
 %\RequirePackage[pages=absolute]{flowfram}
@@ -210,12 +225,13 @@ Allows for progressively weightier fonts when invoking \strong
 ** EB Garamond
 #+begin_src latex
 \ifpdftex
+\iffancy
 \RequirePackage{ebgaramond}
 \RequirePackage{ebgaramond-maths}
-\fi
+\fi\fi
 \iftutex
 
-\setmainfont{EBGaramond}[
+\providefontfamily{\EBGaramond}{EBGaramond}[
 Path = /home/user/.fonts/EBGaramond/,
 Extension = .otf,
 UprightFont = *12-Regular, % set EB Garamond 12 as default upright font
@@ -239,7 +255,10 @@ Ligatures = {Common, TeX},
 Numbers = {Proportional, OldStyle},
 %RawFeature = {+ss06,+clig,+frac,+dlig,+liga,+calt,+cv04,+cv05,+cv06,+cv11,+c2sc,+scmp},
 ]
-\setsansfont{EB Garamond}
+\iffancy
+\setmainfont{EBGaramond}
+\setsansfont{EBGaramond}
+\fi
 #+end_src
 *** Fix for enum with Garamond
 EB Garamond does not always properly display the bullet without this
@@ -291,7 +310,9 @@ FontFace = {k}{n}{*-Black},
 FontFace = {k}{it}{*-BlackIt},
 Scale=MatchLowercase,
 ]
+\iffancy
 \setmonofont{SourceCodePro}
+\fi
 #+end_src
 ** Arial
 #+begin_src latex
@@ -741,7 +762,8 @@ FontFace={l}{n}{*S-Light-Regular},
 \makeatother
 #+end_example
 
-* RU Thesis Title Page
+* Title Page
+** RU Thesis
 #+begin_src latex
 \newcommand{\thesistitlepage}{
   \begin{titlepage}
@@ -778,6 +800,26 @@ FontFace={l}{n}{*S-Light-Regular},
 	\clearpage
 \end{titlepage}
 }
+#+end_src
+** Maketitle
+#+begin_src latex
+\NewCommandCopy{\simplemaketitle}{\maketitle}
+\renewcommand{\maketitle}{%
+  \ifthesis%
+  \include{thesis-titlepage}
+  \tableofcontents
+  \clearpage
+  \else
+  \simplemaketitle{}
+  \ifcompact\else
+  \thispagestyle{empty}
+  \clearpage
+  \pagenumbering{arabic}
+  \tableofcontents
+  \clearpage
+  \fi\fi
+  }
+
 #+end_src
 * TikZ
 ** Scale TikZ picture to textwidth
