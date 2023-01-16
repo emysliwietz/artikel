@@ -25,18 +25,26 @@
 * Options
 #+begin_src latex
 \RequirePackage{ifthen}
-\newcommand{\masterclass}{scrartcl}
-\newcommand{\setoption}[2]{%
-  \newif{#2}\DeclareOption{#1}{#3\PassOptionsToClass{\CurrentOption}{\masterclass}}}
+\newcommand{\superclass}{scrartcl}
+%\newcommand{\setoption}[3]{%
+%  \newif{#2}\DeclareOption{#1}{#3\PassOptionsToClass{\CurrentOption}{\masterclass}}}
 
-\setoption{fancy}{\iffancy\fancyfalse}{\fancytrue}
-\setoption{twocolumn}{\iftwocolumn\twocolumnfalse}{\twocolumntrue}
-\setoption{compact}{\ifcompact\compactfalse}{\compacttrue}
-\setoption{thesis}{\ifthesis\thesisfalse}{\thesistrue}
+\newif\iffancy\fancyfalse
+\DeclareOption{fancy}{\fancytrue}
 
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{\masterclass}}
+\newif\iftwocolumn\twocolumnfalse
+\DeclareOption{twocolumn}{\twocolumntrue}
+
+\newif\ifcompact\compactfalse
+\DeclareOption{compact}{\compacttrue}
+
+\newif\ifthesis\thesisfalse
+\DeclareOption{thesis}{\thesistrue}
+
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{\superclass}}
 \ProcessOptions\relax
-\RequirePackage{util}
+
+\LoadClass{\superclass}
 #+end_src
 * Package Requirements
 #+begin_src latex
@@ -265,7 +273,6 @@ Numbers = {Proportional, OldStyle},
 *** Fix for enum with Garamond
 EB Garamond does not always properly display the bullet without this
 #+begin_src latex
-\RequirePackage{enumitem}
 \setlist[itemize]{label={\large $\bullet$}, labelsep=3mm}
 #+end_src
 *** Black Initials
@@ -806,9 +813,13 @@ FontFace={l}{n}{*S-Light-Regular},
 ** Maketitle
 #+begin_src latex
 \NewCommandCopy{\simplemaketitle}{\maketitle}
+\ifcompact
+\else
+\setuptoc{toc}{onecolumn}
+\fi
 \renewcommand{\maketitle}{%
   \ifthesis%
-  \include{thesis-titlepage}
+  \thesistitlepage
   \tableofcontents
   \clearpage
   \else

@@ -17,18 +17,26 @@
 % <–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––>
 
 \RequirePackage{ifthen}
-\newcommand{\masterclass}{scrartcl}
-\newcommand{\setoption}[2]{%
-  \newif{#2}\DeclareOption{#1}{#3\PassOptionsToClass{\CurrentOption}{\masterclass}}}
+\newcommand{\superclass}{scrartcl}
+%\newcommand{\setoption}[3]{%
+%  \newif{#2}\DeclareOption{#1}{#3\PassOptionsToClass{\CurrentOption}{\masterclass}}}
 
-\setoption{fancy}{\iffancy\fancyfalse}{\fancytrue}
-\setoption{twocolumn}{\iftwocolumn\twocolumnfalse}{\twocolumntrue}
-\setoption{compact}{\ifcompact\compactfalse}{\compacttrue}
-\setoption{thesis}{\ifthesis\thesisfalse}{\thesistrue}
+\newif\iffancy\fancyfalse
+\DeclareOption{fancy}{\fancytrue}
 
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{\masterclass}}
+\newif\iftwocolumn\twocolumnfalse
+\DeclareOption{twocolumn}{\twocolumntrue}
+
+\newif\ifcompact\compactfalse
+\DeclareOption{compact}{\compacttrue}
+
+\newif\ifthesis\thesisfalse
+\DeclareOption{thesis}{\thesistrue}
+
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{\superclass}}
 \ProcessOptions\relax
-\RequirePackage{util}
+
+\LoadClass{\superclass}
 
 % List of Requirements
 \RequirePackage{lettrine}
@@ -208,7 +216,6 @@ Numbers = {Proportional, OldStyle},
 \setsansfont{EBGaramond}
 \fi
 
-\RequirePackage{enumitem}
 \setlist[itemize]{label={\large $\bullet$}, labelsep=3mm}
 
 \providefontfamily{\EBGaramondInitials}{EBGaramond-Initials}[
@@ -604,9 +611,13 @@ FontFace={l}{n}{*S-Light-Regular},
 }
 
 \NewCommandCopy{\simplemaketitle}{\maketitle}
+\ifcompact
+\else
+\setuptoc{toc}{onecolumn}
+\fi
 \renewcommand{\maketitle}{%
   \ifthesis%
-  \include{thesis-titlepage}
+  \thesistitlepage
   \tableofcontents
   \clearpage
   \else
