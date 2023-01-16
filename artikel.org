@@ -1,4 +1,11 @@
-% util.sty - Collection for all kinds of latex commands I reuse
+#+title: Artikel.cls
+#+sub_title: Class for university theses and assignments, collection for all kinds of latex commands I reuse
+#+property: header-args :tangle artikel.cls
+
+* Disclaimer
+#+begin_src latex
+% artikel.cls - Class for university theses and assignments and essays.
+% Collection for all kinds of latex commands I reuse
 %
 % <–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––>
 % This is file is free software and may be distributed and/or modified
@@ -10,10 +17,13 @@
 % large parts of this document are shamelessly stolen
 % from Dr. Engelbert Hubbers and various other authors
 % <–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––>
-\ProvidesPackage{util}[2018/11/30 v2.0.0 personal shortcuts]
+\ProvidesClass{headers/artikel}[2022--12--20 Class for RU Theses and Assignments]
+% formerly: \ProvidesPackage{util}[2018/11/30 v2.0.0 personal shortcuts]
 \NeedsTeXFormat{LaTeX2e}
 % <–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––>
-
+#+end_src
+* Options
+#+begin_src latex
 \RequirePackage{ifthen}
 \newcommand{\masterclass}{scrartcl}
 \newcommand{\setoption}[2]{%
@@ -27,7 +37,9 @@
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{\masterclass}}
 \ProcessOptions\relax
 \RequirePackage{util}
-
+#+end_src
+* Package Requirements
+#+begin_src latex
 % List of Requirements
 \RequirePackage{lettrine}
 \RequirePackage{shapepar}
@@ -99,13 +111,18 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \RequirePackage{xcolor}           % Interface for defining and using color in LaTeX
 \RequirePackage{xparse}           % Provides an enhanced version of LaTeX's kernel commands for defining new commands
 \RequirePackage{lipsum}           % Provides Lorem Ipsum text with the \lorem command
-
+#+end_src
+* Includes
+** Paths
+#+begin_src latex
 \makeatletter
 % Include chapters, chapter and headers subfolders into PATH for \input
 \def\input@path{{./}{./chapters}{./chapter}{./headers}}
 \makeatother
 \graphicspath{{img/}}
-
+#+end_src
+** Subfiles with automatic labeling
+#+begin_src latex
 \DeclareDocumentCommand\subf{ m g }{%
   {%
     \IfNoValueT{#2} {\label{#1}}%
@@ -113,7 +130,10 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
     \subfile{sections/#1}
   }%
 }
-
+#+end_src
+̀
+* PDFLatex specifics
+#+begin_src latex
 \ifpdftex
 
 \RequirePackage[american]{babel} % Provides support for multilingual typesetting
@@ -121,7 +141,9 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \RequirePackage[T1]{fontenc}     % Provides support for font encoding
 
 \fi
-
+#+end_src
+* LuaLaTeX/XeLaTeX specifics
+#+begin_src latex
 \iftutex
 
 \RequirePackage{fontspec}
@@ -129,18 +151,47 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 % usmax is same as us/american, but with additional hyphenation patterns
 \setmainlanguage[variant=usmax]{english}
 \setotherlanguage[variant=german, spelling=new, script=latin]{german} %or script=blackletter
-
+#+end_src
+** Font tweaks
+#+begin_src latex
 %\defaultfontfeatures{Scale=MatchLowercase} % Makes all fonts match the lowercase of the main font by default
 \defaultfontfeatures[\rmfamily]{Scale=1} % Roman font keeps its size (as all other fonts are relative to it)
 
 \RequirePackage{microtype}
 \RequirePackage{realscripts}
 \RequirePackage[cmintegrals, cmbraces]{newtxmath}
-
+#+end_src
+** End of LuaLaTeX
+#+begin_src latex
 \fi
-
+#+end_src
+* Biblatex
+#+begin_src latex
 \RequirePackage[backend=biber, style=ieee, giveninits=true, uniquename=init]{biblatex} % Bibliographic package
-
+#+end_src
+* Fonts
+** Definition Overview
+Fontspec defines:
+- BoldFont \textbf \strong
+- ItalicFont \textit \emph
+- BoldItalicFont
+- SlantedFont \textsl
+- BoldSlantedFont
+- SwashFont \textsw
+- BoldSwashFont
+- SmallCapsFont \textsc
+- UprightFont
+FontFace defines
+- xl: Extra Light \textxl
+- l: Light \textl
+- (Regular)
+- md: Medium \textmd
+- sb: Semibold \textsb
+- db: Demibold \textdb
+- (Bold) \textbf
+- k: Black \textbl \textk
+** Font Face Shortcuts
+#+begin_src latex
 \iftutex
 % Extra light
 \DeclareRobustCommand\xlseries{\fontseries{xl}\selectfont}
@@ -161,7 +212,10 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \DeclareRobustCommand\kseries{\fontseries{k}\selectfont}
 \DeclareTextFontCommand{\textk}{\kseries}
 \DeclareTextFontCommand{\textbl}{\kseries}
-
+#+end_src
+*** Strong Nesting
+Allows for progressively weightier fonts when invoking \strong
+#+begin_src latex
 \strongfontdeclare{\xlseries,\mbseries}
 \strongfontdeclare{\lseries,\sbseries}
 \strongfontdeclare{\mbseries,\bfseries}
@@ -169,7 +223,9 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \strongfontdeclare{\dbseries,\bfseries}
 \strongfontdeclare{\bfseries,\kseries}
 \fi
-
+#+end_src
+** EB Garamond
+#+begin_src latex
 \ifpdftex
 \iffancy
 \RequirePackage{ebgaramond}
@@ -205,27 +261,38 @@ Numbers = {Proportional, OldStyle},
 \setmainfont{EBGaramond}
 \setsansfont{EBGaramond}
 \fi
-
+#+end_src
+*** Fix for enum with Garamond
+EB Garamond does not always properly display the bullet without this
+#+begin_src latex
 \RequirePackage{enumitem}
 \setlist[itemize]{label={\large $\bullet$}, labelsep=3mm}
-
+#+end_src
+*** Black Initials
+#+begin_src latex
 \providefontfamily{\EBGaramondInitials}{EBGaramond-Initials}[
 Path = /home/user/.fonts/EBGaramond/,
 Extension = .otf,
 ]
-
+#+end_src
+*** White Initials
+#+begin_src latex
 \providefontfamily{\EBGaramondWhiteInitials}{EBGaramond-Initials}[
 Path = /home/user/.fonts/EBGaramond/,
 Extension = .otf,
 UprightFont = *F1
 ]
-
+#+end_src
+*** Text Initials
+#+begin_src latex
 \providefontfamily{\EBGaramondTextInitials}{EBGaramond-Initials}[
 Path = /home/user/.fonts/EBGaramond/,
 Extension = .otf,
 UprightFont = *F2
 ]
-
+#+end_src
+** SourceCodePro
+#+begin_src latex
 \providefontfamily{\SourceCodePro}{SourceCodePro}[
 Path = /home/user/.fonts/SourceCodePro/,
 Extension = .otf,
@@ -248,7 +315,9 @@ Scale=MatchLowercase,
 \iffancy
 \setmonofont{SourceCodePro}
 \fi
-
+#+end_src
+** Arial
+#+begin_src latex
 \providefontfamily{\Arial}{Arial}[
 Path = /home/user/.fonts/Arial/,
 Extension = .otf,
@@ -256,7 +325,9 @@ UprightFont = *,
 AutoFakeBold,
 AutoFakeSlant,
 ]
-
+#+end_src
+** Times New Roman
+#+begin_src latex
 \providefontfamily{\TimesNewRoman}{TimesNewRoman}[
 Extension = .otf,
 Path = /home/user/.fonts/TimesNewRoman/,
@@ -264,11 +335,19 @@ UprightFont = *,
 AutoFakeBold,
 AutoFakeSlant,
 ]
-
+#+end_src
+** End of LuaTeX/XeTeX specifics
+#+begin_src latex
 \fi
+#+end_src
 
+* Logos
+** RU
+#+begin_src latex
 \newcommand{\RUlogo}{\includegraphics[width=25mm]{img/in_dei_nomine_feliciter.eps}}
-
+#+end_src
+** Star
+#+begin_src latex
 \iftutex
 \providefontfamily{\starcorporate}{Corporate}[
 Path = /home/user/.fonts/Corporate/,
@@ -285,9 +364,14 @@ FontFace={l}{n}{*S-Light-Regular},
   \end{center}
 \end{minipage}}}
 \fi
-
+#+end_src
+** Current used compiler
+#+begin_src latex
 \newcommand{\compiler}{\ifpdftex pdf\TeX\else\ifluatex lua\TeX\else\ifxetex \XeTeX\fi\fi\fi}
-
+#+end_src
+* Style
+** Colors
+#+begin_src latex
 \newcommand{\red}[1]{{\color{red}{#1}}}
 \newcommand{\blue}[1]{{\color{blue}{#1}}}
 \newcommand{\yellow}[1]{{\color{yellow}{#1}}}
@@ -298,7 +382,10 @@ FontFace={l}{n}{*S-Light-Regular},
 \newcommand{\orange}[1]{{\color{orange}{#1}}}
 \newcommand{\purple}[1]{{\color{purple}{#1}}}
 \newcommand{\pink}[1]{{\color{pink}{#1}}}
-
+#+end_src
+** Text styles
+*** Dropcaps
+#+begin_src latex
 % Using TeX command definition instead of Latex to make word capitilization work better
 \def\drop #1#2 {% space before { is required
   \lettrine[lines=2]{\EBGaramondTextInitials{}#1}{#2} % trailing space
@@ -316,6 +403,9 @@ FontFace={l}{n}{*S-Light-Regular},
 %\providecommand{\Section}[1]{\section{#1}\drop}
 %\providecommand{\Section*}[1]{\section{#1}\drop*}
 
+#+end_src
+*** Shapes around text
+#+begin_src latex
 % Trapezii
 \newcommand{\sctrap}[2][1cm]{
   \begin{tikzpicture}%
@@ -334,6 +424,9 @@ FontFace={l}{n}{*S-Light-Regular},
             \node[shape=circle,draw,inner sep=2pt] (char) {#1};
 }}
 
+#+end_src
+** Style for Minted
+#+begin_src latex
 % ensure tables have correct text colour
 %\AtBeginEnvironment{tabular}{\color{green}}
 
@@ -389,12 +482,18 @@ FontFace={l}{n}{*S-Light-Regular},
 	outer arc=0pt,
 	leftrule=0pt,rightrule=0pt,toprule=0pt,bottomrule=0pt
   }{\mintinlineold{#1}{#2}}
-
+#+end_src
+** ISO Date
+#+begin_src latex
 \newcommand{\isodate}{\the\year-\ifnum\month<10\relax0\fi\the\month-\ifnum\day<10\relax0\fi\the\day}
-
+#+end_src
+** Roman Numbers for Table of Contents
+#+begin_src latex
 \NewCommandCopy{\toc}{\tableofcontents}
 \renewcommand{\tableofcontents}{\pagenumbering{Roman}\toc\clearpage\pagenumbering{arabic}}
-
+#+end_src
+** Header and Footer Styles
+#+begin_src latex
 \providecommand{\logo}{}
 %\makeatletter
 %\deftripstyle{pagestyle}
@@ -412,6 +511,10 @@ FontFace={l}{n}{*S-Light-Regular},
 % use "pagestyle" also on chapter starting pages
 %\renewcommand{\chapterpagestyle}{pagestyle} only for komascript classes
 
+#+end_src
+* Hyperlinks
+** (Back)links between words
+#+begin_src latex
 % Link to other word \goto{there}{Text}
 % Or optionally define label for this word at the same time
 % \goto[here]{there}{Text}
@@ -420,12 +523,18 @@ FontFace={l}{n}{*S-Light-Regular},
   {\hyperlink{#2}{#3}}
   {\hypertarget{#1}{\hyperlink{#2}{#3}}}
 }
+#+end_src
 
+* Exercise
+#+begin_src latex
 % Creating exercises for assignments
 \newcommand{\exercise}[2]{\subsection*{Exercise #1}{#2}}
 \newcommand{\exerciseenum}[2]{\subsection*{Exercise #1}{\begin{enumerate}[(a)]#2\end{enumerate}}}
 \newcommand{\exerciseinum}[2]{\subsection*{Exercise #1}{\begin{enumerate}[(i)]#2\end{enumerate}}}
-
+#+end_src
+* Math
+** Functions
+#+begin_src latex
 % Math stuff
 \newcommand{\abs}[1]{\ensuremath{\left|\, #1 \,\right|}}
 \newcommand{\floor}[1]{\ensuremath{\left\lfloor\, #1 \,\right\rfloor}}
@@ -455,10 +564,32 @@ FontFace={l}{n}{*S-Light-Regular},
 \newcommand{\B}[2]{\ensuremath{\mathcal{B}\llbracket#1\rrbracket#2}}
 \newcommand{\N}[2]{\ensuremath{\mathcal{N}\llbracket#1\rrbracket#2}}
 
+
+#+end_src
+** Operators
+#+begin_src latex
 %% MATH OPERATORS
 \DeclareMathOperator{\supersine}{supersin}
 \DeclareMathOperator{\supercosine}{supercos}
+#+end_src
+** Theorems
+#+begin_src latex
+%% THEOREM STYLES
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
 
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+#+end_src latex
+* RU Courses
+** Semantics and Correctness
+*** Shortcuts for writing prooftree states
+#+begin_src latex
 % State abbreviations
 \newcommand{\sI}[0]{\ensuremath{s^{\prime}}}
 \newcommand{\sII}[0]{\ensuremath{s^{\prime\prime}}}
@@ -470,7 +601,9 @@ FontFace={l}{n}{*S-Light-Regular},
 \newcommand{\sVIII}[0]{\ensuremath{s^{\prime\prime\prime\prime\prime\prime\prime\prime}}}
 \newcommand{\sIX}[0]{\ensuremath{s^{\prime\prime\prime\prime\prime\prime\prime\prime\prime}}}
 \newcommand{\sX}[0]{\ensuremath{s^{\prime\prime\prime\prime\prime\prime\prime\prime\prime\prime}}}
-
+#+end_src
+*** Prooftrees
+#+begin_src latex
 % abbreviations for prooftrees
 \newcommand{\hyp}[2]{\infer[no rule]0[#2]{#1}}
 \newcommand{\treecolor}[1]{\rewrite{\color{#1}\box\treebox}}
@@ -496,7 +629,9 @@ FontFace={l}{n}{*S-Light-Regular},
 \newcommand{\nvar}[2]{\ensuremath{\mbox{~var~} #1 := #2;~}}
 \newcommand{\dv}[2]{\ensuremath{[\{#1\} \mapsto #2]}}
 \newcommand{\dtrans}[2]{\ensuremath{\langle#1\rangle\to_D#2}}
-
+#+end_src
+*** Semantic rules
+#+begin_src latex
 % NS rules
 \newcommand{\compns}[0]{\ensuremath{\left[\mbox{comp}_{\mbox{ns}}\right]}}
 \newcommand{\forleqns}[0]{\ensuremath{\left[\mbox{for-to-do}_{\mbox{ns}}^{\mbox{leq}}\right]}}
@@ -539,7 +674,10 @@ FontFace={l}{n}{*S-Light-Regular},
   \begin{prooftree}}
   {
   \end{prooftree}~\\\\}
-
+#+end_src
+** Information Systems
+*** Object Role Model Diagrams
+#+begin_src latex
 % stuff thats relevant for drawing ORMs
 \newcommand{\Entity}[2]{\entity (#1) at (#2) {#1};}
 \newcommand{\Binary}[3]{\draw (#1) -- node[roles, label=#3] {} (#2);}
@@ -558,13 +696,77 @@ FontFace={l}{n}{*S-Light-Regular},
 \newcommand{\vBinary}[3]{\draw (#1) -- node[vroles, label=#3] {} (#2);}
 \newcommand{\voBinary}[4]{\draw (#1) -- node[vroles, label=#3, #4] {} (#2);}
 \newcommand{\Value}[2]{\value (#1) at (#2) {#1};}
+#+end_src
+* TODO-Notes
+#+begin_src latex
+%% TODO PACKAGE
+\newcommand{\towrite}[1]{\todo[inline,color=yellow!10]{TO WRITE: #1}}
+\newcommand{\inlinetodo}[1]{\todo[inline]{#1}}
+\newcommand{\due}[1]{\todo[inline,color=blue!10]{Due: #1}}
+#+end_src latex
+* Structural commands
+#+begin_src latex
+% other stuff
+\newcommand{\note}[1]{\footnote{#1}}
+\newcommand{\pnote}[2][]{\marginpar[#1]{#2}}
+\newcommand{\unote}[1]{\footnote{~\url{#1}}}
+\newcommand{\nsection}[1]{\newpage\section{#1}}
+#+end_src
 
+#+RESULTS:
+#+begin_example
 % other stuff
 \newcommand{\note}[1]{\footnote{#1}}
 \newcommand{\pnote}[2][]{\marginpar[#1]{#2}}
 \newcommand{\unote}[1]{\footnote{~\url{#1}}}
 \newcommand{\nsection}[1]{\newpage\section{#1}}
 
+\titleclass{\subsubsubsection}{straight}[\subsection]
+
+\newcounter{subsubsubsection}[subsubsection]
+
+\renewcommand\thesubsubsubsection{\thesubsubsection.\arabic{subsubsubsection}}
+\renewcommand\theparagraph{\thesubsubsubsection.\arabic{paragraph}}
+\renewcommand\thesubparagraph{\theparagraph.\arabic{subparagraph}}
+
+\titleformat{\subsubsubsection}
+  {\normalfont\normalsize\bfseries}{\thesubsubsubsection}{1em}{}
+\titlespacing*{\subsubsubsection}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+
+
+
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{5}{\z@}%
+  {3.25ex \@plus1ex \@minus.2ex}%
+  {-1em}%
+  {\normalfont\normalsize\bfseries}}
+\renewcommand\subparagraph{\@startsection{subparagraph}{6}{\parindent}
+  {3.25ex \@plus1ex \@minus .2ex}%
+  {-1em}%
+  {\normalfont\normalsize\bfseries}}
+\def\toclevel@subsubsubsection{4}
+\def\toclevel@paragraph{5}
+\def\toclevel@paragraph{6}
+\def\l@subsubsubsection{\@dottedtocline{4}{7em}{4em}}
+\def\l@paragraph{\@dottedtocline{5}{10em}{5em}}
+\def\l@subparagraph{\@dottedtocline{6}{14em}{6em}}
+\@addtoreset{subsubsubsection}{section}
+\@addtoreset{subsubsubsection}{subsection}
+\@addtoreset{paragraph}{subsubsubsection}
+\makeatother
+
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+\makeatletter
+\renewcommand\@makefntext[1]{\leftskip=2em\hskip-2em\@makefnmark#1}
+\makeatother
+#+end_example
+
+* Title Page
+** RU Thesis
+#+begin_src latex
 \newcommand{\thesistitlepage}{
   \begin{titlepage}
 	\thispagestyle{empty}
@@ -600,7 +802,9 @@ FontFace={l}{n}{*S-Light-Regular},
 	\clearpage
 \end{titlepage}
 }
-
+#+end_src
+** Maketitle
+#+begin_src latex
 \NewCommandCopy{\simplemaketitle}{\maketitle}
 \renewcommand{\maketitle}{%
   \ifthesis%
@@ -618,6 +822,10 @@ FontFace={l}{n}{*S-Light-Regular},
   \fi\fi
   }
 
+#+end_src
+* TikZ
+** Scale TikZ picture to textwidth
+#+begin_src latex
 \makeatletter
 \newsavebox{\measure@tikzpicture}
 \NewEnviron{scaletikzpicturetowidth}[1]{%
@@ -631,8 +839,13 @@ FontFace={l}{n}{*S-Light-Regular},
 }
 \makeatother
 
+#+end_src
+
+* Wordcounts
+#+begin_src latex
 \RequirePackage{verbatim}
 \newcommand{\wordcount}[1][\jobname]{%
   \immediate\write18{texcount -1 -merge -template={1} #1.tex > #1.wcdetail }%
   \input{#1.wcdetail}%
 }
+#+end_src
