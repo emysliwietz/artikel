@@ -800,8 +800,8 @@ FontFace={l}{n}{*S-Light-Regular},
 * Wordcounts
 #+begin_src latex
 \RequirePackage{verbatim}
-\newcommand{\wordcount}[1]{%
+\newcommand{\wordcount}[1][\jobname]{%
   \immediate\write18{texcount -1 -merge -template={1} #1.tex > #1.wcdetail }%
-  \verbatiminput{#1.wcdetail}%
+  \input{#1.wcdetail}%
 }
 #+end_src

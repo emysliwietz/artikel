@@ -596,7 +596,7 @@ FontFace={l}{n}{*S-Light-Regular},
 \makeatother
 
 \RequirePackage{verbatim}
-\newcommand{\wordcount}[1]{%
+\newcommand{\wordcount}[1][\jobname]{%
   \immediate\write18{texcount -1 -merge -template={1} #1.tex > #1.wcdetail }%
-  \verbatiminput{#1.wcdetail}%
+  \input{#1.wcdetail}%
 }
