@@ -1,6 +1,7 @@
 #+title: Artikel.cls
 #+sub_title: Class for university theses and assignments, collection for all kinds of latex commands I reuse
 #+property: header-args :tangle artikel.cls
+#+on_save_cmd: sleep 5 && sudo make
 
 * Disclaimer
 #+begin_src latex
