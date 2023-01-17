@@ -11,7 +11,7 @@
 % large parts of this document are shamelessly stolen
 % from Dr. Engelbert Hubbers and various other authors
 % <–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––>
-\ProvidesClass{headers/artikel}[2022--12--20 Class for RU Theses and Assignments]
+\ProvidesClass{artikel}[2022--12--20 Class for RU Theses and Assignments]
 % formerly: \ProvidesPackage{util}[2018/11/30 v2.0.0 personal shortcuts]
 \NeedsTeXFormat{LaTeX2e}
 % <–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––>
@@ -375,6 +375,16 @@ FontFace={l}{n}{*S-Light-Regular},
             \node[shape=circle,draw,inner sep=2pt] (char) {#1};
 }}
 
+\newenvironment{compactitemize}{\begin{itemize}[noitemsep]}{\end{itemize}}
+\newenvironment{compactenumerate}{\begin{itemize}[noitemsep]}{\end{itemize}}
+
+% Refine these compact versions as default in compact document
+\ifcompact
+\let\oldenumerate\enumerate
+\let\endoldenumerate\endenumerate
+\renewenvironment{enumerate}{\oldenumerate[noitemsep]}{\endoldenumerate}
+\fi
+
 % ensure tables have correct text colour
 %\AtBeginEnvironment{tabular}{\color{green}}
 
@@ -448,11 +458,11 @@ FontFace={l}{n}{*S-Light-Regular},
   \raisebox{\dimexpr-8pt-\dp\strutbox\relax}[0pt][0pt]
   {\accentcolor\rule{1pt}{\dimexpr24pt+\dp\strutbox\relax}}%
   \hspace{0.8em}%
-  uw\languagename\rightmark
+  \rightmark
 }
 \chead{$\bullet$ \thesistitle{} $\bullet$}
 \ihead{\logo}
-\setkomafont{pagehead}{\scshape}
+\setkomafont{pagehead}{\normalfont\scshape}
 \setkomafont{headsepline}{\color{black!20!white}}
 
 % To make the accented line appear above the grey line
@@ -733,3 +743,18 @@ FontFace={l}{n}{*S-Light-Regular},
     }
   }
 }
+
+\RequirePackage{cooltooltips}
+\newcommand{\bv}[2]{%
+  \immediate\write18{btooltip.sh #1 #2 > #1#2.btooltip}
+  {\setlength{\fboxrule}{0pt}\input{#1#2.btooltip}}
+}
+
+\newcommand{\tooltip}[3]{%
+ \cooltooltip
+[0 0 0]
+[0 0 0]
+{#1} % Popup title
+{#2} % Content
+{#2}{#2} % Content
+{#3\strut}}
