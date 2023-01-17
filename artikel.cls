@@ -21,6 +21,9 @@
 \newif\iffancy\fancyfalse
 \DeclareOption{fancy}{\fancytrue}
 
+\newif\ifmodern\modernfalse
+\DeclareOption{modern}{\moderntrue}
+
 \newif\iftwocolumn\twocolumnfalse
 \DeclareOption{twocolumn}{\twocolumntrue}
 
@@ -59,8 +62,8 @@
 \RequirePackage{float}           % Provides additional options and commands for floating objects
 \iftwocolumn
 \RequirePackage[
-left=2cm,
-right=2cm,
+left=3cm,
+right=3cm,
 top=2.25cm,
 bottom=2.25cm,
 headheight=12pt,
@@ -313,7 +316,8 @@ AutoFakeSlant,
 
 \fi
 
-\newcommand{\RUlogo}{\includegraphics[width=25mm]{img/in_dei_nomine_feliciter.eps}}
+\providecommand{\RUlogo}{\includegraphics[width=25mm]{img/in_dei_nomine_feliciter.eps}}
+\providecommand{\textRUlogo}{\raisebox{0pt}[0pt][0pt]{\scalebox{.33}{\RUlogo}}}
 
 \iftutex
 \providefontfamily{\starcorporate}{Corporate}[
@@ -479,6 +483,17 @@ FontFace={l}{n}{*S-Light-Regular},
 % To make the accented line appear above the grey line
 \RemoveLayersFromPageStyle{scrheadings}{scrheadings.head.below.line}
 \AddLayersAtBeginOfPageStyle{scrheadings}{scrheadings.head.below.line}
+
+\ifmodern
+\colorlet{sectioncolor}{black!20}
+\makeatletter
+\renewcommand\sectionlinesformat[4]{%
+  \colorbox{sectioncolor}{%
+    \parbox[t]{\dimexpr\linewidth-2\fboxsep\relax}{%
+      \raggedsection\color{black}\@hangfrom{#3}{#4}%
+    }}}
+\makeatother
+\fi
 
 \iftwocolumn
 \setlength{\columnsep}{2em}
@@ -757,8 +772,8 @@ FontFace={l}{n}{*S-Light-Regular},
 
 \RequirePackage{cooltooltips}
 \newcommand{\bv}[2]{%
-  \immediate\write18{btooltip.sh #1 #2 \languagename > #1#2.\languagename{}-btooltip}
-  {\setlength{\fboxrule}{0pt}\input{#1#2.\languagename{}-btooltip}}
+  \immediate\write18{btooltip.sh #1 #2 \languagename > #1#2.\languagename-btooltip}
+  {\setlength{\fboxrule}{0pt}\input{#1#2.\languagename-btooltip}}
 }
 
 \newcommand{\tooltip}[3]{%
