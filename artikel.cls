@@ -139,6 +139,21 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 % usmax is same as us/american, but with additional hyphenation patterns
 \setmainlanguage[variant=usmax]{english}
 \setotherlanguage[variant=german, spelling=new, script=latin]{german} %or script=blackletter
+\setotherlanguage[variant=ecclesiastic, hyphenation=liturgical, usej=false]{latin}
+\setotherlanguage[numerals=hebrew, calendar=hebrew, transliteration=academy]{hebrew}
+\setotherlanguage[variant=ancient, numerals=greek, attic=true]{greek}
+
+\newenvironment{churchlatin}
+{\begin{latin}[variant=ecclesiastic, hyphenation=liturgical, usej=false]}
+  {\end{latin}}
+
+\newenvironment{classicallatin}
+{\begin{latin}[variant=classic]}
+  {\end{latin}}
+
+\newenvironment{ancientgreek}
+{\begin{greek}[variant=ancient, numerals=greek]}
+  {\end{greek}}
 
 %\defaultfontfeatures{Scale=MatchLowercase} % Makes all fonts match the lowercase of the main font by default
 \defaultfontfeatures[\rmfamily]{Scale=1} % Roman font keeps its size (as all other fonts are relative to it)
@@ -172,6 +187,10 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \DeclareTextFontCommand{\textk}{\kseries}
 \DeclareTextFontCommand{\textbl}{\kseries}
 
+\newcommand{\lmr}{\fontfamily{lmr}\selectfont} % Latin Modern Roman
+\newcommand{\lmss}{\fontfamily{lmss}\selectfont} % Latin Modern Sans
+\newcommand{\lmtt}{\fontfamily{lmtt}\selectfont} % Latin Modern Mono
+
 \strongfontdeclare{\xlseries,\mbseries}
 \strongfontdeclare{\lseries,\sbseries}
 \strongfontdeclare{\mbseries,\bfseries}
@@ -189,6 +208,7 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 
 \providefontfamily{\EBGaramond}{EBGaramond}[
 Path = /home/user/.fonts/EBGaramond/,
+Scale = 1,
 Extension = .otf,
 UprightFont = *12-Regular, % set EB Garamond 12 as default upright font
 UprightFeatures = {
@@ -213,7 +233,12 @@ Numbers = {Proportional, OldStyle},
 ]
 \iffancy
 \setmainfont{EBGaramond}
-\setsansfont{EBGaramond}
+\setsansfont{EBGaramond} % Change to Optima
+\newfontfamily\greekfont{EBGaramond}
+\else
+\setmainfont{Linux Libertine O}
+\setsansfont{Linux Libertine O} % Switch to Sans
+\newfontfamily\greekfont{Linux Libertine O}
 \fi
 
 \setlist[itemize]{label={\large $\bullet$}, labelsep=3mm}
@@ -648,4 +673,41 @@ FontFace={l}{n}{*S-Light-Regular},
 \newcommand{\wordcount}[1][\jobname]{%
   \immediate\write18{texcount -1 -merge -template={1} #1.tex > #1.wcdetail }%
   \input{#1.wcdetail}%
+}
+
+\newcommand{\kjv}[2]{%
+  \immediate\write18{kjv -W #1 #2 | sed 1d > #1#2.kjv }%
+  \input{#1#2.kjv}%
+}
+\newcommand{\menge}[2]{%
+  \immediate\write18{menge -W #1 #2 | sed 1d > #1#2.menge }%
+  \input{#1#2.menge}%
+}
+\newcommand{\grb}[2]{%
+  \immediate\write18{grb -W #1 #2 | sed 1d > #1#2.grb }%
+  \input{#1#2.grb}%
+}
+\newcommand{\vul}[2]{%
+  \immediate\write18{vul -W #1 #2 | sed 1d > #1#2.vul }%
+  \input{#1#2.vul}%
+}
+
+\newcommand{\BV}[2]{%
+  \IfStrEq{\languagename}{english}{
+   \kjv{#1}{#2}
+  }{
+    \IfStrEq{\languagename}{german}{
+      \menge{#1}{#2}
+    }{
+      \IfStrEq{\languagename}{latin}{
+        \vul{#1}{#2}
+      }{
+        \IfStrEq{\languagename}{greek}{
+          \grb{#1}{#2}
+        }{
+          Language not supported
+        }
+      }
+    }
+  }
 }
