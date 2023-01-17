@@ -68,7 +68,18 @@
 \RequirePackage{enumitem}        % Provides an enhanced version of the enumerate environment
 \RequirePackage{eurosym}         % Provides the euro symbol
 \RequirePackage{float}           % Provides additional options and commands for floating objects
+\iftwocolumn
+\RequirePackage[
+left=2cm,
+right=2cm,
+top=2.25cm,
+bottom=2.25cm,
+headheight=12pt,
+a4paper,
+]{geometry}
+\else
 \RequirePackage[a4paper]{geometry} % Provides commands for customizing page layout
+\fi
 \RequirePackage{grffile}         % Fix allowed filenames
 \RequirePackage{graphicx}        % Support for including and manipulating graphics
 \RequirePackage[
@@ -998,8 +1009,8 @@ FontFace={l}{n}{*S-Light-Regular},
 #+begin_src latex
 \RequirePackage{cooltooltips}
 \newcommand{\bv}[2]{%
-  \immediate\write18{btooltip.sh #1 #2 > #1#2.btooltip}
-  {\setlength{\fboxrule}{0pt}\input{#1#2.btooltip}}
+  \immediate\write18{btooltip.sh #1 #2 \languagename > #1#2.\languagename{}-btooltip}
+  {\setlength{\fboxrule}{0pt}\input{#1#2.\languagename{}-btooltip}}
 }
 
 \newcommand{\tooltip}[3]{%
@@ -1015,5 +1026,14 @@ FontFace={l}{n}{*S-Light-Regular},
 #+end_src
 #+begin_src shell :tangle btooltip.sh
 #!  /usr/bin/env bash
-echo "\tooltip{$1 $2}{$(kjv -W $1 $2 | sed 1d)}{$1 $2}"
+CMD="kjv"
+case "$3" in
+    "german")
+        CMD="menge";;
+    "latin")
+        CMD="vul";;
+    "greek")
+        CMD="grb";;
+esac
+echo "\tooltip{$1 $2}{$($CMD -W $1 $2 | sed 1d)}{$1 $2}"
 #+end_src
