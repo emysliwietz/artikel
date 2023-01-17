@@ -18,9 +18,6 @@
 
 \RequirePackage{ifthen}
 \newcommand{\superclass}{scrartcl}
-%\newcommand{\setoption}[3]{%
-%  \newif{#2}\DeclareOption{#1}{#3\PassOptionsToClass{\CurrentOption}{\masterclass}}}
-
 \newif\iffancy\fancyfalse
 \DeclareOption{fancy}{\fancytrue}
 
@@ -32,6 +29,9 @@
 
 \newif\ifthesis\thesisfalse
 \DeclareOption{thesis}{\thesistrue}
+
+\newif\ifdraft\draftfalse
+\DeclareOption{draft}{\drafttrue}
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{\superclass}}
 \ProcessOptions\relax
@@ -229,6 +229,7 @@ ItalicFeatures = {
 SmallCapsFeatures = {Letters = SmallCaps},
 Ligatures = {Common, TeX},
 Numbers = {Proportional, OldStyle},
+RawFeature = {-locl}
 %RawFeature = {+ss06,+clig,+frac,+dlig,+liga,+calt,+cv04,+cv05,+cv06,+cv11,+c2sc,+scmp},
 ]
 \iffancy
@@ -318,6 +319,12 @@ FontFace={l}{n}{*S-Light-Regular},
     \segp{} \\\vspace{-1.6ex}\rule{8.75em}{.2pt}\\\vspace{-1.3ex} \starcorporate\textl{} \scalebox{.44}{Your Partners in Excellence}
   \end{center}
 \end{minipage}}}
+
+\newcommand{\textstarlogo}{%_
+% Magic number of .57cm to make logo appear vertically centered in logo
+\raisebox{.57cm}{\starlogo}
+}
+
 \fi
 
 \newcommand{\compiler}{\ifpdftex pdf\TeX\else\ifluatex lua\TeX\else\ifxetex \XeTeX\fi\fi\fi}
@@ -429,22 +436,37 @@ FontFace={l}{n}{*S-Light-Regular},
 \NewCommandCopy{\toc}{\tableofcontents}
 \renewcommand{\tableofcontents}{\pagenumbering{Roman}\toc\clearpage\pagenumbering{arabic}}
 
+\renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
+\renewcommand\thesubsection{\roman{subsection}} % roman numerals for subsections
+\renewcommand\thesubsubsection{\alph{subsubsection}} % alphabetic numerals for subsubsections
+
 \providecommand{\logo}{}
-%\makeatletter
-%\deftripstyle{pagestyle}
-%[0.5pt]
-%[0.5pt]
-%{\pagemark}
-%{}
-%{\@title}
-%{\pagemark}
-%{\today}
-%{\@author}
-%
-%\makeatother
-%\pagestyle{pagestyle}
-% use "pagestyle" also on chapter starting pages
-%\renewcommand{\chapterpagestyle}{pagestyle} only for komascript classes
+\providecommand{\accentcolor}{\color{black}}
+\pagestyle{scrheadings}
+\KOMAoptions{headsepline=2pt, headwidth=textwithmarginpar, footsepline=.2pt:4cm, clines}
+\rohead*{%
+  \raisebox{\dimexpr-8pt-\dp\strutbox\relax}[0pt][0pt]
+  {\accentcolor\rule{1pt}{\dimexpr24pt+\dp\strutbox\relax}}%
+  \hspace{0.8em}%
+  uw\languagename\rightmark
+}
+\chead{$\bullet$ \thesistitle{} $\bullet$}
+\ihead{\logo}
+\setkomafont{pagehead}{\scshape}
+\setkomafont{headsepline}{\color{black!20!white}}
+
+% To make the accented line appear above the grey line
+\RemoveLayersFromPageStyle{scrheadings}{scrheadings.head.below.line}
+\AddLayersAtBeginOfPageStyle{scrheadings}{scrheadings.head.below.line}
+
+\iftwocolumn
+\setlength{\columnsep}{2em}
+\tolerance=9999
+\fi
+
+\ifdraft
+\overfullrule=10mm
+\fi
 
 % Link to other word \goto{there}{Text}
 % Or optionally define label for this word at the same time
