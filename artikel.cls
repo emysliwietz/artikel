@@ -720,7 +720,9 @@ FontFace={l}{n}{*S-Light-Regular},
   \ifthesis%
   \thesistitlepage
   \tableofcontents
+  \ifcompact\else
   \clearpage
+  \fi
   \else
   \simplemaketitle{}
   \ifcompact\else
