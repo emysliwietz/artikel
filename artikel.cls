@@ -792,9 +792,16 @@ FontFace={l}{n}{*S-Light-Regular},
 
 \RequirePackage{bibleref}
 \RequirePackage{bibleref-german}
-\newcommand{\bibleversestyle}{jerusalem}
+\newbiblerefstyle{artikel}{%
+\biblerefstyle{jerusalem}%
+\braltabbrvname
+\renewcommand{\BRversestyle}[1]{##1}%
+%%\setbooktitle{Revelation}{Apocalypse}%
+}
+
+\newcommand{\bibleversestyle}{artikel}
 \biblerefstyle{\bibleversestyle}
-\newcommand{\englishverse}[2]{{\biblerefstyle{jerusalem}\bibleverse{#1}(#2)\biblerefstyle{\bibleversestyle}}}
+\newcommand{\englishverse}[2]{{\biblerefstyle{\bibleversestyle}\bibleverse{#1}(#2)\biblerefstyle{\bibleversestyle}}}
 \newcommand{\textenglishverse}[2]{{\biblerefstyle{default}\bibleverse{#1}(#2)\biblerefstyle{\bibleversestyle}}}
 \newcommand{\germanverse}[2]{{\biblerefstyle{TRE}\biblerefformat{kurz}\bibleverse{#1}(#2)\biblerefstyle{\bibleversestyle}}}
 \newcommand{\textgermanverse}[2]{{\biblerefstyle{TRE}\biblerefformat{Terminus}\bibleverse{#1}(#2)\biblerefstyle{\bibleversestyle}}}
@@ -810,12 +817,12 @@ FontFace={l}{n}{*S-Light-Regular},
 
 \RequirePackage{cooltooltips}
 \newcommand{\bv}[2]{%
-  \immediate\write18{btooltip.sh #1 #2 \languagename short > #1#2.s.\languagename-btooltip}
+  \immediate\write18{btooltip.sh #1 #2 "\languagename" short > #1#2.s.\languagename-btooltip}
   {\setlength{\fboxrule}{0pt}\input{#1#2.s.\languagename-btooltip}}
 }
 
 \newcommand{\textbv}[2]{%
-  \immediate\write18{btooltip.sh #1 #2 \languagename long > #1#2.l.\languagename-btooltip}
+  \immediate\write18{btooltip.sh #1 #2 "\languagename" long > #1#2.l.\languagename-btooltip}
   {\setlength{\fboxrule}{0pt}\input{#1#2.l.\languagename-btooltip}}
 }
 

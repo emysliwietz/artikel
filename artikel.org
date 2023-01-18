@@ -1044,13 +1044,22 @@ FontFace={l}{n}{*S-Light-Regular},
   }
 }
 #+end_src
-** Abbreviations
+** Style
 #+begin_src latex
 \RequirePackage{bibleref}
 \RequirePackage{bibleref-german}
-\newcommand{\bibleversestyle}{jerusalem}
+\newbiblerefstyle{artikel}{%
+\biblerefstyle{jerusalem}%
+\braltabbrvname
+\renewcommand{\BRversestyle}[1]{##1}%
+%%\setbooktitle{Revelation}{Apocalypse}%
+}
+ #+end_src
+** Abbreviations
+#+begin_src latex
+\newcommand{\bibleversestyle}{artikel}
 \biblerefstyle{\bibleversestyle}
-\newcommand{\englishverse}[2]{{\biblerefstyle{jerusalem}\bibleverse{#1}(#2)\biblerefstyle{\bibleversestyle}}}
+\newcommand{\englishverse}[2]{{\biblerefstyle{\bibleversestyle}\bibleverse{#1}(#2)\biblerefstyle{\bibleversestyle}}}
 \newcommand{\textenglishverse}[2]{{\biblerefstyle{default}\bibleverse{#1}(#2)\biblerefstyle{\bibleversestyle}}}
 \newcommand{\germanverse}[2]{{\biblerefstyle{TRE}\biblerefformat{kurz}\bibleverse{#1}(#2)\biblerefstyle{\bibleversestyle}}}
 \newcommand{\textgermanverse}[2]{{\biblerefstyle{TRE}\biblerefformat{Terminus}\bibleverse{#1}(#2)\biblerefstyle{\bibleversestyle}}}
@@ -1066,16 +1075,16 @@ FontFace={l}{n}{*S-Light-Regular},
 
 
 #+end_src
-*** Bible Tooltips
+** Bible Tooltips
 #+begin_src latex
 \RequirePackage{cooltooltips}
 \newcommand{\bv}[2]{%
-  \immediate\write18{btooltip.sh #1 #2 \languagename short > #1#2.s.\languagename-btooltip}
+  \immediate\write18{btooltip.sh #1 #2 "\languagename" short > #1#2.s.\languagename-btooltip}
   {\setlength{\fboxrule}{0pt}\input{#1#2.s.\languagename-btooltip}}
 }
 
 \newcommand{\textbv}[2]{%
-  \immediate\write18{btooltip.sh #1 #2 \languagename long > #1#2.l.\languagename-btooltip}
+  \immediate\write18{btooltip.sh #1 #2 "\languagename" long > #1#2.l.\languagename-btooltip}
   {\setlength{\fboxrule}{0pt}\input{#1#2.l.\languagename-btooltip}}
 }
 
@@ -1111,5 +1120,5 @@ case "$3" in
         CMD="grb";;
 esac
 TEXT="${BV}{$1}{$2}"
-echo "\tooltip{$TEXT}{$($CMD -W $1 $2 | sed 1d)}{$TEXT}"
+echo "\tooltip{$1 $2}{$($CMD -W $1 $2 | sed 1d | tr '\n' '\t')}{$TEXT}"
 #+end_src
