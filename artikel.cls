@@ -43,6 +43,8 @@
 
 % List of Requirements
 \RequirePackage{lettrine}
+\RequirePackage{pdfpages}
+\RequirePackage{setspace}
 \RequirePackage{shapepar}
 %\RequirePackage[pages=absolute]{flowfram}
 \RequirePackage[all]{nowidow}
