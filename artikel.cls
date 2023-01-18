@@ -362,6 +362,13 @@ FontFace={l}{n}{*S-Light-Regular},
 
 \newcommand{\compiler}{\ifpdftex pdf\TeX\else\ifluatex lua\TeX\else\ifxetex \XeTeX\fi\fi\fi}
 
+\definecolor{litpurple}{RGB}{128,0,128}
+\definecolor{litpink}{RGB}{244,133,186}
+\definecolor{litgreen}{RGB}{24,100,32}
+\definecolor{litred}{RGB}{216,7,7}
+\definecolor{lityellow}{RGB}{212,175,55}
+\newcommand{\litpurple}{\color{litpurple}}
+
 \newcommand{\red}[1]{{\color{red}{#1}}}
 \newcommand{\blue}[1]{{\color{blue}{#1}}}
 \newcommand{\yellow}[1]{{\color{yellow}{#1}}}
@@ -484,7 +491,7 @@ FontFace={l}{n}{*S-Light-Regular},
 \renewcommand\thesubsubsection{\alph{subsubsection}} % alphabetic numerals for subsubsections
 
 \providecommand{\logo}{}
-\providecommand{\accentcolor}{\color{black}}
+\providecommand{\accentcolor}{\color{litpurple}}
 \pagestyle{scrheadings}
 \KOMAoptions{headsepline=2pt, headwidth=textwithmarginpar, footsepline=.2pt:4cm, clines}
 \rohead*{%
@@ -668,6 +675,11 @@ FontFace={l}{n}{*S-Light-Regular},
 \newcommand{\vBinary}[3]{\draw (#1) -- node[vroles, label=#3] {} (#2);}
 \newcommand{\voBinary}[4]{\draw (#1) -- node[vroles, label=#3, #4] {} (#2);}
 \newcommand{\Value}[2]{\value (#1) at (#2) {#1};}
+
+%% TODO PACKAGE
+\newcommand{\towrite}[1]{\todo[inline,color=yellow!10]{TO WRITE: #1}}
+\newcommand{\inlinetodo}[1]{\todo[inline]{#1}}
+\newcommand{\due}[1]{\todo[inline,color=blue!10]{Due: #1}}
 
 % other stuff
 \newcommand{\note}[1]{\footnote{#1}}

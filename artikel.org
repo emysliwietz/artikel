@@ -473,6 +473,16 @@ FontFace={l}{n}{*S-Light-Regular},
 \newcommand{\compiler}{\ifpdftex pdf\TeX\else\ifluatex lua\TeX\else\ifxetex \XeTeX\fi\fi\fi}
 #+end_src
 * Style
+** Liturgical Colors
+#+begin_src latex
+\definecolor{litpurple}{RGB}{128,0,128}
+\definecolor{litpink}{RGB}{244,133,186}
+\definecolor{litgreen}{RGB}{24,100,32}
+\definecolor{litred}{RGB}{216,7,7}
+\definecolor{lityellow}{RGB}{212,175,55}
+\newcommand{\litpurple}{\color{litpurple}}
+#+end_src
+
 ** Colors
 #+begin_src latex
 \newcommand{\red}[1]{{\color{red}{#1}}}
@@ -616,7 +626,7 @@ FontFace={l}{n}{*S-Light-Regular},
 ** Header and Footer Styles
 #+begin_src latex
 \providecommand{\logo}{}
-\providecommand{\accentcolor}{\color{black}}
+\providecommand{\accentcolor}{\color{litpurple}}
 \pagestyle{scrheadings}
 \KOMAoptions{headsepline=2pt, headwidth=textwithmarginpar, footsepline=.2pt:4cm, clines}
 \rohead*{%
@@ -852,7 +862,7 @@ FontFace={l}{n}{*S-Light-Regular},
 \newcommand{\towrite}[1]{\todo[inline,color=yellow!10]{TO WRITE: #1}}
 \newcommand{\inlinetodo}[1]{\todo[inline]{#1}}
 \newcommand{\due}[1]{\todo[inline,color=blue!10]{Due: #1}}
-#+end_src latex
+#+end_src
 * Structural commands
 #+begin_src latex
 % other stuff
@@ -1006,6 +1016,7 @@ FontFace={l}{n}{*S-Light-Regular},
 #+end_src
 
 * Bible Verses
+** Bible Text
 #+begin_src latex
 \newcommand{\kjv}[2]{%
   \immediate\write18{kjv -W #1 #2 | sed 1d > #1#2.kjv }%
