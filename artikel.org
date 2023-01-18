@@ -135,6 +135,26 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \RequirePackage{xparse}           % Provides an enhanced version of LaTeX's kernel commands for defining new commands
 \RequirePackage{lipsum}           % Provides Lorem Ipsum text with the \lorem command
 #+end_src
+* Paper specific variables
+#+begin_src latex
+\providecommand{\maintitle}{Main Title}
+\providecommand{\subtitle}{Subtitle}
+\providecommand{\uni}{Radboud University Nijmegen}
+\providecommand{\faculty}{Digital Security Group}
+\providecommand{\papertype}{Master Thesis}
+\providecommand{\authorfirst}{Egidius}
+\providecommand{\authorsecond}{Mysliwietz}
+\providecommand{\thesissupervisorfirst}{}
+\providecommand{\thesissupervisorsecond}{}
+\providecommand{\thesissecondreaderfirst}{}
+\providecommand{\thesissecondreadersecond}{}
+\makeatletter
+\def\thesisdate{\@date}
+\makeatother
+\title{\maintitle{} \\ {\small \subtitle{}}}
+\author{\authorfirst{} \authorsecond{}}
+\date{\today}
+#+end_src
 * Includes
 ** Paths
 #+begin_src latex
@@ -600,12 +620,12 @@ FontFace={l}{n}{*S-Light-Regular},
 \pagestyle{scrheadings}
 \KOMAoptions{headsepline=2pt, headwidth=textwithmarginpar, footsepline=.2pt:4cm, clines}
 \rohead*{%
-  \raisebox{\dimexpr-8pt-\dp\strutbox\relax}[0pt][0pt]
+  \raisebox{\dimexpr-2pt-\dp\strutbox\relax}[0pt][0pt]
   {\accentcolor\rule{1pt}{\dimexpr24pt+\dp\strutbox\relax}}%
   \hspace{0.8em}%
   \rightmark
 }
-\chead{$\bullet$ \thesistitle{} $\bullet$}
+\chead{$\bullet$ \maintitle{} $\bullet$}
 \ihead{\logo}
 \setkomafont{pagehead}{\normalfont\scshape}
 \setkomafont{headsepline}{\color{black!20!white}}
@@ -901,20 +921,20 @@ FontFace={l}{n}{*S-Light-Regular},
 	\thispagestyle{empty}
 	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 	\center{}
-	\textsc{\Large \thesisuni}\\[.7cm]
+	\textsc{\Large \uni}\\[.7cm]
 	\includegraphics[width=25mm]{img/in_dei_nomine_feliciter.eps}\\[.5cm]
-	\textsc{\thesisfaculty}\\[0.5cm]
+	\textsc{\faculty}\\[0.5cm]
 
 	\HRule{} \\[0.4cm]
-	{ \huge \bfseries \thesistitle}\\[0.1cm]
-	\textsc{\thesissubtitle}\\
+	{ \huge \bfseries \maintitle}\\[0.1cm]
+	\textsc{\subtitle}\\
 	\HRule{} \\[.5cm]
-	\textsc{\large \thesistype}\\[.5cm]
+	\textsc{\large \papertype}\\[.5cm]
 
 	\begin{minipage}{0.4\textwidth}
 	\begin{flushleft} \large
 	\emph{Author:}\\
-	\thesisauthorfirst\space \textsc{\thesisauthorsecond}
+	\authorfirst\space \textsc{\authorsecond}
 	\end{flushleft}
 	\end{minipage}
 	\
