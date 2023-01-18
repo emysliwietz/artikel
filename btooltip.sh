@@ -1,5 +1,13 @@
 #!  /usr/bin/env bash
 CMD="kjv"
+TYPE=""
+case "$4" in
+    "short")
+        TYPE="";;
+    "long")
+        TYPE="text";;
+esac
+BV="\\${TYPE}${3}verse"
 case "$3" in
     "german")
         CMD="menge";;
@@ -8,4 +16,5 @@ case "$3" in
     "greek")
         CMD="grb";;
 esac
-echo "\tooltip{$1 $2}{$($CMD -W $1 $2 | sed 1d)}{$1 $2}"
+TEXT="${BV}{$1}{$2}"
+echo "\tooltip{$TEXT}{$($CMD -W $1 $2 | sed 1d)}{$TEXT}"
