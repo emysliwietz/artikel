@@ -17,9 +17,11 @@
 % <–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––>
 
 \RequirePackage{ifthen}
+\RequirePackage{kvoptions}
 \newcommand{\superclass}{scrartcl}
 \newif\iffancy\fancyfalse
 \DeclareOption{fancy}{\fancytrue}
+
 
 \newif\ifmodern\modernfalse
 \DeclareOption{modern}{\moderntrue}
@@ -27,8 +29,7 @@
 \newif\iftwocolumn\twocolumnfalse
 \DeclareOption{twocolumn}{\twocolumntrue}
 
-\newif\ifcompact\compactfalse
-\DeclareOption{compact}{\compacttrue}
+\DeclareStringOption[page]{titlepage}
 
 \newif\ifthesis\thesisfalse
 \DeclareOption{thesis}{\thesistrue}
@@ -37,6 +38,7 @@
 \DeclareOption{draft}{\drafttrue}
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{\superclass}}
+\ProcessKeyvalOptions{artikel}
 \ProcessOptions\relax
 
 \LoadClass{\superclass}
@@ -95,7 +97,7 @@ pdfdisplaydoctitle,
 pdfborder={1 1 0},
 breaklinks, % (here, onwards) for pdfx
 colorlinks,
-linkcolor=litpurple,
+linkcolor=accentcolor,
 bookmarksopen,
 hyperindex]{hyperref} % Provides support for hypertext links within LaTeX documents
 \RequirePackage[nameinlink]{cleveref}
@@ -316,7 +318,7 @@ FontFace = {k}{it}{*-BlackIt},
 Scale=MatchLowercase,
 ]
 \iffancy
-\setmonofont{SourceCodePro}
+\setmonofont[Scale=MatchLowercase]{SourceCodePro}
 \fi
 
 \providefontfamily{\Arial}{Arial}[
@@ -419,14 +421,18 @@ FontFace={l}{n}{*S-Light-Regular},
 }}
 
 \newenvironment{compactitemize}{\begin{itemize}[noitemsep]}{\end{itemize}}
-\newenvironment{compactenumerate}{\begin{itemize}[noitemsep]}{\end{itemize}}
+\newenvironment{compactenumerate}{\begin{enumerate}[noitemsep]}{\end{enumerate}}
+\newenvironment{spaceditemize}{\begin{itemize}}{\end{itemize}}
+\newenvironment{spacedenumerate}{\begin{enumerate}}{\end{enumerate}}
+
 
 % Refine these compact versions as default in compact document
-\ifcompact
 \let\oldenumerate\enumerate
 \let\endoldenumerate\endenumerate
 \renewenvironment{enumerate}{\oldenumerate[noitemsep]}{\endoldenumerate}
-\fi
+\let\olditemize\itemize
+\let\endolditemize\enditemize
+\renewenvironment{itemize}{\olditemize[noitemsep]}{\endolditemize}
 
 % ensure tables have correct text colour
 %\AtBeginEnvironment{tabular}{\color{green}}
@@ -494,14 +500,16 @@ FontFace={l}{n}{*S-Light-Regular},
 \renewcommand\thesubsubsection{\alph{subsubsection}} % alphabetic numerals for subsubsections
 
 \providecommand{\logo}{}
-\providecommand{\accentcolor}{\color{litpurple}}
+\colorlet{accentcolor}{litpurple}
+\providecommand{\accentcolor}{\color{accentcolor}}
 \pagestyle{scrheadings}
 \KOMAoptions{headsepline=2pt, headwidth=textwithmarginpar, footsepline=.2pt:4cm, clines}
+\addtokomafont{pagenumber}{\accentcolor}
 \rohead*{%
   \raisebox{\dimexpr-2pt-\dp\strutbox\relax}[0pt][0pt]
   {\accentcolor\rule{1pt}{\dimexpr24pt+\dp\strutbox\relax}}%
   \hspace{0.8em}%
-  \rightmark
+  \hbox{\rightmark{} $\bullet$ \accentcolor{\Large\pagemark}}
 }
 \chead{$\bullet$ \maintitle{} $\bullet$}
 \ihead{\logo}
@@ -726,28 +734,28 @@ FontFace={l}{n}{*S-Light-Regular},
 \end{titlepage}
 }
 
+\makeatletter
+\IfStrEq{\artikel@titlepage}{full}
+{\KOMAoptions{titlepage=true}\setuptoc{toc}{onecolumn}}{}
+\IfStrEq{\artikel@titlepage}{page}
+{\KOMAoptions{titlepage=true}}{}
+\IfStrEq{\artikel@titlepage}{inline}
+{\KOMAoptions{titlepage=false}}{}
 \NewCommandCopy{\simplemaketitle}{\maketitle}
-\ifcompact
-\else
-\setuptoc{toc}{onecolumn}
-\fi
 \renewcommand{\maketitle}{%
   \ifthesis%
   \thesistitlepage
-  \tableofcontents
-  \ifcompact\else
-  \clearpage
-  \fi
   \else
   \simplemaketitle{}
-  \ifcompact\else
-  \thispagestyle{empty}
+  \fi
+  \IfStrEq{\artikel@titlepage}{full}{
   \clearpage
   \pagenumbering{arabic}
   \tableofcontents
   \clearpage
-  \fi\fi
+  }{}
   }
+\makeatother
 
 \makeatletter
 \newsavebox{\measure@tikzpicture}
@@ -818,6 +826,8 @@ FontFace={l}{n}{*S-Light-Regular},
 \biblerefstyle{\bibleversestyle}
 \newcommand{\englishverse}[2]{{\biblerefstyle{\bibleversestyle}\bibleverse{#1}(#2)\biblerefstyle{\bibleversestyle}}}
 \newcommand{\textenglishverse}[2]{{\biblerefstyle{default}\bibleverse{#1}(#2)\biblerefstyle{\bibleversestyle}}}
+\newcommand{\greekverse}[2]{\englishverse{#1}{#2}}
+\newcommand{\textgreekverse}[2]{\textenglishverse{#1}{#2}}
 \newcommand{\germanverse}[2]{{\biblerefstyle{TRE}\biblerefformat{kurz}\bibleverse{#1}(#2)\biblerefstyle{\bibleversestyle}}}
 \newcommand{\textgermanverse}[2]{{\biblerefstyle{TRE}\biblerefformat{Terminus}\bibleverse{#1}(#2)\biblerefstyle{\bibleversestyle}}}
 \newcommand{\latinverse}[2]{{\biblerefstyle{Vulgata}\biblerefformat{kurz}\bibleverse{#1}(#2)\biblerefstyle{\bibleversestyle}}}
