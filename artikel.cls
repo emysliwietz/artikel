@@ -746,15 +746,19 @@ FontFace={l}{n}{*S-Light-Regular},
   \ifthesis%
   \thesistitlepage
   \else
-  \simplemaketitle{}
-  \fi
   \IfStrEq{\artikel@titlepage}{full}{
+  \simplemaketitle{}
   \clearpage
   \pagenumbering{arabic}
   \tableofcontents
   \clearpage
   }{}
-  }
+  \IfStrEq{\artikel@titlepage}{inline}{
+    {\let\clearpage\relax
+      \simplemaketitle{}
+      \tableofcontents}
+  }{}
+  \fi}
 \makeatother
 
 \makeatletter
