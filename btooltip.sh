@@ -17,4 +17,5 @@ case "$3" in
         CMD="grb";;
 esac
 TEXT="${BV}{$1}{$2}"
-echo "\tooltip{$1 $2}{$($CMD -W $1 $2 | sed 1d | tr '\n' '\t')}{$TEXT}"
+BOOK="$(echo $1 | sed 's/^IV/4/;s/^III/3/;s/^II/2/;s/^I/1/;')"
+echo "\tooltip{$1 $2}{$($CMD -W $BOOK $2 | sed 1d | tr '\n' '\t')}{$TEXT}"

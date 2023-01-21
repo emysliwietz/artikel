@@ -853,10 +853,17 @@ FontFace={l}{n}{*S-Light-Regular},
 
 
 \newcommand{\tooltip}[3]{%
+  \setlength{\fboxrule}{0pt}
+\setlength{\fboxsep}{0pt}
+\hspace*{-.2em}
  \cooltooltip
-[0 0 0]
-[0 0 0]
+[1 1 1]
+[1 1 1]
+\let\fcolorbox\relax
+\let\fbox\relax
+\let\framebox\relax
+\let\boxed\relax
 {#1} % Popup title
 {#2} % Content
 {#2}{#2} % Content
-{#3\strut}}
+{#3\strut}\hspace*{-.5em}}}
