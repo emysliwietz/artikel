@@ -243,6 +243,21 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \fi\fi
 \iftutex
 
+
+\defaultfontfeatures+[EBGaramond]{
+  RawFeature={%
++ss01;%Makes Љ Д Л д л љ  use triangle, not rectangle
+-ss02;%Changes u to v
+-cv01;%Uses old s
+-cv03;%Replaces J with I
++cv11;%Makes 1 look less like Roman I
++lnum;%Lining figures
++dlig;%Makes Th ligature look nicer
+-hlig;%joins ct and st
++liga;%Default ligatures
++case;%Case sensitive symbols
+}
+,}
 \providefontfamily{\EBGaramond}{EBGaramond}[
 Path = /home/user/.fonts/EBGaramond/,
 Scale = 1,
@@ -253,7 +268,7 @@ UprightFeatures = {
     {Size = -10.1,
       Font = *08-Regular}, % use EB Garamond 08 for 10pt size and smaller
     {Size = 10.1-}
-  }
+  },
 }, % use default upright font for larger than 10pt size
 ItalicFont = *12-Italic, % set EB Garamond 12 as default italic font
 ItalicFeatures = {
@@ -266,8 +281,8 @@ ItalicFeatures = {
 SmallCapsFeatures = {Letters = SmallCaps},
 Ligatures = {Common, TeX},
 Numbers = {Proportional, OldStyle},
-RawFeature = {-locl}
-%RawFeature = {+ss06,+clig,+frac,+dlig,+liga,+calt,+cv04,+cv05,+cv06,+cv11,+c2sc,+scmp},
+%RawFeature = {-locl, +swsh, +ss01},
+SwashFont = *-Swash,
 ]
 \iffancy
 \setmainfont{EBGaramond}
@@ -296,6 +311,12 @@ UprightFont = *F1
 Path = /home/user/.fonts/EBGaramond/,
 Extension = .otf,
 UprightFont = *F2
+]
+
+\providefontfamily{\EBGaramondSwash}{EBGaramond-Swash}[
+Path = /home/user/.fonts/EBGaramond/,
+Extension = .otf,
+UprightFont = *
 ]
 
 \providefontfamily{\SourceCodePro}{SourceCodePro}[
@@ -335,6 +356,18 @@ Path = /home/user/.fonts/TimesNewRoman/,
 UprightFont = *,
 AutoFakeBold,
 AutoFakeSlant,
+]
+
+\providefontfamily{\FontAwesome}{FontAwesome}[
+Extension = .otf,
+Path = /home/user/.fonts/FontAwesome/,
+UprightFont = *-Regular,
+BoldFont = *-Solid,
+]
+\providefontfamily{\FontAwesomeBrands}{FontAwesome-Brands}[
+Extension = .otf,
+Path = /home/user/.fonts/FontAwesome/,
+UprightFont = *-Regular,
 ]
 
 \fi
@@ -742,6 +775,7 @@ FontFace={l}{n}{*S-Light-Regular},
 \IfStrEq{\artikel@titlepage}{inline}
 {\KOMAoptions{titlepage=false}}{}
 \NewCommandCopy{\simplemaketitle}{\maketitle}
+\NewCommandCopy{\simpletoc}{\tableofcontents}
 \renewcommand{\maketitle}{%
   \ifthesis%
   \thesistitlepage
@@ -749,16 +783,25 @@ FontFace={l}{n}{*S-Light-Regular},
   \IfStrEq{\artikel@titlepage}{full}{
   \simplemaketitle{}
   \clearpage
-  \pagenumbering{arabic}
-  \tableofcontents
-  \clearpage
   }{}
   \IfStrEq{\artikel@titlepage}{inline}{
     {\let\clearpage\relax
-      \simplemaketitle{}
-      \tableofcontents}
+      \simplemaketitle{}}
   }{}
   \fi}
+\renewcommand{\tableofcontents}{%
+ \IfStrEq{\artikel@titlepage}{full}{%
+  \pagenumbering{arabic}
+  \simpletoc%
+  \clearpage
+ }{}
+ \IfStrEq{\artikel@titlepage}{page}{%
+  \simpletoc%
+ }{}
+ \IfStrEq{\artikel@titlepage}{inline}{%
+   {\let\clearpage\relax\simpletoc}
+ }{}
+}
 \makeatother
 
 \makeatletter
@@ -778,6 +821,13 @@ FontFace={l}{n}{*S-Light-Regular},
 \newcommand{\wordcount}[1][\jobname]{%
   \immediate\write18{texcount -1 -merge -template={1} #1.tex > #1.wcdetail }%
   \input{#1.wcdetail}%
+}
+
+\newcommand{\shell}[1]{%
+  \immediate\write18{#1}
+}
+\newcommand{\ensuredir}[1]{
+  \immediate\write18{mkdir -p $1}
 }
 
 \newcommand{\kjv}[2]{%

@@ -310,6 +310,21 @@ Allows for progressively weightier fonts when invoking \strong
 \fi\fi
 \iftutex
 
+
+\defaultfontfeatures+[EBGaramond]{
+  RawFeature={%
++ss01;%Makes Љ Д Л д л љ  use triangle, not rectangle
+-ss02;%Changes u to v
+-cv01;%Uses old s
+-cv03;%Replaces J with I
++cv11;%Makes 1 look less like Roman I
++lnum;%Lining figures
++dlig;%Makes Th ligature look nicer
+-hlig;%joins ct and st
++liga;%Default ligatures
++case;%Case sensitive symbols
+}
+,}
 \providefontfamily{\EBGaramond}{EBGaramond}[
 Path = /home/user/.fonts/EBGaramond/,
 Scale = 1,
@@ -320,7 +335,7 @@ UprightFeatures = {
     {Size = -10.1,
       Font = *08-Regular}, % use EB Garamond 08 for 10pt size and smaller
     {Size = 10.1-}
-  }
+  },
 }, % use default upright font for larger than 10pt size
 ItalicFont = *12-Italic, % set EB Garamond 12 as default italic font
 ItalicFeatures = {
@@ -333,8 +348,8 @@ ItalicFeatures = {
 SmallCapsFeatures = {Letters = SmallCaps},
 Ligatures = {Common, TeX},
 Numbers = {Proportional, OldStyle},
-RawFeature = {-locl}
-%RawFeature = {+ss06,+clig,+frac,+dlig,+liga,+calt,+cv04,+cv05,+cv06,+cv11,+c2sc,+scmp},
+%RawFeature = {-locl, +swsh, +ss01},
+SwashFont = *-Swash,
 ]
 \iffancy
 \setmainfont{EBGaramond}
@@ -374,6 +389,15 @@ Extension = .otf,
 UprightFont = *F2
 ]
 #+end_src
+*** EB Garamond Swash
+#+begin_src latex
+\providefontfamily{\EBGaramondSwash}{EBGaramond-Swash}[
+Path = /home/user/.fonts/EBGaramond/,
+Extension = .otf,
+UprightFont = *
+]
+#+end_src
+
 ** SourceCodePro
 #+begin_src latex
 \providefontfamily{\SourceCodePro}{SourceCodePro}[
@@ -418,6 +442,21 @@ UprightFont = *,
 AutoFakeBold,
 AutoFakeSlant,
 ]
+#+end_src
+** Font Awesome
+#+begin_src latex
+\providefontfamily{\FontAwesome}{FontAwesome}[
+Extension = .otf,
+Path = /home/user/.fonts/FontAwesome/,
+UprightFont = *-Regular,
+BoldFont = *-Solid,
+]
+\providefontfamily{\FontAwesomeBrands}{FontAwesome-Brands}[
+Extension = .otf,
+Path = /home/user/.fonts/FontAwesome/,
+UprightFont = *-Regular,
+]
+
 #+end_src
 ** Default
 "Latin Modern Roman"
@@ -989,6 +1028,7 @@ FontFace={l}{n}{*S-Light-Regular},
 \IfStrEq{\artikel@titlepage}{inline}
 {\KOMAoptions{titlepage=false}}{}
 \NewCommandCopy{\simplemaketitle}{\maketitle}
+\NewCommandCopy{\simpletoc}{\tableofcontents}
 \renewcommand{\maketitle}{%
   \ifthesis%
   \thesistitlepage
@@ -996,16 +1036,25 @@ FontFace={l}{n}{*S-Light-Regular},
   \IfStrEq{\artikel@titlepage}{full}{
   \simplemaketitle{}
   \clearpage
-  \pagenumbering{arabic}
-  \tableofcontents
-  \clearpage
   }{}
   \IfStrEq{\artikel@titlepage}{inline}{
     {\let\clearpage\relax
-      \simplemaketitle{}
-      \tableofcontents}
+      \simplemaketitle{}}
   }{}
   \fi}
+\renewcommand{\tableofcontents}{%
+ \IfStrEq{\artikel@titlepage}{full}{%
+  \pagenumbering{arabic}
+  \simpletoc%
+  \clearpage
+ }{}
+ \IfStrEq{\artikel@titlepage}{page}{%
+  \simpletoc%
+ }{}
+ \IfStrEq{\artikel@titlepage}{inline}{%
+   {\let\clearpage\relax\simpletoc}
+ }{}
+}
 \makeatother
 #+end_src
 * TikZ
@@ -1035,6 +1084,15 @@ FontFace={l}{n}{*S-Light-Regular},
 }
 #+end_src
 
+* Shell
+#+begin_src latex
+\newcommand{\shell}[1]{%
+  \immediate\write18{#1}
+}
+\newcommand{\ensuredir}[1]{
+  \immediate\write18{mkdir -p $1}
+}
+#+end_src
 * Bible Verses
 ** Bible Text
 #+begin_src latex
