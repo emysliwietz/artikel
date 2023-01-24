@@ -130,8 +130,8 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \RequirePackage{lipsum}           % Provides Lorem Ipsum text with the \lorem command
 
 \makeatletter
-\providecommand{\@maintitle}{Main Title}
-\providecommand{\maintitle}{\def{\@maintitle}{#1}}
+\providecommand{\maintitle}{Main Title}
+%\providecommand{\maintitle}[1]{\def{\@maintitle}{{#1}}
 \makeatother
 \providecommand{\subtitle}{Subtitle}
 \providecommand{\uni}{Radboud University Nijmegen}

@@ -149,8 +149,8 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 * Paper specific variables
 #+begin_src latex
 \makeatletter
-\providecommand{\@maintitle}{Main Title}
-\providecommand{\maintitle}{\def{\@maintitle}{#1}}
+\providecommand{\maintitle}{Main Title}
+%\providecommand{\maintitle}[1]{\def{\@maintitle}{{#1}}
 \makeatother
 \providecommand{\subtitle}{Subtitle}
 \providecommand{\uni}{Radboud University Nijmegen}
