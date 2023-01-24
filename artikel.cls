@@ -29,7 +29,7 @@
 \newif\iftwocolumn\twocolumnfalse
 \DeclareOption{twocolumn}{\twocolumntrue}
 
-\DeclareStringOption[page]{titlepage}
+\DeclareStringOption[head]{titlepage}
 
 \newif\ifthesis\thesisfalse
 \DeclareOption{thesis}{\thesistrue}
@@ -129,7 +129,10 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \RequirePackage{xparse}           % Provides an enhanced version of LaTeX's kernel commands for defining new commands
 \RequirePackage{lipsum}           % Provides Lorem Ipsum text with the \lorem command
 
-\providecommand{\maintitle}{Main Title}
+\makeatletter
+\providecommand{\@maintitle}{Main Title}
+\providecommand{\maintitle}{\def{\@maintitle}{#1}}
+\makeatother
 \providecommand{\subtitle}{Subtitle}
 \providecommand{\uni}{Radboud University Nijmegen}
 \providecommand{\faculty}{Digital Security Group}
@@ -142,8 +145,8 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \providecommand{\thesissecondreadersecond}{}
 \makeatletter
 \def\thesisdate{\@date}
+\title{\@maintitle{} \\ {\small \subtitle{}}}
 \makeatother
-\title{\maintitle{} \\ {\small \subtitle{}}}
 \author{\authorfirst{} \authorsecond{}}
 \date{\today}
 
@@ -318,6 +321,13 @@ Path = /home/user/.fonts/EBGaramond/,
 Extension = .otf,
 UprightFont = *
 ]
+\providecommand{\ebsw}{\EBGaramondSwash}
+\iffancy
+\renewcommand{\textsw}[1]{{\EBGaramondSwash{}#1}}
+\let\oldquote\quote
+\let\oldendquote\endquote%
+\renewenvironment{quote}{\oldquote\EBGaramondSwash"}{"\oldendquote}
+\fi
 
 \providefontfamily{\SourceCodePro}{SourceCodePro}[
 Path = /home/user/.fonts/SourceCodePro/,
@@ -731,6 +741,7 @@ FontFace={l}{n}{*S-Light-Regular},
 \newcommand{\unote}[1]{\footnote{~\url{#1}}}
 \newcommand{\nsection}[1]{\newpage\section{#1}}
 
+\makeatletter
 \newcommand{\thesistitlepage}{
   \begin{titlepage}
 	\thispagestyle{empty}
@@ -741,7 +752,7 @@ FontFace={l}{n}{*S-Light-Regular},
 	\textsc{\faculty}\\[0.5cm]
 
 	\HRule{} \\[0.4cm]
-	{ \huge \bfseries \maintitle}\\[0.1cm]
+	{ \huge \bfseries \@maintitle}\\[0.1cm]
 	\textsc{\subtitle}\\
 	\HRule{} \\[.5cm]
 	\textsc{\large \papertype}\\[.5cm]
@@ -765,13 +776,14 @@ FontFace={l}{n}{*S-Light-Regular},
 	{\large \thesisdate}\\
 	\clearpage
 \end{titlepage}
+\makeatother
 }
 
 \makeatletter
 \IfStrEq{\artikel@titlepage}{full}
 {\KOMAoptions{titlepage=true}\setuptoc{toc}{onecolumn}}{}
-\IfStrEq{\artikel@titlepage}{page}
-{\KOMAoptions{titlepage=true}}{}
+\IfStrEq{\artikel@titlepage}{head}
+{\KOMAoptions{titlepage=false}}{}
 \IfStrEq{\artikel@titlepage}{inline}
 {\KOMAoptions{titlepage=false}}{}
 \NewCommandCopy{\simplemaketitle}{\maketitle}
@@ -784,6 +796,11 @@ FontFace={l}{n}{*S-Light-Regular},
   \simplemaketitle{}
   \clearpage
   }{}
+  \IfStrEq{\artikel@titlepage}{head}{
+    \twocolumn[{
+      \simplemaketitle{}
+      }]
+  }{}
   \IfStrEq{\artikel@titlepage}{inline}{
     {\let\clearpage\relax
       \simplemaketitle{}}
@@ -795,8 +812,8 @@ FontFace={l}{n}{*S-Light-Regular},
   \simpletoc%
   \clearpage
  }{}
- \IfStrEq{\artikel@titlepage}{page}{%
-  \simpletoc%
+ \IfStrEq{\artikel@titlepage}{head}{%
+   {\let\clearpage\relax\simpletoc}
  }{}
  \IfStrEq{\artikel@titlepage}{inline}{%
    {\let\clearpage\relax\simpletoc}
