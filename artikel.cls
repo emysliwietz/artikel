@@ -20,19 +20,15 @@
 \RequirePackage{kvoptions}
 \newcommand{\superclass}{scrartcl}
 
-\newif\iffancy\fancyfalse
-\DeclareOption{fancy}{\fancytrue}
+\DeclareBoolOption[false]{fancy}
 
-\newif\ifmodern\modernfalse
-\DeclareOption{modern}{\moderntrue}
+\DeclareBoolOption[false]{modern}
 
-\newif\iftwocolumn\twocolumnfalse
-\DeclareOption{twocolumn}{\twocolumntrue}
+\DeclareBoolOption[false]{twocolumn}
 
 \DeclareStringOption[head]{titlepage}
 
-\newif\ifdraft\draftfalse
-\DeclareOption{draft}{\drafttrue}
+\DeclareBoolOption[false]{draft}
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{\superclass}}
 \ProcessKeyvalOptions{artikel}
@@ -61,7 +57,8 @@
 \RequirePackage{enumitem}        % Provides an enhanced version of the enumerate environment
 \RequirePackage{eurosym}         % Provides the euro symbol
 \RequirePackage{float}           % Provides additional options and commands for floating objects
-\iftwocolumn
+\makeatletter
+\ifartikel@twocolumn
 \RequirePackage[
 left=3cm,
 right=3cm,
@@ -71,8 +68,9 @@ headheight=12pt,
 a4paper,
 ]{geometry}
 \else
-\RequirePackage[a4paper]{geometry} % Provides commands for customizing page layout
+\RequirePackage{geometry} % Provides commands for customizing page layout
 \fi
+\makeatother
 \RequirePackage{grffile}         % Fix allowed filenames
 \RequirePackage{graphicx}        % Support for including and manipulating graphics
 \RequirePackage[
@@ -244,11 +242,13 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \strongfontdeclare{\bfseries,\kseries}
 \fi
 
+\makeatletter
 \ifpdftex
-\iffancy
+\ifartikel@fancy
 \RequirePackage{ebgaramond}
 \RequirePackage{ebgaramond-maths}
 \fi\fi
+\makeatother
 \iftutex
 
 
@@ -292,7 +292,8 @@ Numbers = {Proportional, OldStyle},
 %RawFeature = {-locl, +swsh, +ss01},
 SwashFont = *-Swash,
 ]
-\iffancy
+\makeatletter
+\ifartikel@fancy
 \setmainfont{EBGaramond}
 \setsansfont{EBGaramond} % Change to Optima
 \newfontfamily\greekfont{EBGaramond}
@@ -301,6 +302,7 @@ SwashFont = *-Swash,
 \setsansfont{Linux Libertine O} % Switch to Sans
 \newfontfamily\greekfont{Linux Libertine O}
 \fi
+\makeatother
 
 \setlist[itemize]{label={\large $\bullet$}, labelsep=3mm}
 
@@ -327,12 +329,14 @@ Extension = .otf,
 UprightFont = *
 ]
 \providecommand{\ebsw}{\EBGaramondSwash}
-\iffancy
+\makeatletter
+\ifartikel@fancy
 \renewcommand{\textsw}[1]{{\EBGaramondSwash{}#1}}
 \let\oldquote\quote
 \let\oldendquote\endquote%
 \renewenvironment{quote}{\oldquote\EBGaramondSwash“}{”\oldendquote}
 \fi
+\makeatother
 
 \providefontfamily{\SourceCodePro}{SourceCodePro}[
 Path = /home/user/.fonts/SourceCodePro/,
@@ -353,9 +357,11 @@ FontFace = {k}{n}{*-Black},
 FontFace = {k}{it}{*-BlackIt},
 Scale=MatchLowercase,
 ]
-\iffancy
+\makeatletter
+\ifartikel@fancy
 \setmonofont[Scale=MatchLowercase]{SourceCodePro}
 \fi
+\makeatother
 
 \providefontfamily{\Arial}{Arial}[
 Path = /home/user/.fonts/Arial/,
@@ -577,25 +583,29 @@ FontFace={l}{n}{*S-Light-Regular},
 \RemoveLayersFromPageStyle{scrheadings}{scrheadings.head.below.line}
 \AddLayersAtBeginOfPageStyle{scrheadings}{scrheadings.head.below.line}
 
-\ifmodern
-\colorlet{sectioncolor}{black!20}
 \makeatletter
+\ifartikel@modern
+\colorlet{sectioncolor}{black!20}
 \renewcommand\sectionlinesformat[4]{%
   \colorbox{sectioncolor}{%
     \parbox[t]{\dimexpr\linewidth-2\fboxsep\relax}{%
       \raggedsection\color{black}\@hangfrom{#3}{#4}%
     }}}
-\makeatother
 \fi
+\makeatother
 
-\iftwocolumn
+\makeatletter
+\ifartikel@twocolumn
 \setlength{\columnsep}{2em}
 \tolerance=9999
 \fi
+\makeatother
 
-\ifdraft
+\makeatletter
+\ifartikel@draft
 \overfullrule=10mm
 \fi
+\makeatother
 
 % Link to other word \goto{there}{Text}
 % Or optionally define label for this word at the same time
