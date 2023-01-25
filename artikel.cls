@@ -130,24 +130,32 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \RequirePackage{lipsum}           % Provides Lorem Ipsum text with the \lorem command
 
 \makeatletter
-\providecommand{\maintitle}{Main Title}
+%\providecommand{\maintitle}{Main Title}
 %\providecommand{\maintitle}[1]{\def{\@maintitle}{{#1}}
+% KOMA already provides @title and @subtitle
+%\providecommand{\subtitle}{Subtitle}
+\providecommand{\uni}[1]{\def\@uni{#1}}
+\providecommand{\faculty}[1]{\def\@faculty{#1}}
+\providecommand{\papertype}[1]{\def\@papertype{#1}}
+\providecommand{\authorfirst}[1]{\def\@authorfirst{#1}}
+\providecommand{\authorsecond}[1]{\def\@authorsecond{#1}}
+\providecommand{\thesissupervisorfirst}[1]{\def\@thesissupervisorfirst{#1}}
+\providecommand{\thesissupervisorsecond}[1]{\def\@thesissupervisorsecond{#1}}
+\providecommand{\thesissecondreaderfirst}[1]{\def\@thesissecondreaderfirst{#1}}
+\providecommand{\thesissecondreadersecond}[1]{\def\@thesissecondreadersecond{#1}}
+
+\providecommand{\@uni}{Radboud University Nijmegen}
+\providecommand{\@faculty}{Digital Security Group}
+\providecommand{\@papertype}{Master Thesis}
+\providecommand{\@authorfirst}{Egidius}
+\providecommand{\@authorsecond}{Mysliwietz}
+\providecommand{\@thesissupervisorfirst}{}
+\providecommand{\@thesissupervisorsecond}{}
+\providecommand{\@thesissecondreaderfirst}{}
+\providecommand{\@thesissecondreadersecond}{}
+%\title{\@maintitle{} \\ {\small \@subtitle{}}}
+\author{\@authorfirst{} \@authorsecond{}}
 \makeatother
-\providecommand{\subtitle}{Subtitle}
-\providecommand{\uni}{Radboud University Nijmegen}
-\providecommand{\faculty}{Digital Security Group}
-\providecommand{\papertype}{Master Thesis}
-\providecommand{\authorfirst}{Egidius}
-\providecommand{\authorsecond}{Mysliwietz}
-\providecommand{\thesissupervisorfirst}{}
-\providecommand{\thesissupervisorsecond}{}
-\providecommand{\thesissecondreaderfirst}{}
-\providecommand{\thesissecondreadersecond}{}
-\makeatletter
-\def\thesisdate{\@date}
-\title{\@maintitle{} \\ {\small \subtitle{}}}
-\makeatother
-\author{\authorfirst{} \authorsecond{}}
 \date{\today}
 
 \makeatletter
@@ -542,20 +550,26 @@ FontFace={l}{n}{*S-Light-Regular},
 \renewcommand\thesubsection{\roman{subsection}} % roman numerals for subsections
 \renewcommand\thesubsubsection{\alph{subsubsection}} % alphabetic numerals for subsubsections
 
+\RequirePackage[hyphenate,fit]{truncate}
 \providecommand{\logo}{}
 \colorlet{accentcolor}{litpurple}
 \providecommand{\accentcolor}{\color{accentcolor}}
 \pagestyle{scrheadings}
 \KOMAoptions{headsepline=2pt, headwidth=textwithmarginpar, footsepline=.2pt:4cm, clines}
 \addtokomafont{pagenumber}{\accentcolor}
+
+\ihead{\logo}
+
+\makeatletter
+\chead{$\bullet$ \truncate{6cm}{\@title} $\bullet$}
+\makeatother
+
 \rohead*{%
   \raisebox{\dimexpr-2pt-\dp\strutbox\relax}[0pt][0pt]
   {\accentcolor\rule{1pt}{\dimexpr24pt+\dp\strutbox\relax}}%
   \hspace{0.8em}%
-  \hbox{\rightmark{} $\bullet$ \accentcolor{\Large\pagemark}}
+  \hbox{\truncate{4cm}{\rightmark} $\bullet$ \accentcolor{\Large\pagemark}}
 }
-\chead{$\bullet$ \maintitle{} $\bullet$}
-\ihead{\logo}
 \setkomafont{pagehead}{\normalfont\scshape}
 \setkomafont{headsepline}{\color{black!20!white}}
 
@@ -747,33 +761,33 @@ FontFace={l}{n}{*S-Light-Regular},
 	\thispagestyle{empty}
 	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 	\center{}
-	\textsc{\Large \uni}\\[.7cm]
+	\textsc{\Large \@uni}\\[.7cm]
 	\includegraphics[width=25mm]{img/in_dei_nomine_feliciter.eps}\\[.5cm]
-	\textsc{\faculty}\\[0.5cm]
+	\textsc{\@faculty}\\[0.5cm]
 
 	\HRule{} \\[0.4cm]
-	{ \huge \bfseries \@maintitle}\\[0.1cm]
-	\textsc{\subtitle}\\
+	{ \huge \bfseries \@title}\\[0.1cm]
+	\textsc{\@subtitle}\\
 	\HRule{} \\[.5cm]
-	\textsc{\large \papertype}\\[.5cm]
+	\textsc{\large \@papertype}\\[.5cm]
 
 	\begin{minipage}{0.4\textwidth}
 	\begin{flushleft} \large
 	\emph{Author:}\\
-	\authorfirst\space \textsc{\authorsecond}
+	\@authorfirst\space \textsc{\@authorsecond}
 	\end{flushleft}
 	\end{minipage}
 	\
 	\begin{minipage}{0.4\textwidth}
 	\begin{flushright} \large
 	\emph{Supervisor:} \\
-	\thesissupervisorfirst\space \textsc{\thesissupervisorsecond} \\[1em]
+	\@thesissupervisorfirst\space \textsc{\@thesissupervisorsecond} \\[1em]
 	\emph{Second reader:} \\
-	\thesissecondreaderfirst\space \textsc{\thesissecondreadersecond}
+	\@thesissecondreaderfirst\space \textsc{\@thesissecondreadersecond}
 	\end{flushright}
 	\end{minipage}\\[4cm]
 	\vfill
-	{\large \thesisdate}\\
+	{\large \@date}\\
 	\clearpage
 \end{titlepage}
 \makeatother
