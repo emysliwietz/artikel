@@ -759,9 +759,10 @@ FontFace={l}{n}{*S-Light-Regular},
 \newcommand{\inlinetodo}[1]{\todo[inline]{#1}}
 \newcommand{\due}[1]{\todo[inline,color=blue!10]{Due: #1}}
 
-% other stuff
 \newcommand{\note}[1]{\footnote{#1}}
-\newcommand{\pnote}[2][]{\marginpar[#1]{#2}}
+\newcommand{\mnote}[2][]{\marginpar[#1]{#2}}
+\newcommand{\rnote}[1]{\marginpar[#1]{}}
+\newcommand{\lnote}[1]{\marginpar{#1}}
 \newcommand{\unote}[1]{\footnote{~\url{#1}}}
 \newcommand{\nsection}[1]{\newpage\section{#1}}
 

@@ -971,18 +971,20 @@ FontFace={l}{n}{*S-Light-Regular},
 #+end_src
 * Structural commands
 #+begin_src latex
-% other stuff
 \newcommand{\note}[1]{\footnote{#1}}
-\newcommand{\pnote}[2][]{\marginpar[#1]{#2}}
+\newcommand{\mnote}[2][]{\marginpar[#1]{#2}}
+\newcommand{\rnote}[1]{\marginpar[#1]{}}
+\newcommand{\lnote}[1]{\marginpar{#1}}
 \newcommand{\unote}[1]{\footnote{~\url{#1}}}
 \newcommand{\nsection}[1]{\newpage\section{#1}}
 #+end_src
 
-#+RESULTS:
-#+begin_example
+#+begin_begin_example
 % other stuff
 \newcommand{\note}[1]{\footnote{#1}}
-\newcommand{\pnote}[2][]{\marginpar[#1]{#2}}
+\newcommand{\mnote}[2][]{\marginpar[#1]{#2}}
+\newcommand{\lnote}[1]{\marginpar[#1]{}}
+\newcommand{\rnote}[1]{\marginpar{#1}}
 \newcommand{\unote}[1]{\footnote{~\url{#1}}}
 \newcommand{\nsection}[1]{\newpage\section{#1}}
 
