@@ -19,9 +19,9 @@
 \RequirePackage{ifthen}
 \RequirePackage{kvoptions}
 \newcommand{\superclass}{scrartcl}
+
 \newif\iffancy\fancyfalse
 \DeclareOption{fancy}{\fancytrue}
-
 
 \newif\ifmodern\modernfalse
 \DeclareOption{modern}{\moderntrue}
@@ -30,9 +30,6 @@
 \DeclareOption{twocolumn}{\twocolumntrue}
 
 \DeclareStringOption[head]{titlepage}
-
-\newif\ifthesis\thesisfalse
-\DeclareOption{thesis}{\thesistrue}
 
 \newif\ifdraft\draftfalse
 \DeclareOption{draft}{\drafttrue}
@@ -806,9 +803,9 @@ FontFace={l}{n}{*S-Light-Regular},
 \NewCommandCopy{\simplemaketitle}{\maketitle}
 \NewCommandCopy{\simpletoc}{\tableofcontents}
 \renewcommand{\maketitle}{%
-  \ifthesis%
+  \IfStrEq{\artikel@titlepage}{thesis}{
   \thesistitlepage
-  \else
+  }{}
   \IfStrEq{\artikel@titlepage}{full}{
   \simplemaketitle{}
   \clearpage
@@ -822,7 +819,7 @@ FontFace={l}{n}{*S-Light-Regular},
     {\let\clearpage\relax
       \simplemaketitle{}}
   }{}
-  \fi}
+}
 \renewcommand{\tableofcontents}{%
  \IfStrEq{\artikel@titlepage}{full}{%
   \pagenumbering{arabic}

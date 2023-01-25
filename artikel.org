@@ -28,35 +28,48 @@
 \RequirePackage{ifthen}
 \RequirePackage{kvoptions}
 \newcommand{\superclass}{scrartcl}
+#+end_src
+** Fancy
+Selects nicer fonts (EB Garamond and Source Code Pro)
+#+begin_src latex
 \newif\iffancy\fancyfalse
 \DeclareOption{fancy}{\fancytrue}
-
-
+#+end_src
+** Modern
+Creates boxes around headers, makes document look more modern
+#+begin_src latex
 \newif\ifmodern\modernfalse
 \DeclareOption{modern}{\moderntrue}
-
+#+end_src
+** Twocolumn
+Makes documents twocolumn
+#+begin_src latex
 \newif\iftwocolumn\twocolumnfalse
 \DeclareOption{twocolumn}{\twocolumntrue}
 #+end_src
 ** Titlepage
+Supports:
+  - "full" for full page title and toc
+  - "head" for full width title and no toc
+  - "inline" for inline (in twocolumn layout) title and no toc
+  - "thesis" for thesis titlepage
 #+begin_src latex
 \DeclareStringOption[head]{titlepage}
-
-\newif\ifthesis\thesisfalse
-\DeclareOption{thesis}{\thesistrue}
-
+#+end_src
+** Draft
+Adds overfullbars and other draft settings
+#+begin_src latex
 \newif\ifdraft\draftfalse
 \DeclareOption{draft}{\drafttrue}
-
+#+end_src
+** Process Options
+#+begin_src latex
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{\superclass}}
 \ProcessKeyvalOptions{artikel}
 \ProcessOptions\relax
 
 \LoadClass{\superclass}
 #+end_src
-Supports "full" for full page title and toc
-"head" for full width title and no toc
-"inline" for inline (in twocolumn layout) title and no toc
 
 * Package Requirements
 #+begin_src latex
@@ -1059,9 +1072,9 @@ FontFace={l}{n}{*S-Light-Regular},
 \NewCommandCopy{\simplemaketitle}{\maketitle}
 \NewCommandCopy{\simpletoc}{\tableofcontents}
 \renewcommand{\maketitle}{%
-  \ifthesis%
+  \IfStrEq{\artikel@titlepage}{thesis}{
   \thesistitlepage
-  \else
+  }{}
   \IfStrEq{\artikel@titlepage}{full}{
   \simplemaketitle{}
   \clearpage
@@ -1075,7 +1088,7 @@ FontFace={l}{n}{*S-Light-Regular},
     {\let\clearpage\relax
       \simplemaketitle{}}
   }{}
-  \fi}
+}
 \renewcommand{\tableofcontents}{%
  \IfStrEq{\artikel@titlepage}{full}{%
   \pagenumbering{arabic}
