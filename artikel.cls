@@ -20,7 +20,8 @@
 \RequirePackage{kvoptions}
 \newcommand{\superclass}{scrartcl}
 
-\DeclareBoolOption[false]{fancy}
+\newif\iffancy\fancyfalse
+\DeclareOption{fancy}{\fancytrue}
 
 \DeclareBoolOption[false]{modern}
 
@@ -46,6 +47,7 @@
 \RequirePackage{amsmath}         % Provides extended mathematical environments and commands
 \RequirePackage[textsize=scriptsize]{todonotes}
 \RequirePackage{amssymb}         % Provides additional mathematical symbols
+\RequirePackage{mathtools}
 \RequirePackage{amsthm}          % Provides additional environments and commands for typesetting mathematical proofs
 \RequirePackage{kantlipsum}      % Provides the \kant command to produce blindtext
 \RequirePackage{booktabs}        % Provides commands for typesetting tables
@@ -115,13 +117,14 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \RequirePackage{tkz-orm}
 \RequirePackage{verbatim}        % Provides the verbatim environment for typesetting program code
 \RequirePackage{wrapfig}         % Provides support for wrapping text around figures
+\RequirePackage{adjustbox}
 \RequirePackage{rotating}        % Provides support for rotating objects
 \RequirePackage[normalem]{ulem}  % Provides additional commands for underlining text, such as strikethrough
 \RequirePackage[automark,draft=false,headwidth=textwithmarginpar,footwidth=head]{scrlayer-scrpage} % scrtcl headers and footers, among other things
 \RequirePackage{svg}              % Provides support for including SVG graphics
 \RequirePackage{subfiles}         % Provides support for compiling "subfiles" (i.e., individual LaTeX files that are part of a larger project)
-\RequirePackage{xcolor}           % Interface for defining and using color in LaTeX
 \RequirePackage{xparse}           % Provides an enhanced version of LaTeX's kernel commands for defining new commands
+\RequirePackage{xcolor}           % Interface for defining and using color in LaTeX
 \RequirePackage{lipsum}           % Provides Lorem Ipsum text with the \lorem command
 
 \makeatletter
@@ -244,7 +247,7 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 
 \makeatletter
 \ifpdftex
-\ifartikel@fancy
+\iffancy
 \RequirePackage{ebgaramond}
 \RequirePackage{ebgaramond-maths}
 \fi\fi
@@ -293,7 +296,7 @@ Numbers = {Proportional, OldStyle},
 SwashFont = *-Swash,
 ]
 \makeatletter
-\ifartikel@fancy
+\iffancy
 \setmainfont{EBGaramond}
 \setsansfont{EBGaramond} % Change to Optima
 \newfontfamily\greekfont{EBGaramond}
@@ -330,7 +333,7 @@ UprightFont = *
 ]
 \providecommand{\ebsw}{\EBGaramondSwash}
 \makeatletter
-\ifartikel@fancy
+\iffancy
 \renewcommand{\textsw}[1]{{\EBGaramondSwash{}#1}}
 \let\oldquote\quote
 \let\oldendquote\endquote%
@@ -358,7 +361,7 @@ FontFace = {k}{it}{*-BlackIt},
 Scale=MatchLowercase,
 ]
 \makeatletter
-\ifartikel@fancy
+\iffancy
 \setmonofont[Scale=MatchLowercase]{SourceCodePro}
 \fi
 \makeatother
@@ -422,11 +425,13 @@ FontFace={l}{n}{*S-Light-Regular},
 \newcommand{\compiler}{\ifpdftex pdf\TeX\else\ifluatex lua\TeX\else\ifxetex \XeTeX\fi\fi\fi}
 
 \definecolor{litpurple}{RGB}{128,0,128}
+\definecolor{gold}{RGB}{212,175,55}
 \definecolor{litpink}{RGB}{244,133,186}
 \definecolor{litgreen}{RGB}{24,100,32}
 \definecolor{litred}{RGB}{216,7,7}
 \definecolor{lityellow}{RGB}{212,175,55}
 \newcommand{\litpurple}{\color{litpurple}}
+\newcommand{\gold}{\color{gold}}
 
 \newcommand{\red}[1]{{\color{red}{#1}}}
 \newcommand{\blue}[1]{{\color{blue}{#1}}}
@@ -473,6 +478,18 @@ FontFace={l}{n}{*S-Light-Regular},
 \DeclareRobustCommand\circled[1]{\tikz[baseline=(char.base)]{
             \node[shape=circle,draw,inner sep=2pt] (char) {#1};
 }}
+
+\providecommand{\textglow}[2][red]{%
+  \leavevmode%
+  \pdfliteral{q 1 J 1 j 1 Tr}%
+  \foreach\layer in{1,...,10}{%
+    \color{#1!\layer0!white!50!white}%
+    \pgfsetlinewidth{(11-\layer)/3}% pgf command will do arithmetic for us
+    \rlap{#2}%
+  }%
+  \pdfliteral{Q}%
+  \hbox{#2}%
+}
 
 \newenvironment{compactitemize}{\begin{itemize}[noitemsep]}{\end{itemize}}
 \newenvironment{compactenumerate}{\begin{enumerate}[noitemsep]}{\end{enumerate}}

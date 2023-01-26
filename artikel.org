@@ -32,7 +32,8 @@
 ** Fancy
 Selects nicer fonts (EB Garamond and Source Code Pro)
 #+begin_src latex
-\DeclareBoolOption[false]{fancy}
+\newif\iffancy\fancyfalse
+\DeclareOption{fancy}{\fancytrue}
 #+end_src
 ** Modern
 Creates boxes around headers, makes document look more modern
@@ -79,6 +80,7 @@ Adds overfullbars and other draft settings
 \RequirePackage{amsmath}         % Provides extended mathematical environments and commands
 \RequirePackage[textsize=scriptsize]{todonotes}
 \RequirePackage{amssymb}         % Provides additional mathematical symbols
+\RequirePackage{mathtools}
 \RequirePackage{amsthm}          % Provides additional environments and commands for typesetting mathematical proofs
 \RequirePackage{kantlipsum}      % Provides the \kant command to produce blindtext
 \RequirePackage{booktabs}        % Provides commands for typesetting tables
@@ -148,13 +150,14 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \RequirePackage{tkz-orm}
 \RequirePackage{verbatim}        % Provides the verbatim environment for typesetting program code
 \RequirePackage{wrapfig}         % Provides support for wrapping text around figures
+\RequirePackage{adjustbox}
 \RequirePackage{rotating}        % Provides support for rotating objects
 \RequirePackage[normalem]{ulem}  % Provides additional commands for underlining text, such as strikethrough
 \RequirePackage[automark,draft=false,headwidth=textwithmarginpar,footwidth=head]{scrlayer-scrpage} % scrtcl headers and footers, among other things
 \RequirePackage{svg}              % Provides support for including SVG graphics
 \RequirePackage{subfiles}         % Provides support for compiling "subfiles" (i.e., individual LaTeX files that are part of a larger project)
-\RequirePackage{xcolor}           % Interface for defining and using color in LaTeX
 \RequirePackage{xparse}           % Provides an enhanced version of LaTeX's kernel commands for defining new commands
+\RequirePackage{xcolor}           % Interface for defining and using color in LaTeX
 \RequirePackage{lipsum}           % Provides Lorem Ipsum text with the \lorem command
 #+end_src
 * Paper specific variables
@@ -327,7 +330,7 @@ Allows for progressively weightier fonts when invoking \strong
 #+begin_src latex
 \makeatletter
 \ifpdftex
-\ifartikel@fancy
+\iffancy
 \RequirePackage{ebgaramond}
 \RequirePackage{ebgaramond-maths}
 \fi\fi
@@ -376,7 +379,7 @@ Numbers = {Proportional, OldStyle},
 SwashFont = *-Swash,
 ]
 \makeatletter
-\ifartikel@fancy
+\iffancy
 \setmainfont{EBGaramond}
 \setsansfont{EBGaramond} % Change to Optima
 \newfontfamily\greekfont{EBGaramond}
@@ -424,7 +427,7 @@ UprightFont = *
 ]
 \providecommand{\ebsw}{\EBGaramondSwash}
 \makeatletter
-\ifartikel@fancy
+\iffancy
 \renewcommand{\textsw}[1]{{\EBGaramondSwash{}#1}}
 \let\oldquote\quote
 \let\oldendquote\endquote%
@@ -455,7 +458,7 @@ FontFace = {k}{it}{*-BlackIt},
 Scale=MatchLowercase,
 ]
 \makeatletter
-\ifartikel@fancy
+\iffancy
 \setmonofont[Scale=MatchLowercase]{SourceCodePro}
 \fi
 \makeatother
@@ -563,11 +566,13 @@ FontFace={l}{n}{*S-Light-Regular},
 ** Liturgical Colors
 #+begin_src latex
 \definecolor{litpurple}{RGB}{128,0,128}
+\definecolor{gold}{RGB}{212,175,55}
 \definecolor{litpink}{RGB}{244,133,186}
 \definecolor{litgreen}{RGB}{24,100,32}
 \definecolor{litred}{RGB}{216,7,7}
 \definecolor{lityellow}{RGB}{212,175,55}
 \newcommand{\litpurple}{\color{litpurple}}
+\newcommand{\gold}{\color{gold}}
 #+end_src
 
 ** Colors
@@ -624,6 +629,20 @@ FontFace={l}{n}{*S-Light-Regular},
             \node[shape=circle,draw,inner sep=2pt] (char) {#1};
 }}
 
+#+end_src
+*** Glowing text
+#+begin_src latex
+\providecommand{\textglow}[2][red]{%
+  \leavevmode%
+  \pdfliteral{q 1 J 1 j 1 Tr}%
+  \foreach\layer in{1,...,10}{%
+    \color{#1!\layer0!white!50!white}%
+    \pgfsetlinewidth{(11-\layer)/3}% pgf command will do arithmetic for us
+    \rlap{#2}%
+  }%
+  \pdfliteral{Q}%
+  \hbox{#2}%
+}
 #+end_src
 ** Compact enumerate and itemize
 #+begin_src latex
