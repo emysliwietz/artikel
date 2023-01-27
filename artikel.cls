@@ -82,7 +82,7 @@ pdfencoding=unicode,
 psdextra, % loads replacements for some maths
 % a4paper=true, %
 luatex, %
-backref, %
+backref=section, %
 pagebackref=false, % creates backward references too
 bookmarks=true, % generate bookmarks in PDF files
 bookmarksopen=false, % when starting with AcrobatReader, the Bookmarkcolumn is opened
@@ -95,6 +95,8 @@ pdfborder={1 1 0},
 breaklinks, % (here, onwards) for pdfx
 colorlinks,
 linkcolor=accentcolor,
+citecolor=accentcolor,
+allcolors=accentcolor,
 bookmarksopen,
 hyperindex]{hyperref} % Provides support for hypertext links within LaTeX documents
 \RequirePackage[nameinlink]{cleveref}
@@ -578,9 +580,10 @@ FontFace={l}{n}{*S-Light-Regular},
 \colorlet{accentcolor}{litpurple}
 \providecommand{\accentcolor}{\color{accentcolor}}
 \pagestyle{scrheadings}
-\KOMAoptions{headsepline=2pt, headwidth=textwithmarginpar, footsepline=.2pt:4cm, clines}
+\KOMAoptions{headsepline=2pt, headwidth=textwithmarginpar}
+%\KOMAoptions{footsepline=.2pt:4cm, clines}
 \addtokomafont{pagenumber}{\accentcolor}
-
+\cfoot{}
 \makeatletter
 \ihead{\@logo}
 
