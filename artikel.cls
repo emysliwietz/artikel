@@ -94,7 +94,7 @@ pdfdisplaydoctitle,
 pdfborder={1 1 0},
 breaklinks, % (here, onwards) for pdfx
 colorlinks,
-linkcolor=purple,
+linkcolor=accentcolor,
 bookmarksopen,
 hyperindex]{hyperref} % Provides support for hypertext links within LaTeX documents
 \RequirePackage[nameinlink]{cleveref}
