@@ -154,6 +154,7 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \providecommand{\@thesissecondreaderfirst}{}
 \providecommand{\@thesissecondreadersecond}{}
 %\title{\@maintitle{} \\ {\small \@subtitle{}}}
+\title{} % default
 \author{\@authorfirst{} \@authorsecond{}}
 \makeatother
 \date{\today}
@@ -975,14 +976,14 @@ FontFace={l}{n}{*S-Light-Regular},
   \let\fbox\relax
   \let\framebox\relax
   \let\boxed\relax
-  \hspace*{-.2em}
+  \hspace*{-1.1em}
   \cooltooltip%
   [1 1 1]
   [1 1 1]
   {#1} % Popup title
   {#2} % Content
   {#2}{#2} % Content
-  {#3\strut}\hspace*{-.5em}
+  {#3\strut}\hspace*{-1em}
 }
 
 \newcount \Re \newcount \Im
