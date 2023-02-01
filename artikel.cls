@@ -82,7 +82,7 @@ pdfencoding=unicode,
 psdextra, % loads replacements for some maths
 % a4paper=true, %
 luatex, %
-backref, %
+backref=section, %
 pagebackref=false, % creates backward references too
 bookmarks=true, % generate bookmarks in PDF files
 bookmarksopen=false, % when starting with AcrobatReader, the Bookmarkcolumn is opened
@@ -95,6 +95,8 @@ pdfborder={1 1 0},
 breaklinks, % (here, onwards) for pdfx
 colorlinks,
 linkcolor=accentcolor,
+citecolor=accentcolor,
+allcolors=accentcolor,
 bookmarksopen,
 hyperindex]{hyperref} % Provides support for hypertext links within LaTeX documents
 \RequirePackage[nameinlink]{cleveref}
@@ -152,6 +154,7 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \providecommand{\@thesissecondreaderfirst}{}
 \providecommand{\@thesissecondreadersecond}{}
 %\title{\@maintitle{} \\ {\small \@subtitle{}}}
+\title{} % default
 \author{\@authorfirst{} \@authorsecond{}}
 \makeatother
 \date{\today}
@@ -578,9 +581,10 @@ FontFace={l}{n}{*S-Light-Regular},
 \colorlet{accentcolor}{litpurple}
 \providecommand{\accentcolor}{\color{accentcolor}}
 \pagestyle{scrheadings}
-\KOMAoptions{headsepline=2pt, headwidth=textwithmarginpar, footsepline=.2pt:4cm, clines}
+\KOMAoptions{headsepline=2pt, headwidth=textwithmarginpar}
+%\KOMAoptions{footsepline=.2pt:4cm, clines}
 \addtokomafont{pagenumber}{\accentcolor}
-
+\cfoot{}
 \makeatletter
 \ihead{\@logo}
 
@@ -972,14 +976,14 @@ FontFace={l}{n}{*S-Light-Regular},
   \let\fbox\relax
   \let\framebox\relax
   \let\boxed\relax
-  \hspace*{-.2em}
+  \hspace*{-1.1em}
   \cooltooltip%
   [1 1 1]
   [1 1 1]
   {#1} % Popup title
   {#2} % Content
   {#2}{#2} % Content
-  {#3\strut}\hspace*{-.5em}
+  {#3\strut}\hspace*{-1em}
 }
 
 \newcount \Re \newcount \Im
