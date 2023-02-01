@@ -134,7 +134,7 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \RequirePackage{fontawesome5}    % Provides the FontAwesome 5 icon set
 \RequirePackage{ebproof}         % Natural deduction proof formatting
 \RequirePackage{etoolbox}        % Collection of programming tools for LaTeX
-\RequirePackage{enumerate}       % Enhanced version of the enumerate environment
+%\RequirePackage{enumerate}       % Enhanced version of the enumerate environment
 \RequirePackage{longtable}       % Provides the longtable environment for typesetting tables that may span multiple pages
 \RequirePackage{marginnote}      % Provides commands for typesetting marginal notes
 \RequirePackage{morewrites}      % Provides an extension to the LaTeX kernel's output routine
