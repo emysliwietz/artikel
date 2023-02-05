@@ -976,14 +976,14 @@ FontFace={l}{n}{*S-Light-Regular},
   \let\fbox\relax
   \let\framebox\relax
   \let\boxed\relax
-  \hspace*{-1.1em}
+  \hspace{-1.1em}
   \cooltooltip%
   [1 1 1]
   [1 1 1]
   {#1} % Popup title
   {#2} % Content
   {#2}{#2} % Content
-  {#3\strut}\hspace*{-1em}
+  {#3\strut}\hspace{-1em}
 }
 
 \newcount \Re \newcount \Im
