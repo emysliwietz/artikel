@@ -582,12 +582,12 @@ FontFace={l}{n}{*S-Light-Regular},
 \makeatother
 
 \makeatletter
-\IfStrEq{\artikel@design}{modern}{
 \RequirePackage[hyphenate,fit]{truncate}
 \providecommand{\logo}[1]{\def\@logo{#1}}
 \providecommand{\@logo}{}
 \colorlet{accentcolor}{litpurple}
 \providecommand{\accentcolor}{\color{accentcolor}}
+\IfStrEq{\artikel@design}{modern}{
 \pagestyle{scrheadings}
 \KOMAoptions{headsepline=2pt, headwidth=textwithmarginpar}
 %\KOMAoptions{footsepline=.2pt:4cm, clines}
