@@ -23,7 +23,7 @@
 \newif\iffancy\fancyfalse
 \DeclareOption{fancy}{\fancytrue}
 
-\DeclareBoolOption[false]{modern}
+\DeclareStringOption[modern]{design}
 
 \DeclareBoolOption[false]{twocolumn}
 
@@ -566,18 +566,26 @@ FontFace={l}{n}{*S-Light-Regular},
 
 \newcommand{\isodate}{\the\year-\ifnum\month<10\relax0\fi\the\month-\ifnum\day<10\relax0\fi\the\day}
 
-\NewCommandCopy{\toc}{\tableofcontents}
-\renewcommand{\tableofcontents}{\pagenumbering{Roman}\toc\clearpage\pagenumbering{arabic}}
-
-\renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
-\renewcommand\thesubsection{\roman{subsection}} % roman numerals for subsections
-\renewcommand\thesubsubsection{\alph{subsubsection}} % alphabetic numerals for subsubsections
-
-\RequirePackage[hyphenate,fit]{truncate}
 \makeatletter
+\IfStrEq{\artikel@design}{modern}{
+  \NewCommandCopy{\toc}{\tableofcontents}
+  \renewcommand{\tableofcontents}{\pagenumbering{Roman}\toc\clearpage\pagenumbering{arabic}}
+}{}
+\makeatother
+
+\makeatletter
+\IfStrEq{\artikel@design}{modern}{
+  \renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
+  \renewcommand\thesubsection{\roman{subsection}} % roman numerals for subsections
+  \renewcommand\thesubsubsection{\alph{subsubsection}} % alphabetic numerals for subsubsections
+}{}
+\makeatother
+
+\makeatletter
+\IfStrEq{\artikel@design}{modern}{
+\RequirePackage[hyphenate,fit]{truncate}
 \providecommand{\logo}[1]{\def\@logo{#1}}
 \providecommand{\@logo}{}
-\makeatother
 \colorlet{accentcolor}{litpurple}
 \providecommand{\accentcolor}{\color{accentcolor}}
 \pagestyle{scrheadings}
@@ -585,11 +593,9 @@ FontFace={l}{n}{*S-Light-Regular},
 %\KOMAoptions{footsepline=.2pt:4cm, clines}
 \addtokomafont{pagenumber}{\accentcolor}
 \cfoot{}
-\makeatletter
 \ihead{\@logo}
 
 \chead{$\bullet$ \truncate{6cm}{\@title} $\bullet$}
-\makeatother
 
 \rohead*{%
   \raisebox{\dimexpr-2pt-\dp\strutbox\relax}[0pt][0pt]
@@ -603,16 +609,18 @@ FontFace={l}{n}{*S-Light-Regular},
 % To make the accented line appear above the grey line
 \RemoveLayersFromPageStyle{scrheadings}{scrheadings.head.below.line}
 \AddLayersAtBeginOfPageStyle{scrheadings}{scrheadings.head.below.line}
+}{}
+\makeatother
 
 \makeatletter
-\ifartikel@modern
+\IfStrEq{\artikel@design}{modern}{
 \colorlet{sectioncolor}{black!20}
 \renewcommand\sectionlinesformat[4]{%
   \colorbox{sectioncolor}{%
     \parbox[t]{\dimexpr\linewidth-2\fboxsep\relax}{%
       \raggedsection\color{black}\@hangfrom{#3}{#4}%
     }}}
-\fi
+}{}
 \makeatother
 
 \makeatletter

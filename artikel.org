@@ -36,9 +36,10 @@ Selects nicer fonts (EB Garamond and Source Code Pro)
 \DeclareOption{fancy}{\fancytrue}
 #+end_src
 ** Modern
-Creates boxes around headers, makes document look more modern
+modern - Creates boxes around headers, makes document look more modern
+default - Keeps Latex format whenever possible
 #+begin_src latex
-\DeclareBoolOption[false]{modern}
+\DeclareStringOption[modern]{design}
 #+end_src
 ** Twocolumn
 Makes documents twocolumn
@@ -727,22 +728,30 @@ FontFace={l}{n}{*S-Light-Regular},
 #+end_src
 ** Roman Numbers for Table of Contents
 #+begin_src latex
-\NewCommandCopy{\toc}{\tableofcontents}
-\renewcommand{\tableofcontents}{\pagenumbering{Roman}\toc\clearpage\pagenumbering{arabic}}
+\makeatletter
+\IfStrEq{\artikel@design}{modern}{
+  \NewCommandCopy{\toc}{\tableofcontents}
+  \renewcommand{\tableofcontents}{\pagenumbering{Roman}\toc\clearpage\pagenumbering{arabic}}
+}{}
+\makeatother
 #+end_src
 ** Roman Numbers for Sections
 #+begin_src latex
-\renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
-\renewcommand\thesubsection{\roman{subsection}} % roman numerals for subsections
-\renewcommand\thesubsubsection{\alph{subsubsection}} % alphabetic numerals for subsubsections
+\makeatletter
+\IfStrEq{\artikel@design}{modern}{
+  \renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
+  \renewcommand\thesubsection{\roman{subsection}} % roman numerals for subsections
+  \renewcommand\thesubsubsection{\alph{subsubsection}} % alphabetic numerals for subsubsections
+}{}
+\makeatother
 #+end_src
 ** Header and Footer Styles
 #+begin_src latex
-\RequirePackage[hyphenate,fit]{truncate}
 \makeatletter
+\IfStrEq{\artikel@design}{modern}{
+\RequirePackage[hyphenate,fit]{truncate}
 \providecommand{\logo}[1]{\def\@logo{#1}}
 \providecommand{\@logo}{}
-\makeatother
 \colorlet{accentcolor}{litpurple}
 \providecommand{\accentcolor}{\color{accentcolor}}
 \pagestyle{scrheadings}
@@ -750,11 +759,9 @@ FontFace={l}{n}{*S-Light-Regular},
 %\KOMAoptions{footsepline=.2pt:4cm, clines}
 \addtokomafont{pagenumber}{\accentcolor}
 \cfoot{}
-\makeatletter
 \ihead{\@logo}
 
 \chead{$\bullet$ \truncate{6cm}{\@title} $\bullet$}
-\makeatother
 
 \rohead*{%
   \raisebox{\dimexpr-2pt-\dp\strutbox\relax}[0pt][0pt]
@@ -768,19 +775,20 @@ FontFace={l}{n}{*S-Light-Regular},
 % To make the accented line appear above the grey line
 \RemoveLayersFromPageStyle{scrheadings}{scrheadings.head.below.line}
 \AddLayersAtBeginOfPageStyle{scrheadings}{scrheadings.head.below.line}
-
+}{}
+\makeatother
 #+end_src
 ** Boxes around headers
 #+begin_src latex
 \makeatletter
-\ifartikel@modern
+\IfStrEq{\artikel@design}{modern}{
 \colorlet{sectioncolor}{black!20}
 \renewcommand\sectionlinesformat[4]{%
   \colorbox{sectioncolor}{%
     \parbox[t]{\dimexpr\linewidth-2\fboxsep\relax}{%
       \raggedsection\color{black}\@hangfrom{#3}{#4}%
     }}}
-\fi
+}{}
 \makeatother
 #+end_src
 ** Two Columns
