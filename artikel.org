@@ -37,6 +37,7 @@ Selects nicer fonts (EB Garamond and Source Code Pro)
 #+end_src
 ** Modern
 modern - Creates boxes around headers, makes document look more modern
+         Also changes header and adds Roman section numbers
 default - Keeps Latex format whenever possible
 #+begin_src latex
 \DeclareStringOption[modern]{design}
