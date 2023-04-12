@@ -610,6 +610,9 @@ FontFace={l}{n}{*S-Light-Regular},
 \RemoveLayersFromPageStyle{scrheadings}{scrheadings.head.below.line}
 \AddLayersAtBeginOfPageStyle{scrheadings}{scrheadings.head.below.line}
 }{}
+\IfStrEq{\artikel@design}{default}{
+  \chead{}
+}{}
 \makeatother
 
 \makeatletter
