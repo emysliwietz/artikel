@@ -1370,3 +1370,85 @@ Example: \scriptsize\Mandel{140}{70}
 
 }
 #+end_src
+
+* CV
+** CV Entries
+#+begin_src latex
+
+% Infoentries
+% ONE | Two
+
+\newcommand{\infoentry}[2] {
+  \narrowinfoentry{#1}{#2}
+  \vspace{.25cm}
+}
+
+\newcommand{\smallinfoentry}[2] {
+  \narrowinfoentry{#1}{#2}
+  \vspace{.1cm}
+}
+
+\newcommand{\narrowinfoentry}[2] {
+  \begin{minipage}[t]{0.25\linewidth}
+    \begin{flushright}
+      \textsc{\textbf{#1}}
+    \end{flushright}
+  \end{minipage}
+  \hspace{0.2cm}\vline\hspace{1cm}
+  \begin{minipage}[t]{.50\linewidth}
+    #2
+  \end{minipage}\\
+}
+
+\newcommand{\uinfoentry}[2] {
+  \begin{minipage}[t]{0.155\linewidth}
+    \begin{flushright}
+      \textsc{\hspace{-1cm}#1}
+    \end{flushright}
+  \end{minipage}
+  \hspace{0.02cm}\vline\hspace{1cm}
+  \begin{minipage}[t]{.7\linewidth}
+    #2
+  \end{minipage}\\
+  \vspace{0.5cm}
+}
+
+% Entries
+
+% date, title, place/link, comments
+\newcommand{\entry}[4]{
+  \ifthenelse{\isempty{#4}}
+  {\shortentry{#1}{#2}{#3}}
+  {\longentry{#1}{#2}{#3}{#4}}
+}
+
+\newcommand{\longentry}[4]{
+  \rawentry{\textsc{#1}}
+  {\bfseries{#2}}
+  {\textit{#3}}
+  {\footnotesize{#4}}
+}
+
+\newcommand{\shortentry}[4]{
+  \baseentry{\textsc{#1}}
+  {{\bfseries{#2}}\\
+  {\textit{#3}}}\\
+}
+
+\newcommand{\rawentry}[4] {
+  \baseentry{#1} {
+    {#2}\\ {#3}\\ {#4}
+  }
+}
+
+\newcommand{\baseentry}[2] {
+  \begin{minipage}[t]{.15\linewidth}
+    \hfill {#1}
+  \end{minipage}
+  \hfill\vline\hfill
+  \begin{minipage}[t]{.80\linewidth}
+    {#2}
+  \end{minipage}\\
+  \vspace{.2cm}
+}
+#+end_src
