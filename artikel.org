@@ -672,7 +672,7 @@ FontFace={l}{n}{*S-Light-Regular},
 
 % Code blocks
 \RequirePackage{minted}
-\RequirePackage[many]{tcolorbox}
+\RequirePackage[many,breakable,xparse]{tcolorbox}
 
   \setminted{
 	frame=none,
@@ -1124,9 +1124,13 @@ FontFace={l}{n}{*S-Light-Regular},
   \clearpage
   }{}
   \IfStrEq{\artikel@titlepage}{head}{
+    \ifartikel@twocolumn
     \twocolumn[{
       \simplemaketitle{}
       }]
+    \else
+      \simplemaketitle{}
+    \fi
   }{}
   \IfStrEq{\artikel@titlepage}{inline}{
     {\let\clearpage\relax
@@ -1164,15 +1168,6 @@ FontFace={l}{n}{*S-Light-Regular},
 }
 \makeatother
 
-#+end_src
-
-* Wordcounts
-#+begin_src latex
-\RequirePackage{verbatim}
-\newcommand{\wordcount}[1][\jobname]{%
-  \immediate\write18{texcount -1 -merge -template={1} #1.tex > #1.wcdetail }%
-  \input{#1.wcdetail}%
-}
 #+end_src
 
 * Shell
@@ -1365,5 +1360,17 @@ Example: \scriptsize\Mandel{140}{70}
   \count0=0 \count1=0 \count2=#1 \count3=#2
   \MandLoop
 
+}
+#+end_src
+* End of static part
+#+begin_src latex
+\csname endofdump\endcsname
+#+end_src
+* Wordcounts
+#+begin_src latex
+\RequirePackage{verbatim}
+\newcommand{\wordcount}[1][\jobname]{%
+  \immediate\write18{texcount -1 -merge -template={1} #1.tex > #1.wcdetail }%
+  \input{#1.wcdetail}%
 }
 #+end_src

@@ -513,7 +513,7 @@ FontFace={l}{n}{*S-Light-Regular},
 
 % Code blocks
 \RequirePackage{minted}
-\RequirePackage[many]{tcolorbox}
+\RequirePackage[many,breakable,xparse]{tcolorbox}
 
   \setminted{
 	frame=none,
@@ -851,9 +851,13 @@ FontFace={l}{n}{*S-Light-Regular},
   \clearpage
   }{}
   \IfStrEq{\artikel@titlepage}{head}{
+    \ifartikel@twocolumn
     \twocolumn[{
       \simplemaketitle{}
       }]
+    \else
+      \simplemaketitle{}
+    \fi
   }{}
   \IfStrEq{\artikel@titlepage}{inline}{
     {\let\clearpage\relax
@@ -887,12 +891,6 @@ FontFace={l}{n}{*S-Light-Regular},
       \BODY
 }
 \makeatother
-
-\RequirePackage{verbatim}
-\newcommand{\wordcount}[1][\jobname]{%
-  \immediate\write18{texcount -1 -merge -template={1} #1.tex > #1.wcdetail }%
-  \input{#1.wcdetail}%
-}
 
 \newcommand{\shell}[1]{%
   \immediate\write18{#1}
@@ -1039,4 +1037,12 @@ FontFace={l}{n}{*S-Light-Regular},
   \count0=0 \count1=0 \count2=#1 \count3=#2
   \MandLoop
 
+}
+
+\csname endofdump\endcsname
+
+\RequirePackage{verbatim}
+\newcommand{\wordcount}[1][\jobname]{%
+  \immediate\write18{texcount -1 -merge -template={1} #1.tex > #1.wcdetail }%
+  \input{#1.wcdetail}%
 }
