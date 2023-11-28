@@ -70,7 +70,7 @@ headheight=12pt,
 a4paper,
 ]{geometry}
 \else
-\RequirePackage{geometry} % Provides commands for customizing page layout
+\RequirePackage[margin=1in]{geometry} % Provides commands for customizing page layout
 \fi
 \makeatother
 \RequirePackage{grffile}         % Fix allowed filenames
@@ -213,7 +213,7 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 
 \fi
 
-\RequirePackage[backend=biber, style=ieee, giveninits=true, uniquename=init]{biblatex} % Bibliographic package
+\RequirePackage[backend=biber, style=ieee, giveninits=true, uniquename=init, language=auto, autolang=other]{biblatex} % Bibliographic package
 
 \iftutex
 % Extra light
@@ -375,6 +375,16 @@ Extension = .otf,
 UprightFont = *,
 AutoFakeBold,
 AutoFakeSlant,
+]
+
+\setotherlanguage{arabic}
+\setotherlanguage{persian}
+\newfontfamily\arabicfont[Script=Arabic]{GeezaPro}
+\newfontfamily\arabicfonttt[Script=Arabic]{GeezaPro}
+\providefontfamily{\GeezaPro}{GeezaPro}[
+Path = /home/user/.fonts/GeezaPro/,
+Extension = .ttf,
+UprightFont = *-Regular,
 ]
 
 \providefontfamily{\TimesNewRoman}{TimesNewRoman}[

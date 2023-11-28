@@ -105,7 +105,7 @@ headheight=12pt,
 a4paper,
 ]{geometry}
 \else
-\RequirePackage{geometry} % Provides commands for customizing page layout
+\RequirePackage[margin=1in]{geometry} % Provides commands for customizing page layout
 \fi
 \makeatother
 \RequirePackage{grffile}         % Fix allowed filenames
@@ -270,7 +270,7 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 #+end_src
 * Biblatex
 #+begin_src latex
-\RequirePackage[backend=biber, style=ieee, giveninits=true, uniquename=init]{biblatex} % Bibliographic package
+\RequirePackage[backend=biber, style=ieee, giveninits=true, uniquename=init, language=auto, autolang=other]{biblatex} % Bibliographic package
 #+end_src
 * Fonts
 ** Definition Overview
@@ -477,6 +477,19 @@ UprightFont = *,
 AutoFakeBold,
 AutoFakeSlant,
 ]
+#+end_src
+** Geeza Pro (Arabic script)
+#+begin_src latex
+\setotherlanguage{arabic}
+\setotherlanguage{persian}
+\newfontfamily\arabicfont[Script=Arabic]{GeezaPro}
+\newfontfamily\arabicfonttt[Script=Arabic]{GeezaPro}
+\providefontfamily{\GeezaPro}{GeezaPro}[
+Path = /home/user/.fonts/GeezaPro/,
+Extension = .ttf,
+UprightFont = *-Regular,
+]
+
 #+end_src
 ** Times New Roman
 #+begin_src latex
