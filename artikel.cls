@@ -404,7 +404,7 @@ UprightFont = *-Regular,
 \newfontfamily\chinesefont[Script=CJK]{KingHwaOldSong}
 \providefontfamily{\KingHwa}{KingHwaOldSong}[
 Path = /home/user/.fonts/KingHwaOldSong/,
-Extension = .ttf,
+Extension = .otf,
 UprightFont = *-Regular,
 ]
 
