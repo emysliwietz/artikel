@@ -163,6 +163,8 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \RequirePackage{xparse}           % Provides an enhanced version of LaTeX's kernel commands for defining new commands
 \RequirePackage{xcolor}           % Interface for defining and using color in LaTeX
 \RequirePackage{lipsum}           % Provides Lorem Ipsum text with the \lorem command
+\RequirePackage{newunicodechar}   % Specifiy specific fallback fonts for individual characters
+\RequirePackage{luacode}          % Program LaTeX in Lua
 #+end_src
 * Paper specific variables
 #+begin_src latex
@@ -270,7 +272,8 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 #+end_src
 * Biblatex
 #+begin_src latex
-\RequirePackage[backend=biber, style=ieee, giveninits=true, uniquename=init, language=auto, autolang=other]{biblatex} % Bibliographic package
+\RequirePackage[backend=biber, style=ieee, giveninits=true, uniquename=init] {biblatex} % Bibliographic package
+% language=auto, autolang=other make biblatex automatically switch language script fonts, but create problems with mixed scripts
 #+end_src
 * Fonts
 ** Definition Overview
@@ -486,10 +489,50 @@ AutoFakeSlant,
 \newfontfamily\arabicfonttt[Script=Arabic]{GeezaPro}
 \providefontfamily{\GeezaPro}{GeezaPro}[
 Path = /home/user/.fonts/GeezaPro/,
+Extension = .otf,
+UprightFont = *-Regular,
+]
+#+end_src
+*** Workaround fallback font for Arabic Unicode block
+#+begin_src latex
+\begin{luacode}
+  function addcharsarabic(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\arabicfont{" .. unicode.utf8.char(i) .. "}}}")
+    end
+  end
+\end{luacode}
+
+\directlua{addcharsarabic(0x0600, 0x06FF)}  % Arabic block
+#+end_src
+** KingHwa Old Song (CJK)
+#+begin_src latex
+\setotherlanguage{chinese}
+\newfontfamily\chinesefont[Script=CJK]{KingHwaOldSong}
+\providefontfamily{\KingHwa}{KingHwaOldSong}[
+Path = /home/user/.fonts/KingHwaOldSong/,
 Extension = .ttf,
 UprightFont = *-Regular,
 ]
+#+end_src
+*** Workaround fallback font for CJK Unicode block
+#+begin_src latex
+\begin{luacode}
+  function addcharsCJK(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\CJKfont{" .. unicode.utf8.char(i) ..   "}}}")
+    end
+  end
 
+  -- CJK Unified Ideographs (4E00-9FFF)
+  addcharsCJK(0x4E00, 0x9FFF)
+
+  -- CJK Unified Ideographs Extension A (3400-4DBF)
+  addcharsCJK(0x3400, 0x4DBF)
+
+  -- Partially cover CJK Unified Ideographs Extension B (20000-2A6DF)
+  addcharsCJK(0x20000, 0x2A6DF)
+\end{luacode}
 #+end_src
 ** Times New Roman
 #+begin_src latex
@@ -1388,6 +1431,8 @@ Example: \scriptsize\Mandel{140}{70}
 \newcommand{\wordcount}[1][\jobname]{%
   \immediate\write18{texcount -1 -merge -template={1} #1.tex > #1.wcdetail }%
   \input{#1.wcdetail}%
+}
+  #+end_src
 * CV
 ** CV Entries
 #+begin_src latex
