@@ -295,6 +295,14 @@ ItalicFeatures = {
     {Size = 10.1-}
   }
 }, % use default italic font for larger than 10pt size
+BoldFont = *12-Bold, % set EB Garamond 12 as default italic font
+BoldFeatures = {
+  SizeFeatures = {
+    {Size = -10.1,
+      Font = *08-Bold}, % use EB Garamond 08 for 10pt size and smaller
+    {Size = 10.1-}
+  }
+}, % use default italic font for larger than 10pt size
 SmallCapsFeatures = {Letters = SmallCaps},
 Ligatures = {Common, TeX},
 Numbers = {Proportional, OldStyle},
@@ -456,17 +464,6 @@ UprightFont = *,
 AutoFakeBold,
 AutoFakeSlant,
 ]
-
-\begin{luacode}
-  function addcharsTimesNewRoman(start, finish)
-    for i=start,finish do
-      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\TimesNewRoman{" .. unicode.utf8.char(i) ..   "}}}")
-    end
-  end
-\end{luacode}
-
- %- Tonal markers
- \directlua{addcharsTimesNewRoman(0x0301, 0x030C)}
 
 \providefontfamily{\FontAwesome}{FontAwesome}[
 Extension = .otf,
