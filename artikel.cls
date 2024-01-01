@@ -321,6 +321,25 @@ SwashFont = *-Swash,
 \fi
 \makeatother
 
+\providefontfamily{\BasicEBGaramond}{BasicEBGaramond}[
+  Path = /home/user/.fonts/EBGaramond/,
+  Extension = .otf,
+  UprightFont = *12-Regular,
+]
+%\newfontfamily\basicgaramondfont{BasicEBGaramond}
+% some characters are only defined this way
+\begin{luacode}
+  function addcharsebgaramond(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\BasicEBGaramond{"..unicode.utf8.char(i).."}}}")
+    end
+  end
+\end{luacode}
+
+ %- Tonal markers
+ \directlua{addcharsebgaramond(0x0301, 0x0301)}
+ \directlua{addcharsebgaramond(0x0303, 0x030B)}
+
 \setlist[itemize]{label={\large $\bullet$}, labelsep=3mm}
 
 \providefontfamily{\EBGaramondInitials}{EBGaramond-Initials}[
@@ -456,6 +475,27 @@ UprightFont = *-Regular,
 
   %- CJK Compatibility Ideographs Supplement
   \directlua{addcharsCJK(0x2F800, 0x2FA1F)}
+
+\providefontfamily{\AppleColorEmoji}{AppleColorEmoji}[
+Path = /home/user/.fonts/AppleColorEmoji/,
+Extension = .ttf,
+UprightFont = *-Regular,
+AutoFakeBold,
+AutoFakeSlant,
+]
+
+\begin{luacode}
+  function addcharsEmoji(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\AppleColorEmoji{" .. unicode.utf8.char(i) ..   "}}}")
+    end
+  end
+\end{luacode}
+
+% Main emoji block
+  %\directlua{addcharsEmoji(0x1F600, 0x1F64F)}
+% Additional block
+  %\directlua{addcharsEmoji(0x1F900, 0x1F9FF)}
 
 \providefontfamily{\TimesNewRoman}{TimesNewRoman}[
 Extension = .otf,
