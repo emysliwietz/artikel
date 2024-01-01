@@ -1,7 +1,7 @@
 #+title: Artikel.cls
 #+sub_title: Class for university theses and assignments, collection for all kinds of latex commands I reuse
 #+property: header-args :tangle artikel.cls
-#+on_save_cmd: sleep 2 && sudo make
+#+on_save_cmd: #sleep 2 && sudo make
 
 * Disclaimer
 #+begin_src latex
@@ -346,22 +346,16 @@ Allows for progressively weightier fonts when invoking \strong
 \iftutex
 
 
-\defaultfontfeatures+[EBGaramond]{
-  RawFeature={%
-+ss01;%Makes Љ Д Л д л љ  use triangle, not rectangle
--ss02;%Changes u to v
--cv01;%Uses old s
--cv03;%Replaces J with I
-+cv11;%Makes 1 look less like Roman I
-+lnum;%Lining figures
-+dlig;%Makes Th ligature look nicer
--hlig;%joins ct and st
-+liga;%Default ligatures
-+case;%Case sensitive symbols
-}
-,}
+ % \defaultfontfeatures+[EBGaramond]{
+ %   RawFeature={%
+ %  +hlig;
+ %  +case;%Case sensitive symbols
+ %  +liga;%Default ligatures
+ %  +kern;
+ % }
+ % ,}
 \providefontfamily{\EBGaramond}{EBGaramond}[
-Path = /home/user/.fonts/EBGaramond2/,
+Path = /home/user/.fonts/EBGaramond/,
 Scale = 1,
 Extension = .ttf,
 UprightFont = *-Regular, % set EB Garamond 12 as default upright font
@@ -421,14 +415,14 @@ EB Garamond does not always properly display the bullet without this
 *** Black Initials
 #+begin_src latex
 \providefontfamily{\EBGaramondInitials}{EBGaramond-Initials}[
-Path = /home/user/.fonts/EBGaramond/,
+Path = /home/user/.fonts/EBGaramond/orig/,
 Extension = .otf,
 ]
 #+end_src
 *** White Initials
 #+begin_src latex
 \providefontfamily{\EBGaramondWhiteInitials}{EBGaramond-Initials}[
-Path = /home/user/.fonts/EBGaramond/,
+Path = /home/user/.fonts/EBGaramond/orig/,
 Extension = .otf,
 UprightFont = *F1
 ]
@@ -436,7 +430,7 @@ UprightFont = *F1
 *** Text Initials
 #+begin_src latex
 \providefontfamily{\EBGaramondTextInitials}{EBGaramond-Initials}[
-Path = /home/user/.fonts/EBGaramond/,
+Path = /home/user/.fonts/EBGaramond/orig/,
 Extension = .otf,
 UprightFont = *F2
 ]
@@ -444,7 +438,7 @@ UprightFont = *F2
 *** EB Garamond Swash
 #+begin_src latex
 \providefontfamily{\EBGaramondSwash}{EBGaramond-Swash}[
-Path = /home/user/.fonts/EBGaramond/,
+Path = /home/user/.fonts/EBGaramond/orig/,
 Extension = .otf,
 UprightFont = *
 ]
@@ -496,12 +490,18 @@ AutoFakeBold,
 AutoFakeSlant,
 ]
 #+end_src
-** Geeza Pro (Arabic script)
+** ScheherazadeNew (Arabic script)
 #+begin_src latex
 \setotherlanguage{arabic}
 \setotherlanguage{persian}
-\newfontfamily\arabicfont[Script=Arabic]{GeezaPro}
-\newfontfamily\arabicfonttt[Script=Arabic]{GeezaPro}
+\newfontfamily\arabicfont[Script=Arabic]{ScheherazadeNew}
+\newfontfamily\arabicfonttt[Script=Arabic]{ScheherazadeNew}
+\providefontfamily{\ScheherazadeNew}{ScheherazadeNew}[
+Path = /home/user/.fonts/ScheherazadeNew/,
+Extension = .ttf,
+UprightFont = *-Regular,
+BoldFont = *-Bold,
+]
 \providefontfamily{\GeezaPro}{GeezaPro}[
 Path = /home/user/.fonts/GeezaPro/,
 Extension = .otf,
@@ -574,6 +574,55 @@ UprightFont = *-Regular,
   \directlua{addcharsCJK(0x2F800, 0x2FA1F)}
 
 #+end_src
+** Noto Sans Canadian Aboriginal
+#+begin_src latex
+\newfontfamily\canadianaboriginalfont{NotoSansCanadianAboriginal}
+\providefontfamily{\NSCanadianAboriginal}{NotoSansCanadianAboriginal}[
+Path = /home/user/.fonts/NotoSansCanadianAboriginal/,
+Extension = .ttf,
+UprightFont = *-Regular,
+BoldFont = *-Bold,
+]
+#+end_src
+*** Workaround fallback font for Canadian Aboriginal Syllabics
+#+begin_src latex
+\begin{luacode}
+  function addcharsCanadianAboriginal(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\NSCanadianAboriginal{" .. unicode.utf8.char(i) ..   "}}}")
+    end
+  end
+\end{luacode}
+
+  % CJK Unified Ideographs
+  \directlua{addcharsCanadianAboriginal(0x1400, 0x167F)}
+#+end_src
+
+** Frank Ruhl Libre (Hebrew)
+#+begin_src latex
+\setotherlanguage{hebrew}
+\newfontfamily\hebrewfont[Script=Hebrew]{FrankRuhlLibre}
+\providefontfamily{\FrankRuhlLibre}{FrankRuhlLibre}[
+Path = /home/user/.fonts/FrankRuhlLibre/,
+Extension = .ttf,
+UprightFont = *-Regular,
+BoldFont = *-Bold,
+]
+#+end_src
+*** Workaround fallback font for Hebrew
+#+begin_src latex
+\begin{luacode}
+  function addcharsHebrew(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\hebrewfont{" .. unicode.utf8.char(i) ..   "}}}")
+    end
+  end
+\end{luacode}
+
+  % Hebrew block
+  \directlua{addcharsHebrew(0x0590, 0x05FF)}
+#+end_src
+
 ** Apple Color Emoji
 #+begin_src latex
 \providefontfamily{\AppleColorEmoji}{AppleColorEmoji}[

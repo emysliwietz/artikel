@@ -261,22 +261,16 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \iftutex
 
 
-\defaultfontfeatures+[EBGaramond]{
-  RawFeature={%
-+ss01;%Makes Љ Д Л д л љ  use triangle, not rectangle
--ss02;%Changes u to v
--cv01;%Uses old s
--cv03;%Replaces J with I
-+cv11;%Makes 1 look less like Roman I
-+lnum;%Lining figures
-+dlig;%Makes Th ligature look nicer
--hlig;%joins ct and st
-+liga;%Default ligatures
-+case;%Case sensitive symbols
-}
-,}
+ % \defaultfontfeatures+[EBGaramond]{
+ %   RawFeature={%
+ %  +hlig;
+ %  +case;%Case sensitive symbols
+ %  +liga;%Default ligatures
+ %  +kern;
+ % }
+ % ,}
 \providefontfamily{\EBGaramond}{EBGaramond}[
-Path = /home/user/.fonts/EBGaramond2/,
+Path = /home/user/.fonts/EBGaramond/,
 Scale = 1,
 Extension = .ttf,
 UprightFont = *-Regular, % set EB Garamond 12 as default upright font
@@ -331,24 +325,24 @@ SwashFont = *-Swash,
 \setlist[itemize]{label={\large $\bullet$}, labelsep=3mm}
 
 \providefontfamily{\EBGaramondInitials}{EBGaramond-Initials}[
-Path = /home/user/.fonts/EBGaramond/,
+Path = /home/user/.fonts/EBGaramond/orig/,
 Extension = .otf,
 ]
 
 \providefontfamily{\EBGaramondWhiteInitials}{EBGaramond-Initials}[
-Path = /home/user/.fonts/EBGaramond/,
+Path = /home/user/.fonts/EBGaramond/orig/,
 Extension = .otf,
 UprightFont = *F1
 ]
 
 \providefontfamily{\EBGaramondTextInitials}{EBGaramond-Initials}[
-Path = /home/user/.fonts/EBGaramond/,
+Path = /home/user/.fonts/EBGaramond/orig/,
 Extension = .otf,
 UprightFont = *F2
 ]
 
 \providefontfamily{\EBGaramondSwash}{EBGaramond-Swash}[
-Path = /home/user/.fonts/EBGaramond/,
+Path = /home/user/.fonts/EBGaramond/orig/,
 Extension = .otf,
 UprightFont = *
 ]
@@ -397,8 +391,14 @@ AutoFakeSlant,
 
 \setotherlanguage{arabic}
 \setotherlanguage{persian}
-\newfontfamily\arabicfont[Script=Arabic]{GeezaPro}
-\newfontfamily\arabicfonttt[Script=Arabic]{GeezaPro}
+\newfontfamily\arabicfont[Script=Arabic]{ScheherazadeNew}
+\newfontfamily\arabicfonttt[Script=Arabic]{ScheherazadeNew}
+\providefontfamily{\ScheherazadeNew}{ScheherazadeNew}[
+Path = /home/user/.fonts/ScheherazadeNew/,
+Extension = .ttf,
+UprightFont = *-Regular,
+BoldFont = *-Bold,
+]
 \providefontfamily{\GeezaPro}{GeezaPro}[
 Path = /home/user/.fonts/GeezaPro/,
 Extension = .otf,
@@ -463,6 +463,45 @@ UprightFont = *-Regular,
 
   %- CJK Compatibility Ideographs Supplement
   \directlua{addcharsCJK(0x2F800, 0x2FA1F)}
+
+\newfontfamily\canadianaboriginalfont{NotoSansCanadianAboriginal}
+\providefontfamily{\NSCanadianAboriginal}{NotoSansCanadianAboriginal}[
+Path = /home/user/.fonts/NotoSansCanadianAboriginal/,
+Extension = .ttf,
+UprightFont = *-Regular,
+BoldFont = *-Bold,
+]
+
+\begin{luacode}
+  function addcharsCanadianAboriginal(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\NSCanadianAboriginal{" .. unicode.utf8.char(i) ..   "}}}")
+    end
+  end
+\end{luacode}
+
+  % CJK Unified Ideographs
+  \directlua{addcharsCanadianAboriginal(0x1400, 0x167F)}
+
+\setotherlanguage{hebrew}
+\newfontfamily\hebrewfont[Script=Hebrew]{FrankRuhlLibre}
+\providefontfamily{\FrankRuhlLibre}{FrankRuhlLibre}[
+Path = /home/user/.fonts/FrankRuhlLibre/,
+Extension = .ttf,
+UprightFont = *-Regular,
+BoldFont = *-Bold,
+]
+
+\begin{luacode}
+  function addcharsHebrew(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\hebrewfont{" .. unicode.utf8.char(i) ..   "}}}")
+    end
+  end
+\end{luacode}
+
+  % Hebrew block
+  \directlua{addcharsHebrew(0x0590, 0x05FF)}
 
 \providefontfamily{\AppleColorEmoji}{AppleColorEmoji}[
 Path = /home/user/.fonts/AppleColorEmoji/,
