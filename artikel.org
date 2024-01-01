@@ -629,6 +629,35 @@ BoldFont = *-Bold,
   \directlua{addcharsHebrew(0x0590, 0x05FF)}
 #+end_src
 
+** Laila (Devanagari)
+#+begin_src latex
+\setotherlanguage{sanskrit}
+\setotherlanguage{devanagari}
+\setotherlanguage{hindi}
+\newfontfamily\devanagarifont[Script=Devanagari]{Laila}
+\providefontfamily{\Laila}{Laila}[
+Path = /home/user/.fonts/Laila/,
+Extension = .ttf,
+UprightFont = *-Regular,
+BoldFont = *-Bold,
+]
+#+end_src
+*** Workaround fallback font for Devanagari
+#+begin_src latex
+\begin{luacode}
+  function addcharsDevanagari(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\devanagarifont{" .. unicode.utf8.char(i) ..   "}}}")
+    end
+  end
+\end{luacode}
+
+  % Devanagari block
+  \directlua{addcharsDevanagari(0x0900, 0x097F)}
+#+end_src
+
+
+
 ** Apple Color Emoji
 #+begin_src latex
 \providefontfamily{\AppleColorEmoji}{AppleColorEmoji}[
