@@ -361,33 +361,40 @@ Allows for progressively weightier fonts when invoking \strong
 }
 ,}
 \providefontfamily{\EBGaramond}{EBGaramond}[
-Path = /home/user/.fonts/EBGaramond/,
+Path = /home/user/.fonts/EBGaramond2/,
 Scale = 1,
-Extension = .otf,
-UprightFont = *12-Regular, % set EB Garamond 12 as default upright font
+Extension = .ttf,
+UprightFont = *-Regular, % set EB Garamond 12 as default upright font
 UprightFeatures = {
   SizeFeatures = {
     {Size = -10.1,
-      Font = *08-Regular}, % use EB Garamond 08 for 10pt size and smaller
+      Font = *-Regular}, % use EB Garamond 08 for 10pt size and smaller
     {Size = 10.1-}
   },
 }, % use default upright font for larger than 10pt size
-ItalicFont = *12-Italic, % set EB Garamond 12 as default italic font
+ItalicFont = *-Italic, % set EB Garamond 12 as default italic font
 ItalicFeatures = {
   SizeFeatures = {
     {Size = -10.1,
-      Font = *08-Italic}, % use EB Garamond 08 for 10pt size and smaller
+      Font = *-Italic}, % use EB Garamond 08 for 10pt size and smaller
     {Size = 10.1-}
   }
 }, % use default italic font for larger than 10pt size
-BoldFont = *12-Bold, % set EB Garamond 12 as default italic font
+BoldFont = *-Bold, % set EB Garamond 12 as default italic font
 BoldFeatures = {
   SizeFeatures = {
     {Size = -10.1,
-      Font = *08-Bold}, % use EB Garamond 08 for 10pt size and smaller
+      Font = *-Bold}, % use EB Garamond 08 for 10pt size and smaller
     {Size = 10.1-}
   }
 }, % use default italic font for larger than 10pt size
+BoldItalicFont = *-BoldItalic,
+FontFace={mb}{n}{*-Medium},
+FontFace={mb}{it}{*-MediumItalic},
+FontFace={sb}{n}{*-SemiBold},
+FontFace={sb}{it}{*-SemiBoldItalic},
+FontFace={k}{n}{*-ExtraBold},
+FontFace={k}{it}{*-ExtraBoldItalic},
 SmallCapsFeatures = {Letters = SmallCaps},
 Ligatures = {Common, TeX},
 Numbers = {Proportional, OldStyle},
@@ -405,28 +412,6 @@ SwashFont = *-Swash,
 \newfontfamily\greekfont{Linux Libertine O}
 \fi
 \makeatother
-#+end_src
-** Workaround for basic Garamond
-#+begin_src latex
-\providefontfamily{\BasicEBGaramond}{BasicEBGaramond}[
-  Path = /home/user/.fonts/EBGaramond/,
-  Extension = .otf,
-  UprightFont = *12-Regular,
-]
-%\newfontfamily\basicgaramondfont{BasicEBGaramond}
-% some characters are only defined this way
-\begin{luacode}
-  function addcharsebgaramond(start, finish)
-    for i=start,finish do
-      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\BasicEBGaramond{"..unicode.utf8.char(i).."}}}")
-    end
-  end
-\end{luacode}
-
- %- Tonal markers
- \directlua{addcharsebgaramond(0x0301, 0x0301)}
- \directlua{addcharsebgaramond(0x0303, 0x030B)}
-
 #+end_src
 *** Fix for enum with Garamond
 EB Garamond does not always properly display the bullet without this
