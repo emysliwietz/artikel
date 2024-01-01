@@ -23,6 +23,9 @@
 \newif\iffancy\fancyfalse
 \DeclareOption{fancy}{\fancytrue}
 
+\newif\ifextracolor\extracolorfalse
+\DeclareOption{extracolor}{\extracolortrue}
+
 \DeclareStringOption[modern]{design}
 
 \DeclareBoolOption[false]{twocolumn}
@@ -739,6 +742,9 @@ FontFace={l}{n}{*S-Light-Regular},
 \KOMAoptions{headsepline=2pt, headwidth=textwithmarginpar}
 %\KOMAoptions{footsepline=.2pt:4cm, clines}
 \addtokomafont{pagenumber}{\accentcolor}
+\ifextracolor
+\addtokomafont{section}{\accentcolor}
+\fi
 \cfoot{}
 \ihead{\@logo}
 
@@ -768,7 +774,7 @@ FontFace={l}{n}{*S-Light-Regular},
 \renewcommand\sectionlinesformat[4]{%
   \colorbox{sectioncolor}{%
     \parbox[t]{\dimexpr\linewidth-2\fboxsep\relax}{%
-      \raggedsection\color{black}\@hangfrom{#3}{#4}%
+      \raggedsection\@hangfrom{#3}{#4}%
     }}}
 }{}
 \makeatother
