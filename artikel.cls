@@ -528,6 +528,24 @@ BoldFont = *-Bold,
   % Devanagari block
   \directlua{addcharsDevanagari(0x0900, 0x097F)}
 
+\newfontfamily\egyptianhieroglyphsfont{NotoSansEgyptianHieroglyphs}
+\providefontfamily{\NSEgyptianHieroglyphs}{NotoSansEgyptianHieroglyphs}[
+Path = /home/user/.fonts/NotoSansEgyptianHieroglyphs/,
+Extension = .ttf,
+UprightFont = *-Regular,
+]
+
+\begin{luacode}
+  function addcharsEgyptianHieroglyphs(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\NSEgyptianHieroglyphs{" .. unicode.utf8.char(i) ..   "}}}")
+    end
+  end
+\end{luacode}
+
+  % Egyptian Hieroglyphs block
+  \directlua{addcharsEgyptianHieroglyphs(0x13000, 0x1342F)}
+
 \providefontfamily{\AppleColorEmoji}{AppleColorEmoji}[
 Path = /home/user/.fonts/AppleColorEmoji/,
 Extension = .ttf,

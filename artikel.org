@@ -657,6 +657,28 @@ BoldFont = *-Bold,
 #+end_src
 
 
+** Noto Sans Egyptian Hieroglyphs
+#+begin_src latex
+\newfontfamily\egyptianhieroglyphsfont{NotoSansEgyptianHieroglyphs}
+\providefontfamily{\NSEgyptianHieroglyphs}{NotoSansEgyptianHieroglyphs}[
+Path = /home/user/.fonts/NotoSansEgyptianHieroglyphs/,
+Extension = .ttf,
+UprightFont = *-Regular,
+]
+#+end_src
+*** Workaround fallback font for Egyptian Hieroglyphs
+#+begin_src latex
+\begin{luacode}
+  function addcharsEgyptianHieroglyphs(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\NSEgyptianHieroglyphs{" .. unicode.utf8.char(i) ..   "}}}")
+    end
+  end
+\end{luacode}
+
+  % Egyptian Hieroglyphs block
+  \directlua{addcharsEgyptianHieroglyphs(0x13000, 0x1342F)}
+#+end_src
 
 ** Apple Color Emoji
 #+begin_src latex
