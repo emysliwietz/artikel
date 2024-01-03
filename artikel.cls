@@ -533,6 +533,7 @@ BoldFont = *-Bold,
 Path = /home/user/.fonts/NotoSansEgyptianHieroglyphs/,
 Extension = .ttf,
 UprightFont = *-Regular,
+AutoFakeBold,
 ]
 
 \begin{luacode}

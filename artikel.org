@@ -664,6 +664,7 @@ BoldFont = *-Bold,
 Path = /home/user/.fonts/NotoSansEgyptianHieroglyphs/,
 Extension = .ttf,
 UprightFont = *-Regular,
+AutoFakeBold,
 ]
 #+end_src
 *** Workaround fallback font for Egyptian Hieroglyphs
