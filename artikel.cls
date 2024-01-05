@@ -566,6 +566,7 @@ AutoFakeBold,
   % Cuneiform block
   \directlua{addcharsCuneiform(0x12000, 0x123FF)}
 
+\newfontfamily\emojifont{AppleColorEmoji}
 \providefontfamily{\AppleColorEmoji}{AppleColorEmoji}[
 Path = /home/user/.fonts/AppleColorEmoji/,
 Extension = .ttf,
@@ -575,17 +576,17 @@ AutoFakeSlant,
 ]
 
 \begin{luacode}
-  function addcharsEmoji(start, finish)
+  function addcharsemoji(start, finish)
     for i=start,finish do
-      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\AppleColorEmoji{" .. unicode.utf8.char(i) ..   "}}}")
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\emojifont{" .. unicode.utf8.char(i) .. "}}}")
     end
   end
 \end{luacode}
 
-% Main emoji block
-  %\directlua{addcharsEmoji(0x1F600, 0x1F64F)}
-% Additional block
-  %\directlua{addcharsEmoji(0x1F900, 0x1F9FF)}
+ %Main emoji block
+ %\directlua{addcharsemoji(0x1F600, 0x1F64F)}
+ %Additional block
+ %\directlua{addcharsemoji(0x1F900, 0x1F9FF)}
 
 \providefontfamily{\TimesNewRoman}{TimesNewRoman}[
 Extension = .otf,
