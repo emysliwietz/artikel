@@ -547,6 +547,25 @@ AutoFakeBold,
   % Egyptian Hieroglyphs block
   \directlua{addcharsEgyptianHieroglyphs(0x13000, 0x1342F)}
 
+\newfontfamily\cuneiformfont{NotoSansCuneiform}
+\providefontfamily{\NSCuneiform}{NotoSansCuneiform}[
+Path = /home/user/.fonts/NotoSansCuneiform/,
+Extension = .ttf,
+UprightFont = *-Regular,
+AutoFakeBold,
+]
+
+\begin{luacode}
+  function addcharsCuneiform(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\NSCuneiform{" .. unicode.utf8.char(i) ..   "}}}")
+    end
+  end
+\end{luacode}
+
+  % Cuneiform block
+  \directlua{addcharsCuneiform(0x12000, 0x123FF)}
+
 \providefontfamily{\AppleColorEmoji}{AppleColorEmoji}[
 Path = /home/user/.fonts/AppleColorEmoji/,
 Extension = .ttf,
