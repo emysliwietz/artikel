@@ -707,7 +707,7 @@ AutoFakeBold,
 
 ** Apple Color Emoji
 #+begin_src latex
-\newfontfamily\emojifont{AppleColorEmoji}
+%\newfontfamily\emojifont{AppleColorEmoji}
 \providefontfamily{\AppleColorEmoji}{AppleColorEmoji}[
 Path = /home/user/.fonts/AppleColorEmoji/,
 Extension = .ttf,
@@ -731,6 +731,51 @@ AutoFakeSlant,
  %Additional block
  %\directlua{addcharsemoji(0x1F900, 0x1F9FF)}
 
+#+end_src
+** Noto Color Emoji
+#+begin_src latex
+\newfontfamily\emojicolorfont{NotoColorEmoji}
+\providefontfamily{\NotoColorEmoji}{NotoColorEmoji}[
+Path = /home/user/.fonts/NotoColorEmoji/,
+Extension = .ttf,
+UprightFont = *-Regular,
+]
+#+end_src
+*** Workaround fallback font for color emoji Unicode block
+#+begin_src latex
+\begin{luacode}
+  function addcharscoloremoji(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\emojicolorfont{" .. unicode.utf8.char(i) .. "}}}")
+    end
+  end
+\end{luacode}
+
+%Main emoji block
+\directlua{addcharscoloremoji(0x1F600, 0x1F64F)}
+%Additional block
+#+end_src
+** Noto Emoji
+#+begin_src latex
+\newfontfamily\emojifont{NotoEmoji}
+\providefontfamily{\NotoEmoji}{NotoEmoji}[
+Path = /home/user/.fonts/NotoEmoji/,
+Extension = .ttf,
+UprightFont = *-Regular,
+]
+#+end_src
+*** Workaround fallback font for emoji Unicode block
+#+begin_src latex
+\begin{luacode}
+  function addcharsemoji(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\emojifont{" .. unicode.utf8.char(i) .. "}}}")
+    end
+  end
+\end{luacode}
+
+%Additional block
+%\directlua{addcharsemoji(0x1F900, 0x1F9FF)}
 #+end_src
 
 ** Times New Roman

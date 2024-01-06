@@ -566,7 +566,7 @@ AutoFakeBold,
   % Cuneiform block
   \directlua{addcharsCuneiform(0x12000, 0x123FF)}
 
-\newfontfamily\emojifont{AppleColorEmoji}
+%\newfontfamily\emojifont{AppleColorEmoji}
 \providefontfamily{\AppleColorEmoji}{AppleColorEmoji}[
 Path = /home/user/.fonts/AppleColorEmoji/,
 Extension = .ttf,
@@ -587,6 +587,43 @@ AutoFakeSlant,
  %\directlua{addcharsemoji(0x1F600, 0x1F64F)}
  %Additional block
  %\directlua{addcharsemoji(0x1F900, 0x1F9FF)}
+
+\newfontfamily\emojicolorfont{NotoColorEmoji}
+\providefontfamily{\NotoColorEmoji}{NotoColorEmoji}[
+Path = /home/user/.fonts/NotoColorEmoji/,
+Extension = .ttf,
+UprightFont = *-Regular,
+]
+
+\begin{luacode}
+  function addcharscoloremoji(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\emojicolorfont{" .. unicode.utf8.char(i) .. "}}}")
+    end
+  end
+\end{luacode}
+
+%Main emoji block
+\directlua{addcharscoloremoji(0x1F600, 0x1F64F)}
+%Additional block
+
+\newfontfamily\emojifont{NotoEmoji}
+\providefontfamily{\NotoEmoji}{NotoEmoji}[
+Path = /home/user/.fonts/NotoEmoji/,
+Extension = .ttf,
+UprightFont = *-Regular,
+]
+
+\begin{luacode}
+  function addcharsemoji(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\emojifont{" .. unicode.utf8.char(i) .. "}}}")
+    end
+  end
+\end{luacode}
+
+%Additional block
+%\directlua{addcharsemoji(0x1F900, 0x1F9FF)}
 
 \providefontfamily{\TimesNewRoman}{TimesNewRoman}[
 Extension = .otf,
