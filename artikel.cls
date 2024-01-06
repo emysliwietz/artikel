@@ -264,14 +264,9 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \iftutex
 
 
- % \defaultfontfeatures+[EBGaramond]{
- %   RawFeature={%
- %  +hlig;
- %  +case;%Case sensitive symbols
- %  +liga;%Default ligatures
- %  +kern;
- % }
- % ,}
+%\defaultfontfeatures[EBGaramond]{
+%  RawFeature={+dlig, +case, +liga, +kern}
+%}
 \providefontfamily{\EBGaramond}{EBGaramond}[
 Path = /home/user/.fonts/EBGaramond/,
 Scale = 1,
@@ -315,7 +310,7 @@ SwashFont = *-Swash,
 ]
 \makeatletter
 \iffancy
-\setmainfont{EBGaramond}
+\setmainfont[RawFeature={-dlig,+case,+liga,+kern,-hlig}]{EBGaramond}
 \setsansfont{EBGaramond} % Change to Optima
 \newfontfamily\greekfont{EBGaramond}
 \else
@@ -576,7 +571,7 @@ AutoFakeSlant,
 ]
 
 \begin{luacode}
-  function addcharsemoji(start, finish)
+  function addcharsapplecoloremoji(start, finish)
     for i=start,finish do
       tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\emojifont{" .. unicode.utf8.char(i) .. "}}}")
     end
@@ -605,6 +600,8 @@ UprightFont = *-Regular,
 
 %Main emoji block
 \directlua{addcharscoloremoji(0x1F600, 0x1F64F)}
+% Supplemental Symbols and Pictograms
+\directlua{addcharscoloremoji(0x1F900, 0x1F9FF)}
 %Additional block
 
 \newfontfamily\emojifont{NotoEmoji}
@@ -617,13 +614,15 @@ UprightFont = *-Regular,
 \begin{luacode}
   function addcharsemoji(start, finish)
     for i=start,finish do
-      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\emojifont{" .. unicode.utf8.char(i) .. "}}}")
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\NotoEmoji{" .. unicode.utf8.char(i) .. "}}}")
     end
   end
 \end{luacode}
 
-%Additional block
-%\directlua{addcharsemoji(0x1F900, 0x1F9FF)}
+% Miscallaneous Symbols
+\directlua{addcharsemoji(0x2600, 0x26FF)}
+% Religious Symbols
+\directlua{addcharsemoji(0x1F500, 0x1F5FF)}
 
 \providefontfamily{\TimesNewRoman}{TimesNewRoman}[
 Extension = .otf,
