@@ -573,15 +573,21 @@ AutoFakeSlant,
 \begin{luacode}
   function addcharsapplecoloremoji(start, finish)
     for i=start,finish do
-      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\emojifont{" .. unicode.utf8.char(i) .. "}}}")
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\AppleColorEmoji{" .. unicode.utf8.char(i) .. "}}}")
     end
   end
 \end{luacode}
 
  %Main emoji block
- %\directlua{addcharsemoji(0x1F600, 0x1F64F)}
+%\directlua{addcharsapplecoloremoji(0x1F300, 0x1F3FF)}
  %Additional block
  %\directlua{addcharsemoji(0x1F900, 0x1F9FF)}
+
+%Main emoji block
+\directlua{addcharsapplecoloremoji(0x1F300, 0x1F3FF)}
+% Smileys and emoticons
+\directlua{addcharsapplecoloremoji(0x1F600, 0x1F6FF)}
+\directlua{addcharsapplecoloremoji(0x1F900, 0x1F9FF)}
 
 \newfontfamily\emojicolorfont{NotoColorEmoji}
 \providefontfamily{\NotoColorEmoji}{NotoColorEmoji}[
@@ -599,9 +605,10 @@ UprightFont = *-Regular,
 \end{luacode}
 
 %Main emoji block
-\directlua{addcharscoloremoji(0x1F600, 0x1F64F)}
+%\directlua{addcharscoloremoji(0x1F600, 0x1F64F)}
 % Supplemental Symbols and Pictograms
-\directlua{addcharscoloremoji(0x1F900, 0x1F9FF)}
+%\directlua{addcharscoloremoji(0x1F600, 0x1F9FF)}
+
 %Additional block
 
 \newfontfamily\emojifont{NotoEmoji}
