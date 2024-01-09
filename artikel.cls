@@ -561,6 +561,26 @@ AutoFakeBold,
   % Cuneiform block
   \directlua{addcharsCuneiform(0x12000, 0x123FF)}
 
+\newfontfamily\runicfont{NotoSansRunic}
+\providefontfamily{\NSRunic}{NotoSansRunic}[
+Path = /home/user/.fonts/NotoSansRunic/,
+Extension = .ttf,
+UprightFont = *-Regular,
+AutoFakeBold,
+AutoFakeSlant,
+]
+
+\begin{luacode}
+  function addcharsRunic(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\runicfont{" .. unicode.utf8.char(i) ..   "}}}")
+    end
+  end
+\end{luacode}
+
+  % Runic block
+  \directlua{addcharsRunic(0x16A0, 0x16FF)}
+
 %\newfontfamily\emojifont{AppleColorEmoji}
 \providefontfamily{\AppleColorEmoji}{AppleColorEmoji}[
 Path = /home/user/.fonts/AppleColorEmoji/,
