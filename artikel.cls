@@ -581,6 +581,26 @@ AutoFakeSlant,
   % Runic block
   \directlua{addcharsRunic(0x16A0, 0x16FF)}
 
+\newfontfamily\baybayinfont{DoctrinaChristiana}
+\providefontfamily{\DoctrinaChristiana}{DoctrinaChristiana}[
+Path = /home/user/.fonts/DoctrinaChristiana/,
+Extension = .ttf,
+UprightFont = *-Regular,
+AutoFakeBold,
+AutoFakeSlant,
+]
+
+\begin{luacode}
+  function addcharsBaybayin(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\baybayinfont{" .. unicode.utf8.char(i) ..   "}}}")
+    end
+  end
+\end{luacode}
+
+  % Tagalog block
+  \directlua{addcharsBaybayin(0x1700, 0x171F)}
+
 %\newfontfamily\emojifont{AppleColorEmoji}
 \providefontfamily{\AppleColorEmoji}{AppleColorEmoji}[
 Path = /home/user/.fonts/AppleColorEmoji/,
