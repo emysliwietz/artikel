@@ -218,7 +218,7 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 
 \fi
 
-\RequirePackage[backend=biber, style=ieee, giveninits=true, uniquename=init] {biblatex} % Bibliographic package
+%\RequirePackage[backend=biber, giveninits=true, uniquename=init] {biblatex} % Bibliographic package
 % language=auto, autolang=other make biblatex automatically switch language script fonts, but create problems with mixed scripts
 
 \iftutex
