@@ -23,7 +23,10 @@
 \newif\iffancy\fancyfalse
 \DeclareOption{fancy}{\fancytrue}
 
-\DeclareBoolOption[false]{modern}
+\newif\ifextracolor\extracolorfalse
+\DeclareOption{extracolor}{\extracolortrue}
+
+\DeclareStringOption[modern]{design}
 
 \DeclareBoolOption[false]{twocolumn}
 
@@ -70,7 +73,7 @@ headheight=12pt,
 a4paper,
 ]{geometry}
 \else
-\RequirePackage{geometry} % Provides commands for customizing page layout
+\RequirePackage[margin=1in]{geometry} % Provides commands for customizing page layout
 \fi
 \makeatother
 \RequirePackage{grffile}         % Fix allowed filenames
@@ -128,6 +131,8 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \RequirePackage{xparse}           % Provides an enhanced version of LaTeX's kernel commands for defining new commands
 \RequirePackage{xcolor}           % Interface for defining and using color in LaTeX
 \RequirePackage{lipsum}           % Provides Lorem Ipsum text with the \lorem command
+\RequirePackage{newunicodechar}   % Specifiy specific fallback fonts for individual characters
+\RequirePackage{luacode}          % Program LaTeX in Lua
 
 \makeatletter
 %\providecommand{\maintitle}{Main Title}
@@ -213,7 +218,8 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 
 \fi
 
-\RequirePackage[backend=biber, style=ieee, giveninits=true, uniquename=init]{biblatex} % Bibliographic package
+%\RequirePackage[backend=biber, giveninits=true, uniquename=init] {biblatex} % Bibliographic package
+% language=auto, autolang=other make biblatex automatically switch language script fonts, but create problems with mixed scripts
 
 \iftutex
 % Extra light
@@ -258,40 +264,44 @@ hyperindex]{hyperref} % Provides support for hypertext links within LaTeX docume
 \iftutex
 
 
-\defaultfontfeatures+[EBGaramond]{
-  RawFeature={%
-+ss01;%Makes Љ Д Л д л љ  use triangle, not rectangle
--ss02;%Changes u to v
--cv01;%Uses old s
--cv03;%Replaces J with I
-+cv11;%Makes 1 look less like Roman I
-+lnum;%Lining figures
-+dlig;%Makes Th ligature look nicer
--hlig;%joins ct and st
-+liga;%Default ligatures
-+case;%Case sensitive symbols
-}
-,}
+%\defaultfontfeatures[EBGaramond]{
+%  RawFeature={+dlig, +case, +liga, +kern}
+%}
 \providefontfamily{\EBGaramond}{EBGaramond}[
 Path = /home/user/.fonts/EBGaramond/,
 Scale = 1,
-Extension = .otf,
-UprightFont = *12-Regular, % set EB Garamond 12 as default upright font
+Extension = .ttf,
+UprightFont = *-Regular, % set EB Garamond 12 as default upright font
 UprightFeatures = {
   SizeFeatures = {
     {Size = -10.1,
-      Font = *08-Regular}, % use EB Garamond 08 for 10pt size and smaller
+      Font = *-Regular}, % use EB Garamond 08 for 10pt size and smaller
     {Size = 10.1-}
   },
 }, % use default upright font for larger than 10pt size
-ItalicFont = *12-Italic, % set EB Garamond 12 as default italic font
+ItalicFont = *-Italic, % set EB Garamond 12 as default italic font
 ItalicFeatures = {
   SizeFeatures = {
     {Size = -10.1,
-      Font = *08-Italic}, % use EB Garamond 08 for 10pt size and smaller
+      Font = *-Italic}, % use EB Garamond 08 for 10pt size and smaller
     {Size = 10.1-}
   }
 }, % use default italic font for larger than 10pt size
+BoldFont = *-Bold, % set EB Garamond 12 as default italic font
+BoldFeatures = {
+  SizeFeatures = {
+    {Size = -10.1,
+      Font = *-Bold}, % use EB Garamond 08 for 10pt size and smaller
+    {Size = 10.1-}
+  }
+}, % use default italic font for larger than 10pt size
+BoldItalicFont = *-BoldItalic,
+FontFace={mb}{n}{*-Medium},
+FontFace={mb}{it}{*-MediumItalic},
+FontFace={sb}{n}{*-SemiBold},
+FontFace={sb}{it}{*-SemiBoldItalic},
+FontFace={k}{n}{*-ExtraBold},
+FontFace={k}{it}{*-ExtraBoldItalic},
 SmallCapsFeatures = {Letters = SmallCaps},
 Ligatures = {Common, TeX},
 Numbers = {Proportional, OldStyle},
@@ -300,7 +310,7 @@ SwashFont = *-Swash,
 ]
 \makeatletter
 \iffancy
-\setmainfont{EBGaramond}
+\setmainfont[RawFeature={-dlig,+case,+liga,+kern,-hlig}]{EBGaramond}
 \setsansfont{EBGaramond} % Change to Optima
 \newfontfamily\greekfont{EBGaramond}
 \else
@@ -313,24 +323,24 @@ SwashFont = *-Swash,
 \setlist[itemize]{label={\large $\bullet$}, labelsep=3mm}
 
 \providefontfamily{\EBGaramondInitials}{EBGaramond-Initials}[
-Path = /home/user/.fonts/EBGaramond/,
+Path = /home/user/.fonts/EBGaramond/orig/,
 Extension = .otf,
 ]
 
 \providefontfamily{\EBGaramondWhiteInitials}{EBGaramond-Initials}[
-Path = /home/user/.fonts/EBGaramond/,
+Path = /home/user/.fonts/EBGaramond/orig/,
 Extension = .otf,
 UprightFont = *F1
 ]
 
 \providefontfamily{\EBGaramondTextInitials}{EBGaramond-Initials}[
-Path = /home/user/.fonts/EBGaramond/,
+Path = /home/user/.fonts/EBGaramond/orig/,
 Extension = .otf,
 UprightFont = *F2
 ]
 
 \providefontfamily{\EBGaramondSwash}{EBGaramond-Swash}[
-Path = /home/user/.fonts/EBGaramond/,
+Path = /home/user/.fonts/EBGaramond/orig/,
 Extension = .otf,
 UprightFont = *
 ]
@@ -376,6 +386,270 @@ UprightFont = *,
 AutoFakeBold,
 AutoFakeSlant,
 ]
+
+\setotherlanguage{arabic}
+\setotherlanguage{persian}
+\newfontfamily\arabicfont[Script=Arabic]{ScheherazadeNew}
+\newfontfamily\arabicfonttt[Script=Arabic]{ScheherazadeNew}
+\providefontfamily{\ScheherazadeNew}{ScheherazadeNew}[
+Path = /home/user/.fonts/ScheherazadeNew/,
+Extension = .ttf,
+UprightFont = *-Regular,
+BoldFont = *-Bold,
+]
+\providefontfamily{\GeezaPro}{GeezaPro}[
+Path = /home/user/.fonts/GeezaPro/,
+Extension = .otf,
+UprightFont = *-Regular,
+]
+
+\begin{luacode}
+  function addcharsarabic(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\arabicfont{" .. unicode.utf8.char(i) .. "}}}")
+    end
+  end
+\end{luacode}
+
+\directlua{addcharsarabic(0x0600, 0x06FF)}  % Arabic block
+
+\setotherlanguage{chinese}
+\newfontfamily\chinesefont[Script=CJK]{KingHwaOldSong}
+\providefontfamily{\KingHwa}{KingHwaOldSong}[
+Path = /home/user/.fonts/KingHwaOldSong/,
+Extension = .otf,
+UprightFont = *-Regular,
+]
+
+\begin{luacode}
+  function addcharsCJK(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\chinesefont{" .. unicode.utf8.char(i) ..   "}}}")
+    end
+  end
+\end{luacode}
+
+  % CJK Unified Ideographs
+  \directlua{addcharsCJK(0x4E00, 0x9FFF)}
+
+  % CJK Unified Ideographs Extension A
+  \directlua{addcharsCJK(0x3400, 0x4DBF)}
+
+  %- CJK Unified Ideographs Extension B
+  \directlua{addcharsCJK(0x20000, 0x2A6DF)}
+
+  %- CJK Unified Ideographs Extension C
+  \directlua{addcharsCJK(0x2A700, 0x2B73F)}
+
+  %- CJK Unified Ideographs Extension D
+  \directlua{addcharsCJK(0x2B740, 0x2B81F)}
+
+  %- CJK Unified Ideographs Extension E
+  \directlua{addcharsCJK(0x2B820, 0x2CEAF)}
+
+  %- CJK Unified Ideographs Extension F
+  \directlua{addcharsCJK(0x2CEB0, 0x2EBEF)}
+
+  %- CJK Unified Ideographs Extension G
+  \directlua{addcharsCJK(0x30000, 0x3134F)}
+
+  %- CJK Unified Ideographs Extension H
+  \directlua{addcharsCJK(0x31350, 0x323AF)}
+
+  %- CJK Compatibility Ideographs
+  \directlua{addcharsCJK(0xF900, 0xFAFF)}
+
+  %- CJK Compatibility Ideographs Supplement
+  \directlua{addcharsCJK(0x2F800, 0x2FA1F)}
+
+\newfontfamily\canadianaboriginalfont{NotoSansCanadianAboriginal}
+\providefontfamily{\NSCanadianAboriginal}{NotoSansCanadianAboriginal}[
+Path = /home/user/.fonts/NotoSansCanadianAboriginal/,
+Extension = .ttf,
+UprightFont = *-Regular,
+BoldFont = *-Bold,
+]
+
+\begin{luacode}
+  function addcharsCanadianAboriginal(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\NSCanadianAboriginal{" .. unicode.utf8.char(i) ..   "}}}")
+    end
+  end
+\end{luacode}
+
+  % CJK Unified Ideographs
+  \directlua{addcharsCanadianAboriginal(0x1400, 0x167F)}
+
+\setotherlanguage{hebrew}
+\newfontfamily\hebrewfont[Script=Hebrew]{FrankRuhlLibre}
+\providefontfamily{\FrankRuhlLibre}{FrankRuhlLibre}[
+Path = /home/user/.fonts/FrankRuhlLibre/,
+Extension = .ttf,
+UprightFont = *-Regular,
+BoldFont = *-Bold,
+]
+
+\begin{luacode}
+  function addcharsHebrew(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\hebrewfont{" .. unicode.utf8.char(i) ..   "}}}")
+    end
+  end
+\end{luacode}
+
+  % Hebrew block
+  \directlua{addcharsHebrew(0x0590, 0x05FF)}
+
+\setotherlanguage{sanskrit}
+\setotherlanguage{devanagari}
+\setotherlanguage{hindi}
+\newfontfamily\devanagarifont[Script=Devanagari]{Laila}
+\providefontfamily{\Laila}{Laila}[
+Path = /home/user/.fonts/Laila/,
+Extension = .ttf,
+UprightFont = *-Regular,
+BoldFont = *-Bold,
+]
+
+\begin{luacode}
+  function addcharsDevanagari(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\devanagarifont{" .. unicode.utf8.char(i) ..   "}}}")
+    end
+  end
+\end{luacode}
+
+  % Devanagari block
+  \directlua{addcharsDevanagari(0x0900, 0x097F)}
+
+\newfontfamily\egyptianhieroglyphsfont{NotoSansEgyptianHieroglyphs}
+\providefontfamily{\NSEgyptianHieroglyphs}{NotoSansEgyptianHieroglyphs}[
+Path = /home/user/.fonts/NotoSansEgyptianHieroglyphs/,
+Extension = .ttf,
+UprightFont = *-Regular,
+AutoFakeBold,
+]
+
+\begin{luacode}
+  function addcharsEgyptianHieroglyphs(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\NSEgyptianHieroglyphs{" .. unicode.utf8.char(i) ..   "}}}")
+    end
+  end
+\end{luacode}
+
+  % Egyptian Hieroglyphs block
+  \directlua{addcharsEgyptianHieroglyphs(0x13000, 0x1342F)}
+
+\newfontfamily\cuneiformfont{NotoSansCuneiform}
+\providefontfamily{\NSCuneiform}{NotoSansCuneiform}[
+Path = /home/user/.fonts/NotoSansCuneiform/,
+Extension = .ttf,
+UprightFont = *-Regular,
+AutoFakeBold,
+]
+
+\begin{luacode}
+  function addcharsCuneiform(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\NSCuneiform{" .. unicode.utf8.char(i) ..   "}}}")
+    end
+  end
+\end{luacode}
+
+  % Cuneiform block
+  \directlua{addcharsCuneiform(0x12000, 0x123FF)}
+
+\newfontfamily\runicfont{NotoSansRunic}
+\providefontfamily{\NSRunic}{NotoSansRunic}[
+Path = /home/user/.fonts/NotoSansRunic/,
+Extension = .ttf,
+UprightFont = *-Regular,
+AutoFakeBold,
+AutoFakeSlant,
+]
+
+\begin{luacode}
+  function addcharsRunic(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\runicfont{" .. unicode.utf8.char(i) ..   "}}}")
+    end
+  end
+\end{luacode}
+
+  % Runic block
+  \directlua{addcharsRunic(0x16A0, 0x16FF)}
+
+%\newfontfamily\emojifont{AppleColorEmoji}
+\providefontfamily{\AppleColorEmoji}{AppleColorEmoji}[
+Path = /home/user/.fonts/AppleColorEmoji/,
+Extension = .ttf,
+UprightFont = *-Regular,
+AutoFakeBold,
+AutoFakeSlant,
+]
+
+\begin{luacode}
+  function addcharsapplecoloremoji(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\AppleColorEmoji{" .. unicode.utf8.char(i) .. "}}}")
+    end
+  end
+\end{luacode}
+
+ %Main emoji block
+%\directlua{addcharsapplecoloremoji(0x1F300, 0x1F3FF)}
+ %Additional block
+ %\directlua{addcharsemoji(0x1F900, 0x1F9FF)}
+
+%Main emoji block
+\directlua{addcharsapplecoloremoji(0x1F300, 0x1F3FF)}
+% Smileys and emoticons
+\directlua{addcharsapplecoloremoji(0x1F600, 0x1F6FF)}
+\directlua{addcharsapplecoloremoji(0x1F900, 0x1F9FF)}
+
+\newfontfamily\emojicolorfont{NotoColorEmoji}
+\providefontfamily{\NotoColorEmoji}{NotoColorEmoji}[
+Path = /home/user/.fonts/NotoColorEmoji/,
+Extension = .ttf,
+UprightFont = *-Regular,
+]
+
+\begin{luacode}
+  function addcharscoloremoji(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\emojicolorfont{" .. unicode.utf8.char(i) .. "}}}")
+    end
+  end
+\end{luacode}
+
+%Main emoji block
+%\directlua{addcharscoloremoji(0x1F600, 0x1F64F)}
+% Supplemental Symbols and Pictograms
+%\directlua{addcharscoloremoji(0x1F600, 0x1F9FF)}
+
+%Additional block
+
+\newfontfamily\emojifont{NotoEmoji}
+\providefontfamily{\NotoEmoji}{NotoEmoji}[
+Path = /home/user/.fonts/NotoEmoji/,
+Extension = .ttf,
+UprightFont = *-Regular,
+]
+
+\begin{luacode}
+  function addcharsemoji(start, finish)
+    for i=start,finish do
+      tex.sprint("\\newunicodechar{" .. unicode.utf8.char(i) .. "}{{\\NotoEmoji{" .. unicode.utf8.char(i) .. "}}}")
+    end
+  end
+\end{luacode}
+
+% Miscallaneous Symbols
+\directlua{addcharsemoji(0x2600, 0x26FF)}
+% Religious Symbols
+\directlua{addcharsemoji(0x1F500, 0x1F5FF)}
 
 \providefontfamily{\TimesNewRoman}{TimesNewRoman}[
 Extension = .otf,
@@ -513,7 +787,7 @@ FontFace={l}{n}{*S-Light-Regular},
 
 % Code blocks
 \RequirePackage{minted}
-\RequirePackage[many]{tcolorbox}
+\RequirePackage[many,breakable,xparse]{tcolorbox}
 
   \setminted{
 	frame=none,
@@ -566,30 +840,39 @@ FontFace={l}{n}{*S-Light-Regular},
 
 \newcommand{\isodate}{\the\year-\ifnum\month<10\relax0\fi\the\month-\ifnum\day<10\relax0\fi\the\day}
 
-\NewCommandCopy{\toc}{\tableofcontents}
-\renewcommand{\tableofcontents}{\pagenumbering{Roman}\toc\clearpage\pagenumbering{arabic}}
-
-\renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
-\renewcommand\thesubsection{\roman{subsection}} % roman numerals for subsections
-\renewcommand\thesubsubsection{\alph{subsubsection}} % alphabetic numerals for subsubsections
-
-\RequirePackage[hyphenate,fit]{truncate}
 \makeatletter
+\IfStrEq{\artikel@design}{modern}{
+  \NewCommandCopy{\toc}{\tableofcontents}
+  \renewcommand{\tableofcontents}{\pagenumbering{Roman}\toc\clearpage\pagenumbering{arabic}}
+}{}
+\makeatother
+
+\makeatletter
+\IfStrEq{\artikel@design}{modern}{
+  \renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
+  \renewcommand\thesubsection{\roman{subsection}} % roman numerals for subsections
+  \renewcommand\thesubsubsection{\alph{subsubsection}} % alphabetic numerals for subsubsections
+}{}
+\makeatother
+
+\makeatletter
+\RequirePackage[hyphenate,fit]{truncate}
 \providecommand{\logo}[1]{\def\@logo{#1}}
 \providecommand{\@logo}{}
-\makeatother
 \colorlet{accentcolor}{litpurple}
 \providecommand{\accentcolor}{\color{accentcolor}}
+\IfStrEq{\artikel@design}{modern}{
 \pagestyle{scrheadings}
 \KOMAoptions{headsepline=2pt, headwidth=textwithmarginpar}
 %\KOMAoptions{footsepline=.2pt:4cm, clines}
 \addtokomafont{pagenumber}{\accentcolor}
+\ifextracolor
+\addtokomafont{section}{\accentcolor}
+\fi
 \cfoot{}
-\makeatletter
 \ihead{\@logo}
 
 \chead{$\bullet$ \truncate{6cm}{\@title} $\bullet$}
-\makeatother
 
 \rohead*{%
   \raisebox{\dimexpr-2pt-\dp\strutbox\relax}[0pt][0pt]
@@ -603,16 +886,21 @@ FontFace={l}{n}{*S-Light-Regular},
 % To make the accented line appear above the grey line
 \RemoveLayersFromPageStyle{scrheadings}{scrheadings.head.below.line}
 \AddLayersAtBeginOfPageStyle{scrheadings}{scrheadings.head.below.line}
+}{}
+\IfStrEq{\artikel@design}{default}{
+  \chead{}
+}{}
+\makeatother
 
 \makeatletter
-\ifartikel@modern
+\IfStrEq{\artikel@design}{modern}{
 \colorlet{sectioncolor}{black!20}
 \renewcommand\sectionlinesformat[4]{%
   \colorbox{sectioncolor}{%
     \parbox[t]{\dimexpr\linewidth-2\fboxsep\relax}{%
-      \raggedsection\color{black}\@hangfrom{#3}{#4}%
+      \raggedsection\@hangfrom{#3}{#4}%
     }}}
-\fi
+}{}
 \makeatother
 
 \makeatletter
@@ -843,9 +1131,13 @@ FontFace={l}{n}{*S-Light-Regular},
   \clearpage
   }{}
   \IfStrEq{\artikel@titlepage}{head}{
+    \ifartikel@twocolumn
     \twocolumn[{
       \simplemaketitle{}
       }]
+    \else
+      \simplemaketitle{}
+    \fi
   }{}
   \IfStrEq{\artikel@titlepage}{inline}{
     {\let\clearpage\relax
@@ -879,12 +1171,6 @@ FontFace={l}{n}{*S-Light-Regular},
       \BODY
 }
 \makeatother
-
-\RequirePackage{verbatim}
-\newcommand{\wordcount}[1][\jobname]{%
-  \immediate\write18{texcount -1 -merge -template={1} #1.tex > #1.wcdetail }%
-  \input{#1.wcdetail}%
-}
 
 \newcommand{\shell}[1]{%
   \immediate\write18{#1}
@@ -1031,4 +1317,89 @@ FontFace={l}{n}{*S-Light-Regular},
   \count0=0 \count1=0 \count2=#1 \count3=#2
   \MandLoop
 
+}
+
+\csname endofdump\endcsname
+
+\RequirePackage{verbatim}
+\newcommand{\wordcount}[1][\jobname]{%
+  \immediate\write18{texcount -1 -merge -template={1} #1.tex > #1.wcdetail }%
+  \input{#1.wcdetail}%
+}
+
+% Infoentries
+% ONE | Two
+
+\newcommand{\infoentry}[2] {
+  \narrowinfoentry{#1}{#2}
+  \vspace{.25cm}
+}
+
+\newcommand{\smallinfoentry}[2] {
+  \narrowinfoentry{#1}{#2}
+  \vspace{.1cm}
+}
+
+\newcommand{\narrowinfoentry}[2] {
+  \begin{minipage}[t]{0.25\linewidth}
+    \begin{flushright}
+      \textsc{\textbf{#1}}
+    \end{flushright}
+  \end{minipage}
+  \hspace{0.2cm}\vline\hspace{1cm}
+  \begin{minipage}[t]{.50\linewidth}
+    #2
+  \end{minipage}\\
+}
+
+\newcommand{\uinfoentry}[2] {
+  \begin{minipage}[t]{0.155\linewidth}
+    \begin{flushright}
+      \textsc{\hspace{-1cm}#1}
+    \end{flushright}
+  \end{minipage}
+  \hspace{0.02cm}\vline\hspace{1cm}
+  \begin{minipage}[t]{.7\linewidth}
+    #2
+  \end{minipage}\\
+  \vspace{0.5cm}
+}
+
+% Entries
+
+% date, title, place/link, comments
+\newcommand{\entry}[4]{
+  \ifthenelse{\isempty{#4}}
+  {\shortentry{#1}{#2}{#3}}
+  {\longentry{#1}{#2}{#3}{#4}}
+}
+
+\newcommand{\longentry}[4]{
+  \rawentry{\textsc{#1}}
+  {\bfseries{#2}}
+  {\textit{#3}}
+  {\footnotesize{#4}}
+}
+
+\newcommand{\shortentry}[4]{
+  \baseentry{\textsc{#1}}
+  {{\bfseries{#2}}\\
+  {\textit{#3}}}\\
+}
+
+\newcommand{\rawentry}[4] {
+  \baseentry{#1} {
+    {#2}\\ {#3}\\ {#4}
+  }
+}
+
+\newcommand{\baseentry}[2] {
+  \begin{minipage}[t]{.15\linewidth}
+    \hfill {#1}
+  \end{minipage}
+  \hfill\vline\hfill
+  \begin{minipage}[t]{.80\linewidth}
+    {#2}
+  \end{minipage}\\
+  \vspace{.2cm}
 }
