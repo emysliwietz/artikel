@@ -16,6 +16,7 @@
 \NeedsTeXFormat{LaTeX2e}
 % <–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––>
 
+\RequirePackage{xstring}
 \RequirePackage{ifthen}
 \RequirePackage{kvoptions}
 \newcommand{\superclass}{scrartcl}
