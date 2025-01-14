@@ -16,7 +16,6 @@
 \NeedsTeXFormat{LaTeX2e}
 % <–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––>
 
-\RequirePackage{xstring}
 \RequirePackage{ifthen}
 \RequirePackage{kvoptions}
 \newcommand{\superclass}{scrartcl}
@@ -1246,15 +1245,14 @@ FontFace={l}{n}{*S-Light-Regular},
 
 \RequirePackage{cooltooltips}
 \newcommand{\bv}[2]{%
-  \immediate\write18{btooltip.sh #1 #2 "\languagename" short > #1#2.s.\languagename-btooltip}
+  \immediate\write18{btooltip.sh "#1" "#2" "\languagename" short > "#1#2.s.\languagename-btooltip"}
   {\setlength{\fboxrule}{0pt}\input{#1#2.s.\languagename-btooltip}}
 }
 
 \newcommand{\textbv}[2]{%
-  \immediate\write18{btooltip.sh #1 #2 "\languagename" long > #1#2.l.\languagename-btooltip}
+  \immediate\write18{btooltip.sh "#1" "#2" "\languagename" long > "#1#2.l.\languagename-btooltip"}
   {\setlength{\fboxrule}{0pt}\input{#1#2.l.\languagename-btooltip}}
 }
-
 
 \newcommand{\tooltip}[3]{%
   \setlength{\fboxrule}{0pt}
